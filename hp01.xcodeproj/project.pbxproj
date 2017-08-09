@@ -22,6 +22,7 @@
 		94B454BC1F3A5095006671EF /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454BB1F3A5095006671EF /* ExtensionDelegate.swift */; };
 		94B454BE1F3A5095006671EF /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454BD1F3A5095006671EF /* NotificationController.swift */; };
 		94B454C01F3A5095006671EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454BF1F3A5095006671EF /* Assets.xcassets */; };
+		94B454E21F3A5404006671EF /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454E01F3A53E5006671EF /* Command.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		94B454BF1F3A5095006671EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		94B454C11F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B454C21F3A5095006671EF /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		94B454E01F3A53E5006671EF /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				94B454B91F3A5095006671EF /* InterfaceController.swift */,
+				94B454E01F3A53E5006671EF /* Command.swift */,
 				94B454BB1F3A5095006671EF /* ExtensionDelegate.swift */,
 				94B454BD1F3A5095006671EF /* NotificationController.swift */,
 				94B454BF1F3A5095006671EF /* Assets.xcassets */,
@@ -437,6 +440,7 @@
 				94B454BE1F3A5095006671EF /* NotificationController.swift in Sources */,
 				94B454BC1F3A5095006671EF /* ExtensionDelegate.swift in Sources */,
 				94B454BA1F3A5095006671EF /* InterfaceController.swift in Sources */,
+				94B454E21F3A5404006671EF /* Command.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,6 +769,7 @@
 				94B454C71F3A5095006671EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94B454C91F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01 WatchKit App" */ = {
 			isa = XCConfigurationList;
@@ -773,6 +778,7 @@
 				94B454CB1F3A5095006671EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94B454CD1F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01" */ = {
 			isa = XCConfigurationList;
@@ -781,6 +787,7 @@
 				94B454CF1F3A5095006671EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94B454D01F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01Tests" */ = {
 			isa = XCConfigurationList;
@@ -789,6 +796,7 @@
 				94B454D21F3A5095006671EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94B454D31F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01UITests" */ = {
 			isa = XCConfigurationList;
@@ -797,6 +805,7 @@
 				94B454D51F3A5095006671EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
