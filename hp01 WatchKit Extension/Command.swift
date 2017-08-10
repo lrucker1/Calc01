@@ -19,25 +19,12 @@ enum CommandType
 class Command: NSObject
 {
     var type: CommandType
-    var mode: CalculatorMode
-    let leftValue: Double
-    let leftDate: Date?
+    let leftValue: CalcValue
 
-    init(type: CommandType, leftValue: Double)
+    init(type: CommandType, leftValue: CalcValue)
     {
         self.type = type
         self.leftValue = leftValue
-        self.leftDate = nil
-        self.mode = .Calculator
-        super.init()
-    }
-
-    init(type: CommandType, leftTime: Date?)
-    {
-        self.type = type
-        self.leftValue = 0
-        self.leftDate = leftTime
-        self.mode = .Time
         super.init()
     }
 
@@ -61,7 +48,7 @@ class Command: NSObject
 
     var canRepeat : Bool {
         get {
-            if mode == .Time { return false }
+            if !leftValue.canRepeatCommands { return false }
             switch type {
                 case .Multiply, .Add: return true
                 default : return false
@@ -70,25 +57,48 @@ class Command: NSObject
         }
     }
 
-    func executeWithNewValue(newValue: Double) -> Double
+    func executeWithNewValue(newValue: CalcValue) -> CalcValue?
     {
-        var result = leftValue
-        
-        switch type
-        {
-        case .Divide: result /= newValue
-        case .Multiply: result *= newValue
-        case .Subtract: result -= newValue
-        case .Add: result += newValue
+        if let number = newValue.rawValue as? Double {
+            return executeWithNewValue(newValue:number)
         }
-        
-        return result
+        if let dc = newValue.rawValue as? DateComponents {
+            return executeWithTime(newValue:dc)
+        }
+        return nil
     }
 
-
-    func executeWithTime(newValue: DateComponents) -> Date?
+    func executeWithNewValue(newValue: Double) -> CalcValue?
     {
-        let date = leftDate ?? Date()
+        if var result = leftValue.rawValue as? Double {
+        
+            switch type
+            {
+            case .Divide: result /= newValue
+            case .Multiply: result *= newValue
+            case .Subtract: result -= newValue
+            case .Add: result += newValue
+            }
+
+            return CalcValue.init(withNumber:result)
+        }
+        let dc = DateComponents.init(hour:Int(newValue))
+        return executeWithTime(newValue:dc)
+    }
+
+    func executeWithTime(newValue: DateComponents) -> CalcValue?
+    {
+        if let date = executeDateWithTime(newValue:newValue) {
+             return CalcValue.init(withDate:date)
+        }
+        return nil
+    }
+
+    // Not all operations apply to dates.
+    func executeDateWithTime(newValue: DateComponents) -> Date?
+    {
+        guard let dc = leftValue.rawValue as? DateComponents else { return nil }
+        guard let date = Calendar.current.date(from:dc) else { return nil }
 
         switch type
         {

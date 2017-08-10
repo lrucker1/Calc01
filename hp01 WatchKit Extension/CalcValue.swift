@@ -16,6 +16,19 @@ enum CalcValueType
 
 class AbstractValue : NSObject {
     var currentValue: String = "0"
+    var valueChanged = false
+
+    var rawValue: Any {
+        get {
+            return (currentValue as NSString).doubleValue
+        }
+    }
+
+    var canRepeatCommands: Bool {
+        get {
+            return true
+        }
+    }
 
     override init() {
         super.init()
@@ -26,6 +39,14 @@ class AbstractValue : NSObject {
         super.init()
     }
 
+    func validate() -> Bool {
+        return true
+    }
+
+    func validateCommand(_ type:CommandType) -> Bool {
+        return true
+    }
+
     func numberPressed(_ value: Int) {
         let newValue = "\(value)"
         if currentValue == "0" {
@@ -33,6 +54,7 @@ class AbstractValue : NSObject {
         } else {
             appendNumber(newValue)
         }
+        valueChanged = true
     }
 
     func appendNumber(_ newValue:String) {
@@ -44,6 +66,10 @@ class AbstractValue : NSObject {
     }
 
     func colonPressed() -> Bool {
+        return false
+    }
+
+    func percentPressed() -> Bool {
         return false
     }
 
@@ -61,6 +87,9 @@ class AbstractValue : NSObject {
         get {
             return false
         }
+    }
+
+    func canonicalizeDisplayString() {
     }
 
     // Not needed by Decimal. Move if all the date/times get a different common super.
@@ -102,6 +131,14 @@ class DecimalValue : AbstractValue {
 
     override func plusMinusPressed() -> Bool {
         setCurrentValue(value:-currentDoubleValue)
+        valueChanged = true
+        return true
+    }
+
+    override func percentPressed() -> Bool {
+        let value = currentDoubleValue / 100
+        setCurrentValue(value: value)
+        valueChanged = true
         return true
     }
 
@@ -125,11 +162,51 @@ class TimeElapsedValue : AbstractValue {
         }
     }
 
+    override var canRepeatCommands: Bool {
+        get {
+            return false
+        }
+    }
+
+    override var rawValue: Any {
+        get {
+            return timeComponents() as Any
+        }
+    }
+
+    convenience init(withDate date:Date) {
+        // Doc says making DateFormatters is expensive.
+/*
+        let components = Calendar.current.dateComponents([.hour, .minute, .second], from: date)
+        let h = components.hour ?? 0
+        let m = components.minute ?? 0
+        let s = components.second ?? 0
+*/
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "hh:mm:ss"
+        self.init(withString:timeFormatter.string(from:date))
+    }
+
     func timeSubstrings() -> [String] {
         return currentValue.components(separatedBy: CharacterSet.init(charactersIn:":"))
     }
 
-    func validateTime() -> Bool {
+    func timeComponents() -> DateComponents {
+        let strings = timeSubstrings()
+        var dc = DateComponents()
+        if (strings.count > 0) {
+            dc.hour = (strings[0] as NSString).integerValue
+        }
+        if (strings.count > 1) {
+            dc.minute = (strings[1] as NSString).integerValue
+        }
+        if (strings.count > 2) {
+            dc.second = (strings[2] as NSString).integerValue
+        }
+        return dc
+    }
+
+    override func validate() -> Bool {
         let strings = timeSubstrings()
         // We only need to validate the last segment.
         switch strings.count {
@@ -144,6 +221,10 @@ class TimeElapsedValue : AbstractValue {
             default:
                 return true
         }
+    }
+
+    override func validateCommand(_ type:CommandType) -> Bool {
+        return type != .Multiply && type != .Divide
     }
 
     override func appendNumber(_ newValue:String) {
@@ -167,7 +248,7 @@ class TimeElapsedValue : AbstractValue {
         if currentValue.contains(":") {
             let strings = timeSubstrings()
             // If we have two colons already, or the time segment is out of range, it's an error.
-            if strings.count == 3 || !validateTime() {
+            if strings.count == 3 || !validate() {
                 return false
             }
             let lastString = strings.last
@@ -185,6 +266,12 @@ class TimeElapsedValue : AbstractValue {
         return true
     }
 
+    override func canonicalizeDisplayString() {
+//        if let date = Calendar.current.date(from:timeComponents()) {
+//            setDisplayTime(value:date)
+//        }
+    }
+
     // TODO: decimalPressed for hundreths.
 }
 
@@ -196,9 +283,62 @@ class CalcValue: NSObject {
             return calcValue.currentValue
         }
     }
+    var valueChanged: Bool {
+        get {
+            return calcValue.valueChanged
+        }
+    }
+
+    var rawValue: Any {
+        get {
+            return calcValue.rawValue
+        }
+    }
+
+    var canRepeatCommands: Bool {
+        get {
+            return calcValue.canRepeatCommands
+        }
+    }
+
+    override init() {
+        super.init()
+    }
+
+    init(withNumber number:Double) {
+        if let decimalValue = calcValue as? DecimalValue {
+            decimalValue.setCurrentValue(value:number)
+        }
+        super.init()
+    }
+
+    init(withDate date:Date) {
+        calcValue = TimeElapsedValue.init(withDate:date)
+        super.init()
+    }
+
+    func validate() -> Bool {
+        return calcValue.validate()
+    }
+
+    func validate(_ type:CommandType) -> Bool {
+        return calcValue.validate() && calcValue.validateCommand(type)
+    }
+
+    func validateCommand(_ type:CommandType) -> Bool {
+        return calcValue.validateCommand(type)
+    }
 
     func numberPressed(_ value: Int) {
         calcValue.numberPressed(value)
+    }
+
+    func percentPressed() -> Bool {
+        return calcValue.percentPressed()
+    }
+
+    func plusMinusPressed() -> Bool {
+        return calcValue.plusMinusPressed()
     }
 
     // Pass in the localized decimal string.
@@ -214,7 +354,13 @@ class CalcValue: NSObject {
         // We need a time value.
         if !calcValue.allowsColons {
             calcValue = TimeElapsedValue(withString:calcValue.currentValue)
+            calcValue.valueChanged = true
         }
         return calcValue.colonPressed()
     }
+
+    func canonicalizeDisplayString() {
+        calcValue.canonicalizeDisplayString()
+    }
+
 }
