@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="watchOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13034"/>
     </dependencies>
@@ -14,10 +13,17 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="hp01_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <label width="1" alignment="left" text="0" textAlignment="right" id="Hgh-ll-cAz">
-                            <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="font" type="italicSystem" pointSize="16"/>
-                        </label>
+                        <group width="1" alignment="left" id="9Md-qE-a5o">
+                            <items>
+                                <label width="1" widthAdjustment="-15" alignment="left" text="0" textAlignment="right" id="Hgh-ll-cAz">
+                                    <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="font" type="italicSystem" pointSize="16"/>
+                                </label>
+                                <label width="12" alignment="right" text="=" textAlignment="right" id="cNx-dj-pAN">
+                                    <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </label>
+                            </items>
+                        </group>
                         <group width="1" alignment="left" id="Rq9-i7-e9O">
                             <items>
                                 <button width="21" height="16" alignment="left" title="C" id="OWy-cu-Wft">
@@ -138,13 +144,30 @@
                                 </button>
                             </items>
                         </group>
+                        <group width="1" alignment="left" id="VJt-3D-vyc">
+                            <items>
+                                <button width="21" height="16" alignment="left" title="±" id="pbQ-Mn-NUH">
+                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                    <connections>
+                                        <action selector="plusMinusTapped" destination="AgC-eL-Hgc" id="2pC-D8-NL7"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
                         <group width="1" alignment="left" id="WUb-ta-3T3">
                             <items>
-                                <button width="21" height="16" alignment="left" title="R" id="Qzu-Up-Ngx">
+                                <button width="21" height="16" alignment="left" title="D" id="Qzu-Up-Ngx">
+                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                </button>
+                                <button width="21" height="16" alignment="left" title="/" id="kaT-ld-1Te">
+                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                </button>
+                                <button width="21" height="16" alignment="left" title="R" id="vIB-Om-SnF">
                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                     <connections>
-                                        <action selector="resetTapped" destination="AgC-eL-Hgc" id="TDJ-Wx-IUE"/>
+                                        <action selector="resetTapped" destination="AgC-eL-Hgc" id="f1F-OL-x5m"/>
                                     </connections>
                                 </button>
                                 <button width="21" height="16" alignment="left" title="%" id="3mw-Lo-kyN">
@@ -165,10 +188,11 @@
                     </items>
                     <connections>
                         <outlet property="displayLabel" destination="Hgh-ll-cAz" id="Yk5-wD-jQy"/>
+                        <outlet property="operatorLabel" destination="cNx-dj-pAN" id="9OP-JE-SxP"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="220" y="345"/>
+            <point key="canvasLocation" x="219.69230769230771" y="344.35897435897436"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

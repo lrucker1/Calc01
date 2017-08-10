@@ -23,6 +23,7 @@
 		94B454BE1F3A5095006671EF /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454BD1F3A5095006671EF /* NotificationController.swift */; };
 		94B454C01F3A5095006671EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454BF1F3A5095006671EF /* Assets.xcassets */; };
 		94B454E21F3A5404006671EF /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454E01F3A53E5006671EF /* Command.swift */; };
+		94BC3A441F3C4CC700252D2B /* CalcValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC3A431F3C4CC700252D2B /* CalcValue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		94B454C11F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B454C21F3A5095006671EF /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		94B454E01F3A53E5006671EF /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		94BC3A431F3C4CC700252D2B /* CalcValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcValue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				94B454B91F3A5095006671EF /* InterfaceController.swift */,
+				94BC3A431F3C4CC700252D2B /* CalcValue.swift */,
 				94B454E01F3A53E5006671EF /* Command.swift */,
 				94B454BB1F3A5095006671EF /* ExtensionDelegate.swift */,
 				94B454BD1F3A5095006671EF /* NotificationController.swift */,
@@ -439,6 +442,7 @@
 			files = (
 				94B454BE1F3A5095006671EF /* NotificationController.swift in Sources */,
 				94B454BC1F3A5095006671EF /* ExtensionDelegate.swift in Sources */,
+				94BC3A441F3C4CC700252D2B /* CalcValue.swift in Sources */,
 				94B454BA1F3A5095006671EF /* InterfaceController.swift in Sources */,
 				94B454E21F3A5404006671EF /* Command.swift in Sources */,
 			);
@@ -604,6 +608,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = "hp01 WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp.watchkitextension;
@@ -612,7 +617,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Debug;
 		};
@@ -620,6 +625,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = "hp01 WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp.watchkitextension;
@@ -628,7 +634,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Release;
 		};
@@ -637,6 +643,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				IBSC_MODULE = hp01_WatchKit_Extension;
 				INFOPLIST_FILE = "hp01 WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp;
@@ -645,7 +652,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Debug;
 		};
@@ -654,6 +661,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				IBSC_MODULE = hp01_WatchKit_Extension;
 				INFOPLIST_FILE = "hp01 WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp;
@@ -662,7 +670,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Release;
 		};
@@ -670,7 +678,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -683,7 +693,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01;
 				PRODUCT_NAME = "$(TARGET_NAME)";

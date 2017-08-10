@@ -43,20 +43,35 @@ class Command: NSObject
 
     override var debugDescription: String {
         get {
-            var str = "?"
+            return leftValue.debugDescription + " " + operatorSymbol
+        }
+    }
+
+    var operatorSymbol : String {
+        get {
             switch type {
-                case .Divide: str = "÷"
-                case .Multiply: str = "×"
-                case .Subtract: str = "-"
-                case .Add: str = "+"
+                case .Divide: return "÷"
+                case .Multiply: return "×"
+                case .Subtract: return "-"
+                case .Add: return "+"
             }
-            return leftValue.debugDescription + " " + str
+
+        }
+    }
+
+    var canRepeat : Bool {
+        get {
+            if mode == .Time { return false }
+            switch type {
+                case .Multiply, .Add: return true
+                default : return false
+            }
+
         }
     }
 
     func executeWithNewValue(newValue: Double) -> Double
     {
-        // += means lv + lv, *= means lv * lv, etc
         var result = leftValue
         
         switch type

@@ -5,6 +5,9 @@
 //  Created by Lee Ann Rucker on 8/8/17.
 //  Copyright © 2017 Lee Ann Rucker. All rights reserved.
 //
+// TODO: Automatic constant: save the command and the right-value: xx?yy=, zz= becomes zz?yy=
+// Allow hundreths of seconds? DateComponent would take it as nano. Format is MM:SS.CC, no HH
+// Colon turns it into a time interval, T key makes it a time of day. ToD is displayed as "HH:MM SS"
 
 import WatchKit
 import Foundation
@@ -16,25 +19,36 @@ enum CalculatorMode
 }
 
 class InterfaceController: WKInterfaceController {
+    @IBOutlet weak var displayLabel: WKInterfaceLabel!
+    @IBOutlet weak var operatorLabel: WKInterfaceLabel!
+
     var currentValue: String = "0"
     var valueChanged = false
     var resetValue: Double = 0
-    var command: Command?
+    var timeFormatter = DateFormatter()
+    var command: Command? {
+        didSet {
+            operatorLabel.setText(command != nil ? command!.operatorSymbol : "")
+        }
+    }
     var mode: CalculatorMode = .Calculator
     var calculationExecuted = false
 
+    // TODO: This is not localized. Use Scanner
     var currentDoubleValue: Double {
         get {
             return (currentValue as NSString).doubleValue
         }
     }
 
-    @IBOutlet weak var displayLabel: WKInterfaceLabel!
 
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
         // Configure interface objects here.
+        timeFormatter.dateStyle = .none
+        timeFormatter.timeStyle = .medium
+        operatorLabel.setText("")
     }
     
     override func willActivate() {
@@ -47,21 +61,27 @@ class InterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
+    // Slow single blink for successful entry, fast double blink for error.
+    func setTextColors(_ color: UIColor) {
+        displayLabel.setTextColor(color);
+        operatorLabel.setTextColor(color);
+    }
+
     func blink() {
-        displayLabel.setTextColor(UIColor.black);
+        setTextColors(UIColor.black);
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.displayLabel.setTextColor(UIColor.red);
+            self.setTextColors(UIColor.red);
         }
     }
 
     func doubleBlink() {
-        displayLabel.setTextColor(UIColor.black);
+        setTextColors(UIColor.black);
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            self.displayLabel.setTextColor(UIColor.red);
+            self.setTextColors(UIColor.red);
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                self.displayLabel.setTextColor(UIColor.black);
+                self.setTextColors(UIColor.black);
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                    self.displayLabel.setTextColor(UIColor.red);
+                    self.setTextColors(UIColor.red);
                 }
             }
         }
@@ -86,6 +106,17 @@ class InterfaceController: WKInterfaceController {
         return dc
     }
 
+    // Adding a digit to a date component substring pushes extra digits off the front,
+    // so a date doesn't need to be cleared just because of a single error.
+    func appendDigit(_ str : String, digit : String) -> String {
+        var s = str + digit
+        if s.count > 2 {
+            let end = s.index(s.endIndex, offsetBy:-2)
+            s = s.substring(from:end)
+        }
+        return s
+    }
+
     func numberPressed(_ value: Int) {
         blink();
         let newValue = "\(value)"
@@ -104,19 +135,11 @@ class InterfaceController: WKInterfaceController {
             if strings.count == 3 {
                 let h = strings[0]
                 let m = strings[1]
-                var s = strings[2] + newValue
-                if s.count > 2 {
-                    let end = s.index(s.endIndex, offsetBy:-2)
-                    s = s.substring(from:end)
-                }
+                let s = appendDigit(strings[2], digit:newValue)
                 currentValue = h + ":" + m + ":" + s
             } else if strings.count == 2 {
                 let h = strings[0]
-                var m = strings[1] + newValue
-                if m.count > 2 {
-                    let end = m.index(m.endIndex, offsetBy:-2)
-                    m = m.substring(from:end)
-                }
+                let m = appendDigit(strings[1], digit:newValue)
                 currentValue = h + ":" + m
             } else {
                 currentValue += newValue
@@ -141,10 +164,7 @@ class InterfaceController: WKInterfaceController {
     }
 
     func setDisplayTime(value: Date) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .none
-        dateFormatter.timeStyle = .medium
-        displayLabel.setText(dateFormatter.string(from:value))
+        displayLabel.setText(timeFormatter.string(from:value))
     }
 
     func commandTapped(_ type: CommandType) {
@@ -171,21 +191,26 @@ class InterfaceController: WKInterfaceController {
         if mode == .Calculator {
             command = Command(type:type, leftValue:currentDoubleValue)
         } else {
-            // Use the current time if the user hasn't entered anything.
+            // Nil means use the current time if the user hasn't entered anything.
             var leftTime : Date? = nil
             if valueChanged {
                 leftTime = Calendar.current.date(from:timeComponents())
             }
             command = Command(type:type, leftTime:leftTime)
         }
+        operatorLabel.setText(command!.operatorSymbol)
         currentValue = "0"
         valueChanged = false
         calculationExecuted = false
     }
 
     func executeCommand() -> Bool {
-         // Don't clear commands so we can repeat them.
-         if (mode == .Calculator) {
+        // A command needs a second value unless it's repeatable: *=, +=
+        if !valueChanged && !command!.canRepeat {
+            // It's a no-op, not an error.
+            return true
+        }
+        if (mode == .Calculator) {
             // If nothing has been entered the first time it's run, use the leftValue
             // This makes ?= mean "lv ? lv"
             var commandValue = currentDoubleValue
@@ -207,6 +232,9 @@ class InterfaceController: WKInterfaceController {
         resetValue = currentDoubleValue
         calculationExecuted = true
         valueChanged = false
+        if !command!.canRepeat {
+            command = nil
+        }
         return true
     }
 
@@ -273,7 +301,7 @@ class InterfaceController: WKInterfaceController {
         setDisplayValue(value: value)
     }
 
-    @IBAction func decimalTapped() {
+    @IBAction func decimalTapped(sender: WKInterfaceButton) {
         if mode == .Time {
             doubleBlink()
             return
@@ -283,6 +311,15 @@ class InterfaceController: WKInterfaceController {
             currentValue += "."
             displayLabel.setText(currentValue)
         }
+    }
+
+    @IBAction func plusMinusTapped() {
+        if mode == .Time {
+            doubleBlink()
+            return
+        }
+        blink();
+        setDisplayValue(value:-currentDoubleValue)
     }
 
     @IBAction func colonTapped() {
@@ -365,11 +402,19 @@ class InterfaceController: WKInterfaceController {
     }
 
     @IBAction func multiplyTapped() {
-        commandTapped(.Multiply)
+        if mode == .Time {
+            doubleBlink()
+        } else {
+            commandTapped(.Multiply)
+        }
     }
 
     @IBAction func divideTapped() {
-        commandTapped(.Divide)
+        if mode == .Time {
+            doubleBlink()
+        } else {
+            commandTapped(.Divide)
+        }
     }
 
     @IBAction func timeTapped() {
