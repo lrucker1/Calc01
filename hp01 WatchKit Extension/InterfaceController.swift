@@ -124,7 +124,6 @@ class InterfaceController: WKInterfaceController {
     }
 
     func executeCommand() -> Bool {
-        // TODO: Make "repeating" a state on Command.
         // A command needs a second value unless it's repeatable: *=, +=
         if !calcValue.valueChanged && !command!.canRepeat {
             // It's a no-op, not an error.
@@ -132,11 +131,14 @@ class InterfaceController: WKInterfaceController {
         }
         // If nothing has been entered the first time it's run, use the leftValue
         // This makes ?= mean "lv ? lv"
+        // These commands can repeat.
+        guard let cmd = command else {return false}
         var commandValue = calcValue
         if !calcValue.valueChanged && !calculationExecuted {
-            commandValue = command!.leftValue
+            commandValue = cmd.leftValue
+            cmd.repeating = true
         }
-        let answer = command!.executeWithNewValue(newValue:commandValue)
+        let answer = cmd.executeWithNewValue(newValue:commandValue)
         if answer == nil {
             doubleBlink()
             return false
@@ -145,7 +147,7 @@ class InterfaceController: WKInterfaceController {
         calcValue = answer!
         setDisplayValue()
         calculationExecuted = true
-        if !command!.canRepeat {
+        if !cmd.repeating {
             command = nil
         }
         return true
@@ -194,7 +196,7 @@ class InterfaceController: WKInterfaceController {
         handleTapResult(calcValue.percentPressed())
     }
 
-    @IBAction func decimalTapped(sender: WKInterfaceButton) {
+    @IBAction func decimalTapped() {
         handleTapResult(calcValue.decimalPressed("."))
     }
 
