@@ -15,10 +15,13 @@ import Foundation
 class InterfaceController: WKInterfaceController {
     @IBOutlet weak var displayLabel: WKInterfaceLabel!
     @IBOutlet weak var operatorLabel: WKInterfaceLabel!
+    @IBOutlet weak var ampmGroup: WKInterfaceGroup!
+    @IBOutlet weak var amLabel: WKInterfaceLabel!
+    @IBOutlet weak var pmLabel: WKInterfaceLabel!
 
     var calcValue = CalcValue()
     var resetValue = CalcValue()
-    var timeFormatter = DateFormatter()
+    var uses24HourTime = false
     var command: Command? {
         didSet {
             operatorLabel.setText(command == nil ? "" : command!.operatorSymbol)
@@ -30,9 +33,18 @@ class InterfaceController: WKInterfaceController {
         super.awake(withContext: context)
         
         // Configure interface objects here.
-        timeFormatter.dateStyle = .none
-        timeFormatter.timeStyle = .medium
+        let timeFormatter = DateFormatter()
+        timeFormatter.locale = Locale.current
+        amLabel.setText(timeFormatter.amSymbol)
+        pmLabel.setText(timeFormatter.pmSymbol)
+        timeFormatter.setLocalizedDateFormatFromTemplate("j")
+        // If 'H' or 'k', it's 24 hour time.
+        if let df = timeFormatter.dateFormat {
+            uses24HourTime = df.rangeOfCharacter(from: CharacterSet(charactersIn:"Hk")) != nil
+        }
+
         operatorLabel.setText("")
+        setDisplayValue()
     }
     
     override func willActivate() {
@@ -49,6 +61,8 @@ class InterfaceController: WKInterfaceController {
     func setTextColors(_ color: UIColor) {
         displayLabel.setTextColor(color);
         operatorLabel.setTextColor(color);
+        amLabel.setTextColor(color);
+        pmLabel.setTextColor(color);
     }
 
     func blink() {
@@ -84,16 +98,27 @@ class InterfaceController: WKInterfaceController {
         setDisplayValue()
     }
 
-    func setDisplayValue(value: CalcValue ) {
+    // Use this only for results that are not values, like DayOfWeek
+    func setDisplayValue(string: String ) {
+        displayLabel.setText(string)
+        ampmGroup.setHidden(true)
+    }
+
+    func setDisplayValue(value: CalcValue) {
         displayLabel.setText(value.stringValue)
+        if value.isTimeOfDay {
+            // The number field is always shifted over for TOD values.
+            // The HP calculator changed the format to "h:mm ss". That could be tricky.
+            ampmGroup.setHidden(false)
+            amLabel.setHidden(calcValue.isPM || uses24HourTime)
+            pmLabel.setHidden(!calcValue.isPM || uses24HourTime)
+        } else {
+            ampmGroup.setHidden(true)
+        }
     }
 
     func setDisplayValue() {
-        displayLabel.setText(calcValue.stringValue)
-    }
-
-    func setDisplayTime(value: Date) {
-        displayLabel.setText(timeFormatter.string(from:value))
+        setDisplayValue(value:calcValue)
     }
 
     func commandTapped(_ type: CommandType) {
@@ -105,7 +130,7 @@ class InterfaceController: WKInterfaceController {
         // if the number hasn't changed, modify the command. Otherwise run it.
         // If it succeeds, carry on with the new one.
         if command != nil && !calculationExecuted {
-            if (!calcValue.valueChanged) {
+            if (!calcValue.containsValue) {
                 command!.type = type
                 blink()
                 return
@@ -125,7 +150,7 @@ class InterfaceController: WKInterfaceController {
 
     func executeCommand() -> Bool {
         // A command needs a second value unless it's repeatable: *=, +=
-        if !calcValue.valueChanged && !command!.canRepeat {
+        if !calcValue.containsValue && !command!.canRepeat {
             // It's a no-op, not an error.
             return true
         }
@@ -134,7 +159,7 @@ class InterfaceController: WKInterfaceController {
         // These commands can repeat.
         guard let cmd = command else {return false}
         var commandValue = calcValue
-        if !calcValue.valueChanged && !calculationExecuted {
+        if !calcValue.containsValue && !calculationExecuted {
             commandValue = cmd.leftValue
             cmd.repeating = true
         }
@@ -171,7 +196,7 @@ class InterfaceController: WKInterfaceController {
         // leave the command intact. Changing operators will change the command.
         // If there's no second number, clear everything.
         if command != nil {
-            if calcValue.valueChanged {
+            if calcValue.containsValue {
                 // Leave the command, just clear the second number and show the first.
                 setDisplayValue(value:command!.leftValue)
                 return
@@ -186,8 +211,8 @@ class InterfaceController: WKInterfaceController {
 
     func handleTapResult(_ success: Bool) {
         if success {
-            blink()
             setDisplayValue()
+            blink()
         } else {
             doubleBlink()
         }
@@ -206,6 +231,29 @@ class InterfaceController: WKInterfaceController {
 
     @IBAction func colonTapped() {
         handleTapResult(calcValue.colonPressed())
+    }
+
+    @IBAction func slashTapped() {
+        handleTapResult(calcValue.slashPressed())
+    }
+
+    @IBAction func amPMTapped() {
+        if uses24HourTime {
+            handleTapResult(false)
+        } else {
+            handleTapResult(calcValue.amPMPressed())
+        }
+    }
+
+    @IBAction func dayOfWeekTapped() {
+        let dowStr = calcValue.dayOfWeekPressed()
+        if dowStr == nil {
+            doubleBlink()
+        } else {
+            calculationExecuted = true
+            setDisplayValue(string:dowStr!)
+            blink()
+       }
     }
 
     //MARK: number buttons
@@ -268,19 +316,20 @@ class InterfaceController: WKInterfaceController {
         commandTapped(.Divide)
     }
 
-    // TODO: if there's a timeElapsed, turn it into a timeOfDay
     @IBAction func timeTapped() {
+        handleTapResult(calcValue.timePressed())
+    }
+
+	@IBAction func dateTapped() {
         blink();
         resetValue = calcValue
         calcValue = CalcValue(withDate:Date())
         setDisplayValue()
-        command = nil
     }
 
-    @IBAction func resetTapped() {
+   @IBAction func resetTapped() {
         blink();
         calcValue = resetValue
         setDisplayValue()
-        command = nil
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13122.17" systemVersion="16G29" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch42" orientation="portrait">
+    <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -13,211 +13,230 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="hp01_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <group width="1" alignment="left" id="9Md-qE-a5o">
+                        <group width="1" height="22" alignment="right" id="9Md-qE-a5o" userLabel="DisplayGroup">
                             <items>
                                 <label alignment="right" text="0" textAlignment="right" id="Hgh-ll-cAz">
                                     <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="font" type="italicSystem" pointSize="16"/>
                                 </label>
-                                <group width="10" height="1" alignment="right" hidden="YES" layout="vertical" id="WvN-pk-7XC">
+                                <group height="17" alignment="right" verticalAlignment="center" layout="vertical" spacing="0.0" id="WvN-pk-7XC">
                                     <items>
-                                        <label alignment="left" text="AM" id="u3r-ea-Zdm">
+                                        <label height="9" alignment="left" text="AM" id="u3r-ea-Zdm">
                                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="font" type="system" pointSize="6"/>
+                                            <fontDescription key="font" type="system" pointSize="7"/>
                                         </label>
-                                        <label alignment="left" verticalAlignment="bottom" text="PM" id="KBK-LS-9hA">
+                                        <label height="8" alignment="left" verticalAlignment="bottom" text="PM" id="KBK-LS-9hA">
                                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="font" type="system" pointSize="6"/>
+                                            <fontDescription key="font" type="system" pointSize="7"/>
                                         </label>
                                     </items>
                                 </group>
-                                <label width="12" alignment="right" text="=" textAlignment="right" id="cNx-dj-pAN">
+                                <label width="11" alignment="right" text="=" textAlignment="right" id="cNx-dj-pAN">
                                     <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </label>
                             </items>
                         </group>
-                        <group width="1" alignment="left" id="Rq9-i7-e9O">
+                        <group width="131" alignment="center" layout="vertical" id="dns-hk-msB">
                             <items>
-                                <button width="22" height="18" alignment="left" title=":" id="VRi-6x-mBm">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="colonTapped" destination="AgC-eL-Hgc" id="T85-BN-s5L"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="7" id="S8b-Sk-IoA">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button7Tapped" destination="AgC-eL-Hgc" id="zjO-gG-HEG"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="8" id="JN3-3L-Inw">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button8Tapped" destination="AgC-eL-Hgc" id="EF3-X5-zrk"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="9" id="FNp-o0-ZnJ">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button9Tapped" destination="AgC-eL-Hgc" id="QxR-AF-5sx"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="C" id="OWy-cu-Wft">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="clearTapped" destination="AgC-eL-Hgc" id="q44-Hg-geI"/>
-                                    </connections>
-                                </button>
-                            </items>
-                        </group>
-                        <group width="134" alignment="left" id="TJi-Ip-ony">
-                            <items>
-                                <button width="22" height="18" alignment="left" title="." id="aqw-B4-ruM">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="decimalTapped" destination="AgC-eL-Hgc" id="ts9-2x-q2B"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="4" id="cpK-6N-Lm1">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button4Tapped" destination="AgC-eL-Hgc" id="eaT-S8-5zX"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="5" id="hfy-fx-Giv">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button5Tapped" destination="AgC-eL-Hgc" id="f4H-tb-Hs5"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="6" id="Eq5-jo-h3Q">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button6Tapped" destination="AgC-eL-Hgc" id="5ov-y7-2kp"/>
-                                    </connections>
-                                </button>
-                            </items>
-                        </group>
-                        <group width="1" alignment="left" id="hfH-Ae-r7c">
-                            <items>
-                                <button width="22" height="18" alignment="left" title="0" id="Hg9-Rr-KAb">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button0tapped" destination="AgC-eL-Hgc" id="uh8-sx-Fgt"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="1" id="N2j-FN-R6Y">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button1Tapped" destination="AgC-eL-Hgc" id="cF8-xk-Zru"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="2" id="N8v-Dk-77D">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button2Tapped" destination="AgC-eL-Hgc" id="KSZ-VT-zPJ"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="3" id="aZO-tW-V3W">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="button3Tapped" destination="AgC-eL-Hgc" id="7O0-5e-7eD"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="±" id="pbQ-Mn-NUH">
-                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="plusMinusTapped" destination="AgC-eL-Hgc" id="2pC-D8-NL7"/>
-                                    </connections>
-                                </button>
-                            </items>
-                        </group>
-                        <group width="1" alignment="left" id="3Xi-8Q-rxF">
-                            <items>
-                                <button width="22" height="18" alignment="left" title="+" id="JVy-I1-plK">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="addTapped" destination="AgC-eL-Hgc" id="eXK-op-EQk"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="-" id="5Ef-uJ-Jbz">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="subtractTapped" destination="AgC-eL-Hgc" id="tLa-Tb-3vy"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="×" id="vwk-hu-rYq">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="multiplyTapped" destination="AgC-eL-Hgc" id="O9F-3Z-CYg"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="÷" id="F1g-br-ntV">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="divideTapped" destination="AgC-eL-Hgc" id="nll-UG-DOY"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="=" id="pcB-cO-XHu">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="answerTapped" destination="AgC-eL-Hgc" id="IvV-Yu-ssh"/>
-                                    </connections>
-                                </button>
-                            </items>
-                        </group>
-                        <group width="1" alignment="left" id="WUb-ta-3T3">
-                            <items>
-                                <button width="22" height="18" alignment="left" title="D" id="Qzu-Up-Ngx">
-                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="/" id="kaT-ld-1Te">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="R" id="vIB-Om-SnF">
-                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="resetTapped" destination="AgC-eL-Hgc" id="f1F-OL-x5m"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="%" id="3mw-Lo-kyN">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="percentTapped" destination="AgC-eL-Hgc" id="b5W-K6-0Pi"/>
-                                    </connections>
-                                </button>
-                                <button width="22" height="18" alignment="left" title="T" id="nr7-xd-rcp">
-                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" pointSize="14"/>
-                                    <connections>
-                                        <action selector="timeTapped" destination="AgC-eL-Hgc" id="HU0-Df-tKX"/>
-                                    </connections>
-                                </button>
-                            </items>
-                        </group>
-                        <group width="1" alignment="left" id="ewX-XG-uxy">
-                            <items>
-                                <button width="27" height="18" alignment="left" title="DW" id="JpB-O1-679">
-                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" pointSize="9"/>
-                                </button>
-                                <button width="27" height="18" alignment="left" title="am" id="4mZ-9M-rbC">
-                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" pointSize="9"/>
-                                </button>
+                                <group width="1" alignment="right" id="Rq9-i7-e9O">
+                                    <items>
+                                        <button width="22" height="18" alignment="left" title=":" id="VRi-6x-mBm">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="colonTapped" destination="AgC-eL-Hgc" id="T85-BN-s5L"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="7" id="S8b-Sk-IoA">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button7Tapped" destination="AgC-eL-Hgc" id="zjO-gG-HEG"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="8" id="JN3-3L-Inw">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button8Tapped" destination="AgC-eL-Hgc" id="EF3-X5-zrk"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="9" id="FNp-o0-ZnJ">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button9Tapped" destination="AgC-eL-Hgc" id="QxR-AF-5sx"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="C" id="OWy-cu-Wft">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="clearTapped" destination="AgC-eL-Hgc" id="q44-Hg-geI"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
+                                <group width="134" alignment="right" id="TJi-Ip-ony">
+                                    <items>
+                                        <button width="22" height="18" alignment="left" title="." id="aqw-B4-ruM">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="decimalTapped" destination="AgC-eL-Hgc" id="ts9-2x-q2B"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="4" id="cpK-6N-Lm1">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button4Tapped" destination="AgC-eL-Hgc" id="eaT-S8-5zX"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="5" id="hfy-fx-Giv">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button5Tapped" destination="AgC-eL-Hgc" id="f4H-tb-Hs5"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="6" id="Eq5-jo-h3Q">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button6Tapped" destination="AgC-eL-Hgc" id="5ov-y7-2kp"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
+                                <group width="1" alignment="right" id="hfH-Ae-r7c">
+                                    <items>
+                                        <button width="22" height="18" alignment="left" title="0" id="Hg9-Rr-KAb">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button0tapped" destination="AgC-eL-Hgc" id="uh8-sx-Fgt"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="1" id="N2j-FN-R6Y">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button1Tapped" destination="AgC-eL-Hgc" id="cF8-xk-Zru"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="2" id="N8v-Dk-77D">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button2Tapped" destination="AgC-eL-Hgc" id="KSZ-VT-zPJ"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="3" id="aZO-tW-V3W">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="button3Tapped" destination="AgC-eL-Hgc" id="7O0-5e-7eD"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="±" id="pbQ-Mn-NUH">
+                                            <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="plusMinusTapped" destination="AgC-eL-Hgc" id="2pC-D8-NL7"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
+                                <group width="1" alignment="right" id="3Xi-8Q-rxF">
+                                    <items>
+                                        <button width="22" height="18" alignment="left" title="+" id="JVy-I1-plK">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="addTapped" destination="AgC-eL-Hgc" id="eXK-op-EQk"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="-" id="5Ef-uJ-Jbz">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="subtractTapped" destination="AgC-eL-Hgc" id="tLa-Tb-3vy"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="×" id="vwk-hu-rYq">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="multiplyTapped" destination="AgC-eL-Hgc" id="O9F-3Z-CYg"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="÷" id="F1g-br-ntV">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="divideTapped" destination="AgC-eL-Hgc" id="nll-UG-DOY"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="=" id="pcB-cO-XHu">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="answerTapped" destination="AgC-eL-Hgc" id="IvV-Yu-ssh"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
+                                <group width="1" alignment="right" id="WUb-ta-3T3">
+                                    <items>
+                                        <button width="22" height="18" alignment="left" title="D" id="Qzu-Up-Ngx">
+                                            <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="dateTapped" destination="AgC-eL-Hgc" id="EoD-J5-yfL"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="/" id="kaT-ld-1Te">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="slashTapped" destination="AgC-eL-Hgc" id="uP8-Pm-jDL"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="R" id="vIB-Om-SnF">
+                                            <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="resetTapped" destination="AgC-eL-Hgc" id="f1F-OL-x5m"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="%" id="3mw-Lo-kyN">
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="percentTapped" destination="AgC-eL-Hgc" id="b5W-K6-0Pi"/>
+                                            </connections>
+                                        </button>
+                                        <button width="22" height="18" alignment="left" title="T" id="nr7-xd-rcp">
+                                            <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                            <connections>
+                                                <action selector="timeTapped" destination="AgC-eL-Hgc" id="HU0-Df-tKX"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
+                                <group width="1" alignment="right" id="ewX-XG-uxy">
+                                    <items>
+                                        <button width="27" height="18" alignment="left" title="DW" id="JpB-O1-679">
+                                            <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" pointSize="9"/>
+                                            <connections>
+                                                <action selector="dayOfWeekTapped" destination="AgC-eL-Hgc" id="MTH-x0-bS1"/>
+                                            </connections>
+                                        </button>
+                                        <button width="27" height="18" alignment="left" title="am" id="4mZ-9M-rbC">
+                                            <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" pointSize="9"/>
+                                            <connections>
+                                                <action selector="amPMTapped" destination="AgC-eL-Hgc" id="hBz-mN-YuG"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
                             </items>
                         </group>
                     </items>
                     <connections>
+                        <outlet property="amLabel" destination="u3r-ea-Zdm" id="UQb-ph-sb5"/>
+                        <outlet property="ampmGroup" destination="WvN-pk-7XC" id="kGW-eh-Jlb"/>
                         <outlet property="displayLabel" destination="Hgh-ll-cAz" id="Yk5-wD-jQy"/>
                         <outlet property="operatorLabel" destination="cNx-dj-pAN" id="9OP-JE-SxP"/>
+                        <outlet property="pmLabel" destination="KBK-LS-9hA" id="viK-EI-Mal"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="219.69230769230771" y="344.35897435897436"/>
+            <point key="canvasLocation" x="219" y="343.5"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

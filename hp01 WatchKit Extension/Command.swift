@@ -52,7 +52,6 @@ class Command: NSObject
                 case .Multiply, .Add: return true
                 default : return false
             }
-
         }
     }
 
