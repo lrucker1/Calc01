@@ -14,13 +14,36 @@ enum CalcValueType
     case TimeElapsed
 }
 
+protocol TimeIntervalRepresentation {
+    var timeIntervalValue: TimeInterval {get}
+}
+
+// These should only be used when at least one is an ElapsedTimeValue;
+// operating on two DecimalValues should produce a DecimalValue!
+func +(left: TimeIntervalRepresentation, right: TimeIntervalRepresentation) -> AbstractValue? {
+    let rawLeft = left.timeIntervalValue
+    let rawRight = right.timeIntervalValue
+    return ElapsedTimeValue(withTimeInterval:rawLeft + rawRight)
+}
+
+func -(left: TimeIntervalRepresentation, right: TimeIntervalRepresentation) -> AbstractValue? {
+    let rawLeft = left.timeIntervalValue
+    let rawRight = right.timeIntervalValue
+    return ElapsedTimeValue(withTimeInterval:rawLeft - rawRight)
+}
+
 class AbstractValue {
     var currentValue: String = "0"
     var containsValue = false
-    var isTimeOfDay = false
     var isPM = false
 
     var canRepeatCommands: Bool {
+        get {
+            return false
+        }
+    }
+
+    var isTimeOfDay: Bool {
         get {
             return false
         }
@@ -126,12 +149,12 @@ class AbstractValue {
     static func /(left: AbstractValue, right: AbstractValue) -> AbstractValue? {
         return left.dividing(right)
     }
-
 }
 
-class DecimalValue : AbstractValue {
+class DecimalValue : AbstractValue, TimeIntervalRepresentation {
 
     var containsDecimalPoint = false
+    var isPercent = false
 
     override var canRepeatCommands: Bool {
         get {
@@ -139,6 +162,7 @@ class DecimalValue : AbstractValue {
         }
     }
 
+    // A Decimal value is a TimeInterval for TimeOfDay or ElapsedTime, Days for Date.
     var timeIntervalValue: TimeInterval {
         get {
             // Convert hours to seconds.
@@ -163,7 +187,7 @@ class DecimalValue : AbstractValue {
         containsValue = true
     }
 
-    // TODO: This is not localized. Use Scanner
+    // TODO: This is not localized.
     var doubleValue: Double {
         get {
             return (currentValue as NSString).doubleValue
@@ -191,10 +215,14 @@ class DecimalValue : AbstractValue {
         return true
     }
 
+    // Percentage is an attribute that applies at calculation time.
+    //  X +- Y% = (X +- (X * Y%))
+    //  X * Y% : X * Y / 100
+    //  X / Y% : X / Y * 100 (X is what percentage of Y)
     override func percentPressed() -> Bool {
-        let value = doubleValue / 100
-        setCurrentValue(value: value)
-        containsValue = true
+        if isPercent { return false }
+        isPercent = true
+        currentValue += "%"
         return true
     }
 
@@ -210,11 +238,14 @@ class DecimalValue : AbstractValue {
     // MARK: Operators
     override func adding(_ right: AbstractValue) -> AbstractValue? {
         if let rightDV = right as? DecimalValue { return self + rightDV }
-        if let rightTE = right as? TimeValue { return self + rightTE }
+        if let rightTD = right as? TimeOfDayValue { return self + rightTD }
+        if let rightTE = right as? ElapsedTimeValue { return (self as TimeIntervalRepresentation) + rightTE}
+        if let rightDate = right as? DateValue { return rightDate + self }
         return nil
     }
     override func subtracting(_ right: AbstractValue) -> AbstractValue? {
         if let rightDV = right as? DecimalValue { return self - rightDV }
+        if let rightTE = right as? ElapsedTimeValue { return self - rightTE }
         return nil
     }
     override func multiplying(_ right: AbstractValue) -> AbstractValue? {
@@ -226,21 +257,59 @@ class DecimalValue : AbstractValue {
         return nil
     }
     static func +(left: DecimalValue, right: DecimalValue) -> AbstractValue? {
+        if left.isPercent {
+            return nil
+        }
+        if right.isPercent {
+            let x = left.doubleValue
+            let y = right.doubleValue / 100
+            return DecimalValue(withNumber:x + (x * y))
+        }
         return DecimalValue(withNumber:left.doubleValue + right.doubleValue)
     }
 
     static func -(left: DecimalValue, right: DecimalValue) -> AbstractValue? {
+        if left.isPercent {
+            return nil
+        }
+        if right.isPercent {
+            let x = left.doubleValue
+            let y = right.doubleValue / 100
+            return DecimalValue(withNumber:x - (x * y))
+        }
         return DecimalValue(withNumber:left.doubleValue - right.doubleValue)
     }
 
     static func *(left: DecimalValue, right: DecimalValue) -> AbstractValue? {
+        if left.isPercent {
+            return nil
+        }
+        if right.isPercent {
+            let x = left.doubleValue
+            let y = right.doubleValue
+            return DecimalValue(withNumber:x * y / 100)
+        }
         return DecimalValue(withNumber:left.doubleValue * right.doubleValue)
     }
 
     static func /(left: DecimalValue, right: DecimalValue) -> AbstractValue? {
+        if right.doubleValue == 0 || left.isPercent {
+            return nil
+        }
+        if right.isPercent {
+            let x = left.doubleValue
+            let y = right.doubleValue
+            if x == 0 { return nil }
+            return DecimalValue(withNumber:x / y * 100)
+        }
         return DecimalValue(withNumber:left.doubleValue / right.doubleValue)
     }
 
+    static func -(left: DecimalValue, right: ElapsedTimeValue) -> AbstractValue? {
+        let rawLeft = left.timeIntervalValue
+        let rawRight = right.timeIntervalValue
+        return ElapsedTimeValue(withTimeInterval:rawLeft - rawRight)
+    }
 }
 
 class TimeDateValue : AbstractValue {
@@ -258,7 +327,6 @@ class TimeDateValue : AbstractValue {
     func validateLastSegment() -> Bool {
         return true
     }
-
     func appendSeparator(sep:String, strings stringsIn:[String], padZeros:Bool = false) -> Bool {
         var strings = stringsIn
         if currentValue.contains(sep) {
@@ -291,7 +359,7 @@ class TimeDateValue : AbstractValue {
 
 class DateValue : TimeDateValue {
 
-    // TODO: Localize.
+    // TODO: Localize?
     let dateSep = "/"
     override var allowsSlash : Bool {
         get {
@@ -358,14 +426,13 @@ class DateValue : TimeDateValue {
             currentValue = [s1, s2].joined(separator:dateSep)
         } else {
             let s1 = strings[0]
-            let s2 = strings[0]
-            let s3 = appendDigit(strings[1], digit:newValue, max:4)
+            let s2 = strings[1]
+            let s3 = appendDigit(strings[2], digit:newValue, max:4)
             currentValue = [s1, s2, s3].joined(separator:dateSep)
         }
 	}
 
     // MARK: Operators
-    // Allowed: Date +/ decimal(days) = Date, Date - Date = decimal(days)
     override func adding(_ right: AbstractValue) -> AbstractValue? {
         if let rightDV = right as? DecimalValue { return self + rightDV }
         return nil
@@ -411,6 +478,63 @@ class TimeValue : TimeDateValue {
         }
     }
 
+    override func validate() -> Bool {
+        // We only need to validate the last segment, previous ones got validated as they were entered.
+        return validateLastSegment()
+    }
+
+    func timeSubstrings() -> [String] {
+        return currentValue.components(separatedBy: CharacterSet.init(charactersIn:": "))
+    }
+
+    override func validateLastSegment() -> Bool {
+        let strings = timeSubstrings()
+        switch strings.count {
+            case 2:
+                let m = strings[1]
+                return (m as NSString).integerValue < 60
+
+            case 3:
+                let sec = strings[2]
+                return (sec as NSString).integerValue < 60
+
+            default:
+                return true
+        }
+    }
+
+    override func appendNumber(_ newValue:String) {
+        // We are entering minutes/seconds. There can be only two.
+        let strings = timeSubstrings()
+        if strings.count == 3 {
+            let h = strings[0]
+            let m = strings[1]
+            let s = appendDigit(strings[2], digit:newValue)
+            currentValue = h + ":" + m + ":" + s
+        } else if strings.count == 2 {
+            let h = strings[0]
+            let m = appendDigit(strings[1], digit:newValue)
+            currentValue = h + ":" + m
+        } else {
+            // This shouldn't get reached since it's not a Time until it has a separator,
+            // so we don't have to worry about elapsed vs time of day limits.
+            currentValue += newValue
+        }
+     }
+
+    override func colonPressed() -> Bool {
+        return appendSeparator(sep: ":", strings: timeSubstrings(), padZeros:true)
+    }
+}
+
+class TimeOfDayValue : TimeValue {
+
+    override var isTimeOfDay: Bool {
+        get {
+            return true
+        }
+    }
+
     var dateValue: Date? {
         get {
             return Calendar.current.date(from:timeComponents())
@@ -435,26 +559,30 @@ class TimeValue : TimeDateValue {
 
     init(withDate date:Date) {
         // Doc says making DateFormatters is expensive and should be static.
-        // If we're a time of day it shows up as a label, so no AM/PM symbol is needed.
+        // Don't show AM/PM; there's a label for that.
         let timeFormatter = DateFormatter()
-        timeFormatter.setLocalizedDateFormatFromTemplate("J:mm ss")
+        timeFormatter.setLocalizedDateFormatFromTemplate("J:mm:ss")
         super.init(withString:timeFormatter.string(from:date))
         containsValue = true
-        isTimeOfDay = true
     }
 
-    init(withDecimalValue value:DecimalValue, isTimeOfDay tod: Bool = false) {
+
+    init(withElapsedTime value:ElapsedTimeValue) {
         super.init(withString:value.currentValue)
-        isTimeOfDay = tod
-        if isTimeOfDay {
-            if let v = value.intValue {
-                isPM = v > 12
-            }
+        containsValue = true
+        let strings = timeSubstrings()
+        if strings.count > 0 {
+            isPM = (strings[0] as NSString).integerValue > 12
         }
+        canonicalizeDisplayString()
     }
 
-    func timeSubstrings() -> [String] {
-        return currentValue.components(separatedBy: CharacterSet.init(charactersIn:": "))
+    init(withDecimalValue value:DecimalValue) {
+        super.init(withString:value.currentValue)
+        if let v = value.intValue {
+            isPM = v > 12
+        }
+        canonicalizeDisplayString()
     }
 
     func timeComponents() -> DateComponents {
@@ -462,10 +590,8 @@ class TimeValue : TimeDateValue {
         var dc = DateComponents()
         if (strings.count > 0) {
             var h = (strings[0] as NSString).integerValue
-            if isTimeOfDay {
-                if isPM && h < 12 {
-                    h += 12
-                }
+            if isPM && h < 12 {
+                h += 12
             }
             dc.hour = h
         }
@@ -478,52 +604,8 @@ class TimeValue : TimeDateValue {
         return dc
     }
 
-    override func validate() -> Bool {
-        // We only need to validate the last segment, previous ones got validated as they were entered.
-        return validateLastSegment()
-    }
-
-	override func validateLastSegment() -> Bool {
-        let strings = timeSubstrings()
-        switch strings.count {
-            case 2:
-                let m = strings[1]
-                return (m as NSString).integerValue < 60
-
-            case 3:
-                let sec = strings[2]
-                return (sec as NSString).integerValue < 60
-
-            default:
-                return true
-        }
-    }
-
     override func validateCommand(_ type:CommandType) -> Bool {
         return type != .Multiply && type != .Divide
-    }
-
-    override func appendNumber(_ newValue:String) {
-        // We are entering minutes/seconds. There can be only two.
-        let strings = timeSubstrings()
-        if strings.count == 3 {
-            let h = strings[0]
-            let m = strings[1]
-            let s = appendDigit(strings[2], digit:newValue)
-            currentValue = h + ":" + m + ":" + s
-        } else if strings.count == 2 {
-            let h = strings[0]
-            let m = appendDigit(strings[1], digit:newValue)
-            currentValue = h + ":" + m
-        } else {
-            // This shouldn't get reached since it's not a Time until it has a separator,
-            // so we don't have to worry about elapsed vs time of day limits.
-            currentValue += newValue
-        }
-     }
-
-	override func colonPressed() -> Bool {
-        return appendSeparator(sep: ":", strings: timeSubstrings(), padZeros:true)
     }
 
     override func amPMPressed() -> Bool {
@@ -531,83 +613,134 @@ class TimeValue : TimeDateValue {
         return true
     }
 
-    func makeTimeOfDay() -> Bool {
-        if isTimeOfDay { return false }
-        isTimeOfDay = true
-        let strings = timeSubstrings()
-        if strings.count > 0 {
-            isPM = (strings[0] as NSString).integerValue > 12
-        }
-        return true
-    }
-
-    // TODO: Elapsed should allow any hour value without rollover.
 	override func canonicalizeDisplayString() {
         let strings = timeSubstrings()
-        if strings.count < 2 {
-            return
-        }
         if let dv = dateValue {
             let timeFormatter = DateFormatter()
-            timeFormatter.setLocalizedDateFormatFromTemplate("J:mm:ss")
+            var formatString:String
+            if strings.count == 3 {
+                formatString = "J:mm:ss"
+            } else if strings.count == 2 {
+                formatString = "J:mm"
+            } else {
+                // This converts values > 12 if the locale requires it.
+                formatString = "J"
+            }
+            timeFormatter.setLocalizedDateFormatFromTemplate(formatString)
             currentValue = timeFormatter.string(from:dv)
         }
     }
 
-    // TODO: decimalPressed for hundreths.
     // MARK: Operators
     override func adding(_ right: AbstractValue) -> AbstractValue? {
-        if let rightDV = right as? DecimalValue { return self + rightDV }
-        if let rightTE = right as? TimeValue { return self + rightTE }
+        // elapsed + elapsed = elapsed. TOD + elapsed = TOD. TOD + TOD = Error.
+        if let rightTI = right as? TimeIntervalRepresentation { return self + rightTI }
         return nil
     }
     override func subtracting(_ right: AbstractValue) -> AbstractValue? {
-        if let rightDV = right as? DecimalValue { return self - rightDV }
-        //if let rightTE = right as? TimeElapsedValue { return self - rightTE }
+        // elapsed - anything = elapsed. TOD - elapsed = TOD. TOD - TOD = elapsed
+        if let rightTI = right as? TimeIntervalRepresentation { return self - rightTI }
+        if let rightTD = right as? TimeOfDayValue { return self - rightTD }
         return nil
     }
-    static func +(left: TimeValue, right: DecimalValue) -> AbstractValue? {
+    static func +(left: TimeOfDayValue, right: TimeIntervalRepresentation) -> AbstractValue? {
+        // TOD + decimal = TOD. Elapsed + decimal = Elapsed.
         guard let rawLeft = left.dateValue else {return nil}
         let rawRight = right.timeIntervalValue
-        return TimeValue(withDate:rawLeft + rawRight)
+        return TimeOfDayValue(withDate:rawLeft + rawRight)
     }
 
-    static func -(left: TimeValue, right: DecimalValue) -> AbstractValue? {
+    static func -(left: TimeOfDayValue, right: TimeIntervalRepresentation) -> AbstractValue? {
         guard let rawLeft = left.dateValue else {return nil}
         let rawRight = right.timeIntervalValue
-        return TimeValue(withDate:rawLeft - rawRight)
-    }
-    static func +(left: DecimalValue, right: TimeValue) -> AbstractValue? {
-        guard let rawRight = right.dateValue else {return nil}
-        let rawLeft = left.timeIntervalValue
-        return TimeValue(withDate:rawRight + rawLeft)
-    }
-/*
-    static func -(left: DecimalValue, right: TimeElapsedValue) -> AbstractValue? {
-        guard let rawRight = right.dateValue else {return nil}
-        let rawLeft = left.timeIntervalValue
-        return TimeElapsedValue(withDate:rawLeft - rawRight)
-    }
-*/
-
-    static func +(left: TimeValue, right: TimeValue) -> AbstractValue? {
-        let leftDC = left.dateComponentsValue
-        let rightDC = right.dateComponentsValue
-        guard let leftDate = Calendar.current.date(from:leftDC) else { return nil }
-        guard let result = Calendar.current.date(byAdding:rightDC, to:leftDate) else {return nil}
-        return TimeValue(withDate:result)
+        return TimeOfDayValue(withDate:rawLeft - rawRight)
     }
 
-    static func -(left: TimeValue, right: TimeValue) -> AbstractValue? {
-        let leftDC = left.dateComponentsValue
-        guard let rightDC = right.negativeDateComponentsValue else { return nil }
-        guard let leftDate = Calendar.current.date(from:leftDC) else { return nil }
-        guard let result = Calendar.current.date(byAdding:rightDC, to:leftDate) else {return nil}
-        return TimeValue(withDate:result)
+    static func +(left: DecimalValue, right: TimeOfDayValue) -> AbstractValue? {
+        guard let rawRight = right.dateValue else {return nil}
+        let rawLeft = left.timeIntervalValue
+        return TimeOfDayValue(withDate:rawRight + rawLeft)
+    }
+
+    static func -(left: TimeOfDayValue, right: TimeOfDayValue) -> AbstractValue? {
+        guard let end = left.dateValue else {return nil}
+        guard let start = right.dateValue else {return nil}
+        if end < start {return nil}
+        return ElapsedTimeValue(withTimeInterval:end.timeIntervalSince(start))
     }
 
 }
 
+class ElapsedTimeValue : TimeValue, TimeIntervalRepresentation {
+
+    var timeIntervalValue: TimeInterval {
+        get {
+            let comps = timeComponents()
+            return TimeInterval(comps[0] * 3600 + comps[1] * 60 + comps[2])
+        }
+    }
+
+    init(withTimeInterval value:TimeInterval) {
+        super.init()
+        containsValue = true
+        let h = lround(floor(value / 3600)) % 100
+        let m = lround(floor(value / 60)) % 60
+        let s = lround(floor(value)) % 60
+        if (s > 0) {
+            currentValue = String(format:"%i:%02i:%02i", arguments:[h, m, s])
+        } else if (m > 0) {
+            currentValue = String(format:"%i:%02i", arguments:[h, m])
+        } else {
+            currentValue = "\(h)"
+        }
+    }
+
+    init(withDecimalValue value:DecimalValue) {
+        super.init(withString:value.currentValue)
+    }
+
+    func timeComponents() -> [Int] {
+        let strings = timeSubstrings()
+        let count = strings.count
+        let h = count > 0 ? (strings[0] as NSString).integerValue : 0
+        let m = count > 1 ? (strings[1] as NSString).integerValue : 0
+        let s = count > 2 ? (strings[2] as NSString).integerValue : 0
+        return [h, m, s]
+    }
+
+    // TODO: decimalPressed for hundreths.
+
+    override func canonicalizeDisplayString() {
+        let strings = timeSubstrings()
+        if strings.count == 3 {
+            let h = strings[0]
+            let m = strings[1]
+            let s = strings[2]
+            currentValue = String(format:"%i:%02i:%02i", arguments:[h, m, s])
+        } else if strings.count == 2 {
+            let h = strings[0]
+            let m = strings[1]
+            currentValue = String(format:"%i:%02i", arguments:[h, m])
+        } else {
+            currentValue = strings[0]
+        }
+    }
+
+    // MARK: Operators
+    override func adding(_ right: AbstractValue) -> AbstractValue? {
+        // elapsed + TIR = elapsed. TOD + elapsed = TOD.
+        if let rightTI = right as? TimeIntervalRepresentation { return (self as TimeIntervalRepresentation) + rightTI }
+        if let rightTD = right as? TimeOfDayValue { return rightTD + (self as TimeIntervalRepresentation)}
+        return nil
+    }
+    override func subtracting(_ right: AbstractValue) -> AbstractValue? {
+        // elapsed - TIR = elapsed.
+        // Chart also shows elapsed - TOD = elapsed. Maybe they're just ignoring the TOD press
+        // and treating it like an elapsed time. For now, it's an error.
+        if let rightTI = right as? TimeIntervalRepresentation { return (self as TimeIntervalRepresentation) - rightTI }
+        return nil
+    }
+}
 
 class CalcValue: NSObject {
     var calcValue: AbstractValue = DecimalValue()
@@ -656,7 +789,7 @@ class CalcValue: NSObject {
 
     init(withTime date:Date) {
         super.init()
-        calcValue = TimeValue.init(withDate:date)
+        calcValue = TimeOfDayValue.init(withDate:date)
     }
 
     init(withDate date:Date) {
@@ -711,9 +844,9 @@ class CalcValue: NSObject {
         if !calcValue.allowsColons && !calcValue.canChangeMode {
             return false
         }
-        // We need a time value.
+        // It's elapsed time unless T or AM is pressed.
         if let dv = calcValue as? DecimalValue {
-            calcValue = TimeValue(withDecimalValue:dv)
+            calcValue = ElapsedTimeValue(withDecimalValue:dv)
             calcValue.containsValue = true
         }
         return calcValue.colonPressed()
@@ -726,12 +859,12 @@ class CalcValue: NSObject {
             return false
         }
         if let dv = calcValue as? DecimalValue {
-            calcValue = TimeValue(withDecimalValue:dv, isTimeOfDay:true)
+            calcValue = TimeOfDayValue(withDecimalValue:dv)
             calcValue.containsValue = true
-            // Add a colon now.
             return calcValue.colonPressed()
-        } else if let tv = calcValue as? TimeValue {
-            return tv.makeTimeOfDay()
+        } else if let tv = calcValue as? ElapsedTimeValue {
+            calcValue = TimeOfDayValue(withElapsedTime:tv)
+            return true
         }
         return false
     }
@@ -754,6 +887,13 @@ class CalcValue: NSObject {
     }
 
     // MARK: Operators
+    // d: decimal
+    // t: ElapsedTime
+    // T: TimeOfDay
+    // D: Date
+
+    // d op d = d
+    // d + t = t, d + T = T, d + D = Err
     static func +(left: CalcValue, right: CalcValue) -> CalcValue? {
         if let av = left.calcValue.adding(right.calcValue) {
             return CalcValue(withValue:av)

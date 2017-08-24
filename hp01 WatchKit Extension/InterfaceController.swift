@@ -198,7 +198,9 @@ class InterfaceController: WKInterfaceController {
         if command != nil {
             if calcValue.containsValue {
                 // Leave the command, just clear the second number and show the first.
+                calcValue = CalcValue()
                 setDisplayValue(value:command!.leftValue)
+                blink()
                 return
             } else {
                 // Clear the command and the first number.
@@ -207,6 +209,7 @@ class InterfaceController: WKInterfaceController {
         }
         calcValue = CalcValue()
         setDisplayValue()
+        blink()
     }
 
     func handleTapResult(_ success: Bool) {
@@ -218,6 +221,14 @@ class InterfaceController: WKInterfaceController {
         }
     }
     @IBAction func percentTapped() {
+        // Percent only applies once there's a completed left-value, ie there's a command set.
+        // The HP would change the right-value to be the percentage of the left-value,
+        // so it was more of an operator. We aren't limited to 7-segment LEDs, so
+        // we show it and treat it as an attribute of the number.
+        if command == nil {
+            handleTapResult(false)
+            return
+        }
         handleTapResult(calcValue.percentPressed())
     }
 
