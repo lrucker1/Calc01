@@ -6,8 +6,6 @@
 //  Copyright © 2017 Lee Ann Rucker. All rights reserved.
 //
 // TODO: Automatic constant: save the command and the right-value: xx?yy=, zz= becomes zz?yy=
-// Allow hundreths of seconds? DateComponent would take it as nano. Format is MM:SS.CC, no HH
-// Colon turns it into a time interval, T key makes it a time of day. ToD is displayed as "HH:MM SS"
 
 import WatchKit
 import Foundation
@@ -221,11 +219,12 @@ class InterfaceController: WKInterfaceController {
         }
     }
     @IBAction func percentTapped() {
-        // Percent only applies once there's a completed left-value, ie there's a command set.
+        // Percent applies to the right value, so it requires the existence of a command
+        // and a left-value that supports percentage.
         // The HP would change the right-value to be the percentage of the left-value,
         // so it was more of an operator. We aren't limited to 7-segment LEDs, so
         // we show it and treat it as an attribute of the number.
-        if command == nil {
+        if command == nil || !command!.leftValue.allowsPercent {
             handleTapResult(false)
             return
         }
@@ -250,7 +249,8 @@ class InterfaceController: WKInterfaceController {
 
     @IBAction func amPMTapped() {
         if uses24HourTime {
-            handleTapResult(false)
+            // Convert to a Time value if needed.
+            handleTapResult(calcValue.timePressed())
         } else {
             handleTapResult(calcValue.amPMPressed())
         }
