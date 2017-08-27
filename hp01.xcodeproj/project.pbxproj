@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9403BEEE1F5096510054E46E /* CalcValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC3A431F3C4CC700252D2B /* CalcValue.swift */; };
+		9403BEEF1F5096560054E46E /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454E01F3A53E5006671EF /* Command.swift */; };
+		9403BEF31F50970D0054E46E /* KeypadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403BEF11F5096F10054E46E /* KeypadController.swift */; };
+		9403BEF51F50A5510054E46E /* KeypadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403BEF11F5096F10054E46E /* KeypadController.swift */; };
+		9403BEF71F5244AD0054E46E /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */; };
+		9403BEF81F5244C60054E46E /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */; };
 		94B454811F3A5095006671EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454801F3A5095006671EF /* AppDelegate.swift */; };
 		94B454831F3A5095006671EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454821F3A5095006671EF /* ViewController.swift */; };
 		94B454861F3A5095006671EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94B454841F3A5095006671EF /* Main.storyboard */; };
@@ -83,6 +89,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9403BEF11F5096F10054E46E /* KeypadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadController.swift; sourceTree = "<group>"; };
+		9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SharedAssets.xcassets; sourceTree = "<group>"; };
 		94B4547D1F3A5095006671EF /* hp01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hp01.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454801F3A5095006671EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94B454821F3A5095006671EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -143,9 +151,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9403BEF01F50969D0054E46E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				94BC3A431F3C4CC700252D2B /* CalcValue.swift */,
+				94B454E01F3A53E5006671EF /* Command.swift */,
+				9403BEF11F5096F10054E46E /* KeypadController.swift */,
+				9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
 		94B454741F3A5095006671EF = {
 			isa = PBXGroup;
 			children = (
+				9403BEF01F50969D0054E46E /* Common */,
 				94B4547F1F3A5095006671EF /* hp01 */,
 				94B454941F3A5095006671EF /* hp01Tests */,
 				94B4549F1F3A5095006671EF /* hp01UITests */,
@@ -212,8 +232,6 @@
 			isa = PBXGroup;
 			children = (
 				94B454B91F3A5095006671EF /* InterfaceController.swift */,
-				94BC3A431F3C4CC700252D2B /* CalcValue.swift */,
-				94B454E01F3A53E5006671EF /* Command.swift */,
 				94B454BB1F3A5095006671EF /* ExtensionDelegate.swift */,
 				94B454BD1F3A5095006671EF /* NotificationController.swift */,
 				94B454BF1F3A5095006671EF /* Assets.xcassets */,
@@ -374,6 +392,7 @@
 				94B4548B1F3A5095006671EF /* LaunchScreen.storyboard in Resources */,
 				94B454881F3A5095006671EF /* Assets.xcassets in Resources */,
 				94B454861F3A5095006671EF /* Main.storyboard in Resources */,
+				9403BEF71F5244AD0054E46E /* SharedAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +414,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9403BEF81F5244C60054E46E /* SharedAssets.xcassets in Resources */,
 				94B454AE1F3A5095006671EF /* Assets.xcassets in Resources */,
 				94B454AC1F3A5095006671EF /* Interface.storyboard in Resources */,
 			);
@@ -415,8 +435,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9403BEEE1F5096510054E46E /* CalcValue.swift in Sources */,
+				9403BEF51F50A5510054E46E /* KeypadController.swift in Sources */,
 				94B454831F3A5095006671EF /* ViewController.swift in Sources */,
 				94B454811F3A5095006671EF /* AppDelegate.swift in Sources */,
+				9403BEEF1F5096560054E46E /* Command.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +468,7 @@
 				94BC3A441F3C4CC700252D2B /* CalcValue.swift in Sources */,
 				94B454BA1F3A5095006671EF /* InterfaceController.swift in Sources */,
 				94B454E21F3A5404006671EF /* Command.swift in Sources */,
+				9403BEF31F50970D0054E46E /* KeypadController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,7 +704,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -695,7 +719,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01;
 				PRODUCT_NAME = "$(TARGET_NAME)";

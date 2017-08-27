@@ -72,8 +72,9 @@ class AbstractValue {
     init() {
     }
 
-    init(withString:String) {
-        currentValue = withString
+    init(withString str:String) {
+        currentValue = str
+        containsValue = str != "0"
     }
 
     func validate() -> Bool {
@@ -129,6 +130,11 @@ class AbstractValue {
     // Decimal can change to Time or Date when the appropriate separator is pressed.
     // Once there, they don't change back.
     var canChangeMode : Bool {
+        get {
+            return false
+        }
+    }
+    var canBecomeElapsedTime : Bool {
         get {
             return false
         }
@@ -192,7 +198,7 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
     var timeIntervalValue: TimeInterval {
         get {
             // Convert hours to seconds.
-            return doubleValue * 60 * 60
+            return doubleValue * 3600
         }
     }
 
@@ -213,17 +219,29 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
         containsValue = true
     }
 
-    // TODO: This is not localized. Calculators always use '.' for decimal, never ','.
+    // TODO: This is not localized.
     var doubleValue: Double {
         get {
-            return (currentValue as NSString).doubleValue
+            var result:Double = 0
+            guard let scanner = Scanner.localizedScanner(with:currentValue) as? Scanner else {return 0}
+            if scanner.scanDouble(&result) {
+                return result
+            }
+            return 0
         }
     }
 
-    // A decimal can turn into time or date if it is just digits.
+    // A decimal can turn into time or date if it is an integer.
+    // Date & TOD must be 2 digits or less. TODO: handle Date vs Time, MM/DD or DD/MM...
     override var canChangeMode : Bool {
         get {
-            return !containsDecimalPoint
+            return !containsDecimalPoint && self.doubleValue <= 31
+        }
+    }
+	// A decimal can turn into elapsed time, even with fractions.
+    override var canBecomeElapsedTime : Bool {
+        get {
+            return true
         }
     }
 
@@ -248,7 +266,7 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
     override func percentPressed() -> Bool {
         if isPercent { return false }
         isPercent = true
-        currentValue += "%"
+        currentValue += NumberFormatter().percentSymbol
         return true
     }
 
@@ -259,7 +277,7 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
             containsDecimalPoint = false
         } else {
             // our value is a float
-            currentValue = "\(value)"
+            currentValue = String.localizedStringWithFormat("%.5g" , value)
             containsDecimalPoint = true
         }
     }
@@ -389,10 +407,13 @@ class TimeDateValue : AbstractValue {
 
 class DateValue : TimeDateValue {
 
-    // Doc says making DateFormatters is expensive and should be static.
-    static var dateFormatter = DateFormatter()
-    // TODO: Localize?
-    let dateSep = "/"
+    // Making DateFormatters is expensive and should be static.
+    static let dateFormatter:DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        return formatter
+    }()
     override var allowsSlash : Bool {
         get {
             return true
@@ -401,15 +422,11 @@ class DateValue : TimeDateValue {
 
     var dateValue : Date? {
         get {
-            DateValue.dateFormatter.dateStyle = .short
-            DateValue.dateFormatter.timeStyle = .none
             return DateValue.dateFormatter.date(from: currentValue)
         }
     }
 
     convenience init(withDate date:Date) {
-        DateValue.dateFormatter.dateStyle = .short
-        DateValue.dateFormatter.timeStyle = .none
         self.init(withString:DateValue.dateFormatter.string(from:date))
         containsValue = true
     }
@@ -435,11 +452,11 @@ class DateValue : TimeDateValue {
     }
 
     func dateSubstrings() -> [String] {
-        return currentValue.components(separatedBy: CharacterSet.init(charactersIn:dateSep))
+        return currentValue.components(separatedBy: CharacterSet(charactersIn:CalcValue.dateSeparator))
     }
 
 	override func slashPressed() -> Bool {
-        return appendSeparator(sep: dateSep, strings: dateSubstrings())
+        return appendSeparator(sep:CalcValue.dateSeparator, strings:dateSubstrings())
     }
 
     override func appendNumber(_ newValue:String) {
@@ -452,14 +469,19 @@ class DateValue : TimeDateValue {
         } else if strings.count == 2 {
             let s1 = strings[0]
             let s2 = appendDigit(strings[1], digit:newValue)
-            currentValue = [s1, s2].joined(separator:dateSep)
+            currentValue = [s1, s2].joined(separator:CalcValue.dateSeparator)
         } else {
             let s1 = strings[0]
             let s2 = strings[1]
             let s3 = appendDigit(strings[2], digit:newValue, max:4)
-            currentValue = [s1, s2, s3].joined(separator:dateSep)
+            currentValue = [s1, s2, s3].joined(separator:CalcValue.dateSeparator)
         }
 	}
+    override func canonicalizeDisplayString() {
+        if let dv = dateValue {
+            currentValue = DateValue.dateFormatter.string(from:dv)
+        }
+    }
 
     // MARK: Operators
     override func adding(_ right: AbstractValue) -> AbstractValue? {
@@ -501,7 +523,7 @@ class DateValue : TimeDateValue {
 
 class TimeValue : TimeDateValue {
 
-    var secondSeparator = ":"
+    var secondSeparator = CalcValue.timeSeparator
     override var allowsColons : Bool {
         get {
             return true
@@ -514,7 +536,7 @@ class TimeValue : TimeDateValue {
     }
 
     func timeSubstrings() -> [String] {
-        return currentValue.components(separatedBy: CharacterSet.init(charactersIn:":.å"))
+        return currentValue.components(separatedBy: CharacterSet(charactersIn: CalcValue.timeSeparator + secondSeparator))
     }
 
     override func validateLastSegment() -> Bool {
@@ -540,11 +562,11 @@ class TimeValue : TimeDateValue {
             let h = strings[0]
             let m = strings[1]
             let s = appendDigit(strings[2], digit:newValue)
-            currentValue = h + ":" + m + secondSeparator + s
+            currentValue = h + CalcValue.timeSeparator + m + secondSeparator + s
         } else if strings.count == 2 {
             let h = strings[0]
             let m = appendDigit(strings[1], digit:newValue)
-            currentValue = h + ":" + m
+            currentValue = h + CalcValue.timeSeparator + m
         } else {
             // This shouldn't get reached since it's not a Time until it has a separator,
             // so we don't have to worry about elapsed vs time of day limits.
@@ -553,7 +575,7 @@ class TimeValue : TimeDateValue {
      }
 
     override func colonPressed() -> Bool {
-        return appendSeparator(sep: ":", strings: timeSubstrings(), padZeros:true)
+        return appendSeparator(sep: CalcValue.timeSeparator, strings: timeSubstrings(), padZeros:true)
     }
 }
 
@@ -594,6 +616,7 @@ class TimeOfDayValue : TimeValue {
         TimeOfDayValue.timeFormatter.setLocalizedDateFormatFromTemplate("J:mm:ss")
         super.init(withString:TimeOfDayValue.timeFormatter.string(from:date))
         containsValue = true
+        isPM = Calendar.current.component(Calendar.Component.hour, from: date) > 12
     }
 
 
@@ -733,6 +756,7 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
 
     init(withDecimalValue value:DecimalValue) {
         super.init(withString:value.currentValue)
+        containsValue = true
     }
 
     func timeComponents() -> [Int] {
@@ -742,6 +766,14 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
         let m = count > 1 ? (strings[1] as NSString).integerValue : 0
         let s = count > 2 ? (strings[2] as NSString).integerValue : 0
         return [h, m, s]
+    }
+
+    // An elapsed time can become time if it doesn't have fractions of seconds.
+    // Values over 24 hours just wrap.
+    override var canChangeMode : Bool {
+        get {
+            return !containsDecimalPoint
+        }
     }
 
     override func validateLastSegment() -> Bool {
@@ -783,12 +815,16 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
     func formatString(h:Int, m:Int, s:Int, c:Int) -> String {
         // If there are hundredths, ignore hours. It should be zero anyway. Minutes have no upper bound.
         // Otherwise use h:m:s format, no upper bound on hours.
+        // DateFormatter assumes actual dates with upper bounds on h/m.
+        // DateComponentsFormatter doesn't support hundredths.
+        let s1 = CalcValue.timeSeparator
         if containsDecimalPoint {
-            return String(format:"%i:%02i.%02i", arguments:[m, s, c])
+            let s2 = CalcValue.decimalSeparator
+            return String(format:"%i%@%02i%@%02i", arguments:[m, s1, s, s2, c])
         } else if (s > 0) {
-            return String(format:"%i:%02i:%02i", arguments:[h, m, s])
+            return String(format:"%i%@%02i%@%02i", arguments:[h, s1, m, s1, s])
         } else if (m > 0) {
-            return String(format:"%i:%02i", arguments:[h, m])
+            return String(format:"%i%@%02i", arguments:[h, s1, m])
         } else {
             return "\(h)"
         }
@@ -839,6 +875,9 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
 }
 
 class CalcValue: NSObject {
+    static var timeSeparator = ":"
+    static var dateSeparator = "/"
+    static var decimalSeparator = Locale.current.decimalSeparator ?? "."
     var calcValue: AbstractValue = DecimalValue()
     var stringValue: String {
         get {
@@ -932,33 +971,41 @@ class CalcValue: NSObject {
         return calcValue.dayOfWeekPressed()
     }
 
-    // Pass in the localized decimal string.
-    func decimalPressed(_ str:String) -> Bool {
-        return calcValue.decimalPressed(str)
+    func decimalPressed() -> Bool {
+        return calcValue.decimalPressed(Locale.current.decimalSeparator ?? ".")
     }
 
-    // Typing colon changes the mode to time, if it's an integer.
+    // Typing colon changes decimal mode to elapsed time.
     func colonPressed() -> Bool {
-        if !calcValue.allowsColons && !calcValue.canChangeMode {
+        if !calcValue.allowsColons && !calcValue.canBecomeElapsedTime {
             return false
         }
         // It's elapsed time unless T or AM is pressed.
         if let dv = calcValue as? DecimalValue {
-            calcValue = ElapsedTimeValue(withDecimalValue:dv)
-            calcValue.containsValue = true
+            // Integers become first segment of elapsed time.
+            if dv.intValue != nil {
+                calcValue = ElapsedTimeValue(withDecimalValue:dv)
+            } else {
+                // Don't add a colon; it already has one from the fraction.
+                calcValue = ElapsedTimeValue(withTimeInterval:dv.timeIntervalValue)
+                return true
+            }
         }
         return calcValue.colonPressed()
     }
 
-    // Typing Time or AM changes the mode to time, if it's an integer.
+    // Typing Time or AM changes the mode to time, if it's an integer or elapsedTime.
     func makeTimeOfDay() -> Bool {
         if calcValue.isTimeOfDay { return true }
         if !calcValue.allowsColons && !calcValue.canChangeMode {
             return false
         }
         if let dv = calcValue as? DecimalValue {
-            calcValue = TimeOfDayValue(withDecimalValue:dv)
-            calcValue.containsValue = true
+            if dv.containsValue {
+                calcValue = TimeOfDayValue(withDecimalValue:dv)
+            } else {
+                calcValue = TimeOfDayValue(withDate:Date())
+            }
             return true
         } else if let tv = calcValue as? ElapsedTimeValue {
             calcValue = TimeOfDayValue(withElapsedTime:tv)
@@ -977,8 +1024,12 @@ class CalcValue: NSObject {
     func timePressed() -> Bool {
         // If we start with a decimal, add a colon as a shortcut. If it's ElapsedTime we already have one.
         if calcValue is DecimalValue {
+            let needsColon = calcValue.containsValue
             if makeTimeOfDay() {
-                return calcValue.colonPressed()
+                if needsColon {
+                    return calcValue.colonPressed()
+                }
+                return true
             }
             return false
         }
@@ -990,10 +1041,9 @@ class CalcValue: NSObject {
         if !calcValue.allowsSlash && !calcValue.canChangeMode {
             return false
         }
-        // We need a date value.
+        // Make a date value.
         if !calcValue.allowsSlash {
             calcValue = DateValue(withString:calcValue.currentValue)
-            calcValue.containsValue = true
         }
         return calcValue.slashPressed()
     }

@@ -8,10 +8,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13034"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Keypad Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="hp01_WatchKit_App" customModuleProvider="target">
+                <controller id="AgC-eL-Hgc" customClass="KeypadController" customModule="hp01_WatchKit_Extension">
                     <items>
                         <group width="1" height="20" alignment="right" id="9Md-qE-a5o" userLabel="DisplayGroup">
                             <items>
@@ -19,6 +19,11 @@
                                     <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="font" type="italicSystem" pointSize="16"/>
                                 </label>
+                                <group width="8" height="16" alignment="right" contentMode="center" id="yhA-Pu-jmp" userLabel="Clock">
+                                    <items>
+                                        <imageView width="8" height="8" alignment="left" verticalAlignment="bottom" image="redclock" id="UTG-fe-9Sw" userLabel="ClockImage"/>
+                                    </items>
+                                </group>
                                 <group height="17" alignment="right" verticalAlignment="center" layout="vertical" spacing="0.0" id="WvN-pk-7XC">
                                     <items>
                                         <label height="9" alignment="left" text="AM" id="u3r-ea-Zdm">
@@ -316,9 +321,15 @@
                     <connections>
                         <outlet property="amLabel" destination="u3r-ea-Zdm" id="UQb-ph-sb5"/>
                         <outlet property="ampmGroup" destination="WvN-pk-7XC" id="kGW-eh-Jlb"/>
+                        <outlet property="clockGroup" destination="yhA-Pu-jmp" id="nxW-8i-gKF"/>
+                        <outlet property="clockImage" destination="UTG-fe-9Sw" id="rNC-Vv-0pM"/>
+                        <outlet property="dateSepButton" destination="kaT-ld-1Te" id="wGq-uE-p4F"/>
+                        <outlet property="decimalButton" destination="aqw-B4-ruM" id="aNT-0s-qDM"/>
                         <outlet property="displayLabel" destination="Hgh-ll-cAz" id="Yk5-wD-jQy"/>
                         <outlet property="operatorLabel" destination="cNx-dj-pAN" id="9OP-JE-SxP"/>
+                        <outlet property="percentButton" destination="3mw-Lo-kyN" id="9Mt-J1-hFn"/>
                         <outlet property="pmLabel" destination="KBK-LS-9hA" id="viK-EI-Mal"/>
+                        <outlet property="timeSepButton" destination="VRi-6x-mBm" id="pr6-Mz-6Mv"/>
                     </connections>
                 </controller>
             </objects>
@@ -348,4 +359,5 @@
             <point key="canvasLocation" x="468" y="643"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
 </document>
