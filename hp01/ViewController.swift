@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     // Turning this on is useful for testing, but it ignores L10N.
+    // The watch sim doesn't do custom fonts or locales, so those have to be debugged here.
     // If you see a '-' on the dateSep button, you have left it on.
     // TODO: Make this an option?
     let useShortForm = true

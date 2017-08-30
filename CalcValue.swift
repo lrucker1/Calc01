@@ -571,7 +571,7 @@ class TimeOfDayValue : TimeValue {
         // Don't show AM/PM; there's a label for that.
         if CalcValue.useShortForm {
             // Always ':'
-            formatter.dateFormat = "J':'mm':'ss"
+            formatter.dateFormat = "H':'mm':'ss"
         } else {
             // Whatever's in the locale.
             formatter.setLocalizedDateFormatFromTemplate("J:mm:ss")
@@ -596,7 +596,7 @@ class TimeOfDayValue : TimeValue {
         // Don't show AM/PM; there's a label for that.
         if CalcValue.useShortForm {
             // Always ':'
-            formatter.dateFormat = "J':'mm"
+            formatter.dateFormat = "H':'mm"
         } else {
             // Whatever's in the locale.
             formatter.setLocalizedDateFormatFromTemplate("J:mm")
