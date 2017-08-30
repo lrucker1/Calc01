@@ -10,6 +10,21 @@
 import WatchKit
 import Foundation
 
+public struct WatchState {
+
+     public static var screenWidth: CGFloat {
+          return WKInterfaceDevice.current().screenBounds.width
+     }
+
+     public static var is38: Bool {
+          return screenWidth == 136
+     }
+
+     public static var is42: Bool {
+          return screenWidth == 156
+     }
+}
+
 class InterfaceController: WKInterfaceController {
     @IBOutlet weak var displayLabel: WKInterfaceLabel!
     @IBOutlet weak var operatorLabel: WKInterfaceLabel!
@@ -27,22 +42,21 @@ class InterfaceController: WKInterfaceController {
         super.awake(withContext: context)
         
         // Configure interface objects here.
+        // Watch uses short form (7-seg font) which forces the format to HP-01 standard.
         let timeFormatter = DateFormatter()
         timeFormatter.locale = Locale.current
-        decimalButton.setTitle(timeFormatter.locale.decimalSeparator)
         percentButton.setTitle(NumberFormatter().percentSymbol)
 
-        let configResult = configure(timeFormatter:timeFormatter)
+        let configResult = configure(timeFormatter:timeFormatter, useShortForm:true)
         if !configResult.is24 {
             amLabel.setText(timeFormatter.amSymbol)
             pmLabel.setText(timeFormatter.pmSymbol)
         }
-        timeSepButton.setTitle(configResult.timeSep)
         ampmGroup.setHidden(true)
         clockGroup.setHidden(true)
     }
 
-    func configure(timeFormatter: DateFormatter) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "/", ":") }
+    func configure(timeFormatter: DateFormatter, useShortForm:Bool = false) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "/", ":") }
 
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
@@ -66,6 +80,15 @@ class InterfaceController: WKInterfaceController {
 
     func setOperatorLabel(_ str:String) {
         operatorLabel.setText(str)
+    }
+
+    func setDisplayLabel(withAlphanumericString str:String) {
+        // Give it a font that can handle it - DSEG14 or System.
+        // DSEG7 has letters, but they're ugly.
+        let pointSize = CGFloat(WatchState.is38 ? 15.0 : 16.0)
+        let font = UIFont(name: "DSEG14ClassicMini-BoldItali", size: pointSize) ?? UIFont.systemFont(ofSize: pointSize)
+        let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.fontAttributeName: font])
+        displayLabel.setAttributedText(attrStr)
     }
 
     func setDisplayLabel(_ str:String) {

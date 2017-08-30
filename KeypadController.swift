@@ -27,38 +27,50 @@ class KeypadController: KeypadParent {
     }
     var calculationExecuted = false
 
-    override func configure(timeFormatter: DateFormatter) -> (is24:Bool, timeSep:String, dateSep:String) {
+    override func configure(timeFormatter: DateFormatter, useShortForm:Bool = false) -> (is24:Bool, timeSep:String, dateSep:String) {
         timeFormatter.setLocalizedDateFormatFromTemplate("j")
         // If 'H' or 'k', it's 24 hour time.
         if let df = timeFormatter.dateFormat {
             uses24HourTime = df.rangeOfCharacter(from: CharacterSet(charactersIn:"Hk")) != nil
         }
+        // Locale does not give us date or time seps. Yes, there are languages that don't use : for times.
+        // Fortunately everyone seems to use different ones for date, time, decimal.
+        // Germany and Denmark regions are good for testing.
         timeFormatter.dateStyle = .short
         timeFormatter.timeStyle = .none
         var str = timeFormatter.string(from:Date())
         var dateSep = "/"
-
-        for ch in str.unicodeScalars {
-            if !CharacterSet.decimalDigits.contains(ch) {
-                dateSep = String(ch)
-                CalcValue.dateSeparator = dateSep
-                break
-            }
-        }
-        timeFormatter.dateStyle = .none
-        timeFormatter.timeStyle = .short
-        // Make sure there are no AM/PM strings.
-        timeFormatter.setLocalizedDateFormatFromTemplate("J:mm")
-        str = timeFormatter.string(from:Date())
         var timeSep = ":"
+        var decimalSep = "."
 
-        for ch in str.unicodeScalars {
-            if !CharacterSet.decimalDigits.contains(ch) {
-                timeSep = String(ch)
-                CalcValue.timeSeparator = timeSep
-                break
+        if (useShortForm) {
+            // 7-segment displays do not have '/'
+            dateSep = "-"
+        } else {
+            decimalSep = Locale.current.decimalSeparator ?? decimalSep
+            for ch in str.unicodeScalars {
+                if !CharacterSet.decimalDigits.contains(ch) {
+                    dateSep = String(ch)
+                    break
+                }
+            }
+            timeFormatter.dateStyle = .none
+            timeFormatter.timeStyle = .short
+            // Make sure there are no AM/PM strings.
+            timeFormatter.setLocalizedDateFormatFromTemplate("J:mm")
+            str = timeFormatter.string(from:Date())
+
+            for ch in str.unicodeScalars {
+                if !CharacterSet.decimalDigits.contains(ch) {
+                    timeSep = String(ch)
+                    break
+                }
             }
         }
+        CalcValue.dateSeparator = dateSep
+        CalcValue.decimalSeparator = decimalSep
+        CalcValue.timeSeparator = timeSep
+        CalcValue.useShortForm = useShortForm
 
         setOperatorLabel("")
         setDisplayValue()
@@ -91,13 +103,13 @@ class KeypadController: KeypadParent {
 
     // Use this only for results that are not values, like DayOfWeek
     func setDisplayValue(string: String ) {
-        setDisplayLabel(string)
+        setDisplayLabel(withAlphanumericString:string)
         setAMPMState(isTimeOfDay:false)
     }
 
     func setDisplayValue(value: CalcValue) {
         setDisplayLabel(value.stringValue)
-        setAMPMState(isTimeOfDay: value.isTimeOfDay, isPM: value.isPM, uses24HourTime: uses24HourTime)
+        setAMPMState(isTimeOfDay:value.isTimeOfDay, isPM:value.isPM, uses24HourTime:uses24HourTime)
     }
 
     func numberPressed(_ value: Int) {
@@ -107,10 +119,10 @@ class KeypadController: KeypadParent {
         if calculationExecuted {
             command = nil
             calculationExecuted = false
+            calcValue = CalcValue()
         }
 
-        calcValue.numberPressed(value)
-        setDisplayValue()
+        handleTapResult(calcValue.numberPressed(value))
     }
 
     func commandTapped(_ type: CommandType) {
@@ -213,16 +225,22 @@ class KeypadController: KeypadParent {
         }
     }
     @IBAction func percentTapped() {
-        // Percent applies to the right value, so it requires the existence of a command
-        // and a left-value that supports percentage.
-        // The HP would change the right-value to be the percentage of the left-value,
-        // so it was more of an operator. We aren't limited to 7-segment LEDs, so
-        // we show it and treat it as an attribute of the number.
-        if command == nil || !command!.leftValue.allowsPercent {
+        if let result = executePercent() {
+            calcValue = result
+            handleTapResult(true)
+        } else {
             handleTapResult(false)
-            return
         }
-        handleTapResult(calcValue.percentPressed())
+    }
+
+    func executePercent() -> CalcValue? {
+        // Percent needs a second value unless it's repeatable: *=, +=
+        if !calcValue.containsValue {
+            return nil
+        }
+        guard let cmd = command else {return nil}
+        let leftValue = cmd.leftValue
+        return leftValue.applyPercent(calcValue)
     }
 
     @IBAction func decimalTapped() {
@@ -251,13 +269,16 @@ class KeypadController: KeypadParent {
     }
 
     @IBAction func dayOfWeekTapped() {
-        let dowStr = calcValue.dayOfWeekPressed()
-        if dowStr == nil {
-            doubleBlink()
-        } else {
+        if let dowStr = calcValue.dayOfWeekPressed() {
             calculationExecuted = true
-            setDisplayValue(string:dowStr!)
+            // The value will be numeric, just like the calculator, and tapping '=' will show it.
+            // But let's have some fun with L10N.
+            // TODO: Either strip diacritics or have the UI use System font. DSEG doesn't have 'em.
+            calcValue = dowStr.1
+            setDisplayValue(string:dowStr.0)
             blink()
+        } else {
+            doubleBlink()
        }
     }
 
@@ -322,13 +343,26 @@ class KeypadController: KeypadParent {
     }
 
     @IBAction func timeTapped() {
-        handleTapResult(calcValue.timePressed())
+        if calculationExecuted || !calcValue.containsValue {
+            calcValue = CalcValue(withTime:Date())
+            handleTapResult(true)
+            if calculationExecuted {
+                command = nil
+                calculationExecuted = false
+            }
+        } else {
+            handleTapResult(calcValue.timePressed())
+        }
     }
 
     @IBAction func dateTapped() {
         blink();
         resetValue = calcValue
         calcValue = CalcValue(withDate:Date())
+        if calculationExecuted {
+            command = nil
+            calculationExecuted = false
+        }
         setDisplayValue()
     }
 

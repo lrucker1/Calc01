@@ -7,6 +7,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13034"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="DSEG7ClassicMini-BoldItalic.ttf">
+            <string>DSEG7ClassicMini-BoldItalic</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Keypad Controller-->
         <scene sceneID="aou-V4-d1y">
@@ -15,16 +20,19 @@
                     <items>
                         <group width="1" height="20" alignment="right" id="9Md-qE-a5o" userLabel="DisplayGroup">
                             <items>
-                                <label alignment="right" text="0" textAlignment="right" id="Hgh-ll-cAz">
+                                <label alignment="right" text="00-00-0000" textAlignment="right" id="Hgh-ll-cAz">
                                     <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="font" type="italicSystem" pointSize="16"/>
+                                    <fontDescription key="font" name="DSEG7ClassicMini-BoldItalic" family="DSEG7 Classic Mini" pointSize="16"/>
+                                    <variation key="device=watch38mm">
+                                        <fontDescription key="font" name="DSEG7ClassicMini-BoldItalic" family="DSEG7 Classic Mini" pointSize="15"/>
+                                    </variation>
                                 </label>
-                                <group width="8" height="16" alignment="right" contentMode="center" id="yhA-Pu-jmp" userLabel="Clock">
+                                <group width="8" height="16" alignment="right" hidden="YES" contentMode="center" id="yhA-Pu-jmp" userLabel="Clock">
                                     <items>
                                         <imageView width="8" height="8" alignment="left" verticalAlignment="bottom" image="redclock" id="UTG-fe-9Sw" userLabel="ClockImage"/>
                                     </items>
                                 </group>
-                                <group height="17" alignment="right" verticalAlignment="center" layout="vertical" spacing="0.0" id="WvN-pk-7XC">
+                                <group height="17" alignment="right" verticalAlignment="center" hidden="YES" layout="vertical" spacing="0.0" id="WvN-pk-7XC">
                                     <items>
                                         <label height="9" alignment="left" text="AM" id="u3r-ea-Zdm">
                                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -36,7 +44,7 @@
                                         </label>
                                     </items>
                                 </group>
-                                <label width="11" alignment="right" text="=" textAlignment="right" id="cNx-dj-pAN">
+                                <label width="9" alignment="right" text="=" textAlignment="right" id="cNx-dj-pAN">
                                     <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </label>
                             </items>

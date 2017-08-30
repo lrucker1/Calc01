@@ -13,6 +13,11 @@
 		9403BEF51F50A5510054E46E /* KeypadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403BEF11F5096F10054E46E /* KeypadController.swift */; };
 		9403BEF71F5244AD0054E46E /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */; };
 		9403BEF81F5244C60054E46E /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */; };
+		9403BEFE1F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9403BEFD1F54A4A70054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf */; };
+		9403BEFF1F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9403BEFD1F54A4A70054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf */; };
+		9403BF001F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9403BEFD1F54A4A70054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf */; };
+		94A34C261F560CAF00393D5F /* DSEG7ClassicMini-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */; };
+		94A34C271F560CAF00393D5F /* DSEG7ClassicMini-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */; };
 		94B454811F3A5095006671EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454801F3A5095006671EF /* AppDelegate.swift */; };
 		94B454831F3A5095006671EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454821F3A5095006671EF /* ViewController.swift */; };
 		94B454861F3A5095006671EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94B454841F3A5095006671EF /* Main.storyboard */; };
@@ -30,6 +35,8 @@
 		94B454C01F3A5095006671EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454BF1F3A5095006671EF /* Assets.xcassets */; };
 		94B454E21F3A5404006671EF /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454E01F3A53E5006671EF /* Command.swift */; };
 		94BC3A441F3C4CC700252D2B /* CalcValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC3A431F3C4CC700252D2B /* CalcValue.swift */; };
+		94DDDFAF1F56A2B20095F9DF /* DSEG7ClassicMini-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */; };
+		94DDDFB01F56A41E0095F9DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94B454AF1F3A5095006671EF /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +98,8 @@
 /* Begin PBXFileReference section */
 		9403BEF11F5096F10054E46E /* KeypadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadController.swift; sourceTree = "<group>"; };
 		9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SharedAssets.xcassets; sourceTree = "<group>"; };
+		9403BEFD1F54A4A70054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DSEG14 Classic Mini-Bold Italic Mac.ttf"; sourceTree = "<group>"; };
+		94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DSEG7ClassicMini-BoldItalic.ttf"; sourceTree = "<group>"; };
 		94B4547D1F3A5095006671EF /* hp01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hp01.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454801F3A5095006671EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94B454821F3A5095006671EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +167,8 @@
 				94B454E01F3A53E5006671EF /* Command.swift */,
 				9403BEF11F5096F10054E46E /* KeypadController.swift */,
 				9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */,
+				9403BEFD1F54A4A70054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf */,
+				94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -390,8 +401,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				94B4548B1F3A5095006671EF /* LaunchScreen.storyboard in Resources */,
+				9403BEFE1F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */,
 				94B454881F3A5095006671EF /* Assets.xcassets in Resources */,
 				94B454861F3A5095006671EF /* Main.storyboard in Resources */,
+				94DDDFAF1F56A2B20095F9DF /* DSEG7ClassicMini-BoldItalic.ttf in Resources */,
 				9403BEF71F5244AD0054E46E /* SharedAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -416,7 +429,10 @@
 			files = (
 				9403BEF81F5244C60054E46E /* SharedAssets.xcassets in Resources */,
 				94B454AE1F3A5095006671EF /* Assets.xcassets in Resources */,
+				94DDDFB01F56A41E0095F9DF /* Info.plist in Resources */,
 				94B454AC1F3A5095006671EF /* Interface.storyboard in Resources */,
+				94A34C261F560CAF00393D5F /* DSEG7ClassicMini-BoldItalic.ttf in Resources */,
+				9403BEFF1F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +441,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				94B454C01F3A5095006671EF /* Assets.xcassets in Resources */,
+				94A34C271F560CAF00393D5F /* DSEG7ClassicMini-BoldItalic.ttf in Resources */,
+				9403BF001F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,6 +751,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01Tests;
@@ -748,6 +767,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01Tests;
@@ -762,6 +782,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01UITests;
@@ -776,6 +797,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01UITests;

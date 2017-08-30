@@ -36,8 +36,7 @@ func -(left: DecimalTimeValue, right: DecimalTimeValue) -> AbstractValue? {
     return ElapsedTimeValue(withTimeInterval:rawLeft - rawRight)
 }
 
-// Multiply/Divide produce a DecimalValue and would work with DecimalValue input,
-// except it doesn't know about percent.
+// Multiply/Divide produce a DecimalValue so it can be used with both implementations.
 func *(left: DecimalTimeValue, right: DecimalTimeValue) -> AbstractValue? {
     return DecimalValue(withNumber:left.doubleValue * right.doubleValue)
 }
@@ -85,18 +84,19 @@ class AbstractValue {
         return true
     }
 
-    func numberPressed(_ value: Int) {
+    func numberPressed(_ value: Int) -> Bool {
         let newValue = "\(value)"
+        containsValue = true
         if currentValue == "0" {
             currentValue = newValue
-        } else {
-            appendNumber(newValue)
+            return true
         }
-        containsValue = true
+        return appendNumber(newValue)
     }
 
-    func appendNumber(_ newValue:String) {
+    func appendNumber(_ newValue:String) -> Bool {
         currentValue += newValue
+        return true
     }
 
     func decimalPressed(_ str:String) -> Bool {
@@ -111,10 +111,6 @@ class AbstractValue {
         return false
     }
 
-    func percentPressed() -> Bool {
-        return false
-    }
-
     func plusMinusPressed() -> Bool {
         return false
     }
@@ -123,7 +119,11 @@ class AbstractValue {
         return false
     }
 
-    func dayOfWeekPressed() -> String? {
+    func dayOfWeekPressed() -> (String, CalcValue)? {
+        return nil
+    }
+
+    func applyPercent(_ pct : AbstractValue) -> AbstractValue? {
         return nil
     }
 
@@ -179,6 +179,17 @@ class AbstractValue {
 
 class DecimalValue : AbstractValue, DecimalTimeValue {
 
+    static let numberFormatter:NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.usesGroupingSeparator = false
+        formatter.maximumFractionDigits = 5
+        if CalcValue.useShortForm {
+            formatter.decimalSeparator = "."
+            formatter.exponentSymbol = "E"
+        }
+        return formatter
+    }()
+
     var containsDecimalPoint = false
     var isPercent = false
 
@@ -215,17 +226,14 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
 
     convenience init(withNumber number:Double) {
         self.init()
-        setCurrentValue(value: number)
+        setCurrentValue(value:number)
         containsValue = true
     }
 
-    // TODO: This is not localized.
     var doubleValue: Double {
         get {
-            var result:Double = 0
-            guard let scanner = Scanner.localizedScanner(with:currentValue) as? Scanner else {return 0}
-            if scanner.scanDouble(&result) {
-                return result
+            if let result = DecimalValue.numberFormatter.number(from:currentValue) {
+                return Double(result.doubleValue)
             }
             return 0
         }
@@ -239,10 +247,25 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
         }
     }
 	// A decimal can turn into elapsed time, even with fractions.
+    // Unless the "hour" length is > 4 digits long, because then it won't fit.
     override var canBecomeElapsedTime : Bool {
         get {
-            return true
+            return Int(doubleValue) < CalcValue.maxHours
         }
+    }
+    override func appendNumber(_ newValue:String) -> Bool {
+        // All decimal cares about is max length, to avoid overflowing display.
+        var count = Int(currentValue.count)
+        if containsDecimalPoint {
+            // Decimal point doesn't count, even if it's a comma.
+            // It's calculator-style with zero width.
+            count -= 1
+        }
+        if count == CalcValue.maxDigits {
+            return false
+        }
+        currentValue += newValue
+        return true
     }
 
     override func decimalPressed(_ str:String) -> Bool {
@@ -259,15 +282,9 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
         return true
     }
 
-    // Percentage is an attribute that applies at calculation time.
-    //  X +- Y% = (X +- (X * Y%))
-    //  X * Y% : X * Y / 100
-    //  X / Y% : X / Y * 100 (X is what percentage of Y)
-    override func percentPressed() -> Bool {
-        if isPercent { return false }
-        isPercent = true
-        currentValue += NumberFormatter().percentSymbol
-        return true
+    override func applyPercent(_ value : AbstractValue) -> AbstractValue? {
+        guard let pctValue = value as? DecimalValue else {return nil}
+        return DecimalValue(withNumber:doubleValue * pctValue.doubleValue / 100)
     }
 
     func setCurrentValue(value: Double) {
@@ -275,10 +292,13 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
             // our value is an integer
             currentValue = "\(Int(value))"
             containsDecimalPoint = false
-        } else {
+        } else if let str = DecimalValue.numberFormatter.string(from:value as NSNumber) {
             // our value is a float
-            currentValue = String.localizedStringWithFormat("%.5g" , value)
+            currentValue = str
             containsDecimalPoint = true
+        } else {
+            // Should never be reached
+            currentValue = "0"
         }
     }
     // MARK: Operators
@@ -291,72 +311,25 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
     }
     override func subtracting(_ right: AbstractValue) -> AbstractValue? {
         if let rightDV = right as? DecimalValue { return self - rightDV }
-        if let rightTE = right as? ElapsedTimeValue { return self - rightTE }
+        if let rightTE = right as? ElapsedTimeValue { return (self as DecimalTimeValue) - rightTE }
         return nil
     }
     override func multiplying(_ right: AbstractValue) -> AbstractValue? {
-        if let rightDV = right as? DecimalValue { return self * rightDV }
+        if let rightDV = right as? DecimalTimeValue { return (self as DecimalTimeValue) * rightDV }
         if let rightTE = right as? ElapsedTimeValue { return (self as DecimalTimeValue) * rightTE}
         return nil
     }
     override func dividing(_ right: AbstractValue) -> AbstractValue? {
-        if let rightDV = right as? DecimalValue { return self / rightDV }
+        if let rightDV = right as? DecimalTimeValue { return (self as DecimalTimeValue) / rightDV }
         if let rightTE = right as? ElapsedTimeValue { return (self as DecimalTimeValue) / rightTE}
         return nil
     }
     static func +(left: DecimalValue, right: DecimalValue) -> AbstractValue? {
-        if left.isPercent {
-            return nil
-        }
-        if right.isPercent {
-            let x = left.doubleValue
-            let y = right.doubleValue / 100
-            return DecimalValue(withNumber:x + (x * y))
-        }
         return DecimalValue(withNumber:left.doubleValue + right.doubleValue)
     }
 
     static func -(left: DecimalValue, right: DecimalValue) -> AbstractValue? {
-        if left.isPercent {
-            return nil
-        }
-        if right.isPercent {
-            let x = left.doubleValue
-            let y = right.doubleValue / 100
-            return DecimalValue(withNumber:x - (x * y))
-        }
         return DecimalValue(withNumber:left.doubleValue - right.doubleValue)
-    }
-
-    static func *(left: DecimalValue, right: DecimalValue) -> AbstractValue? {
-        if left.isPercent {
-            return nil
-        }
-        if right.isPercent {
-            let x = left.doubleValue
-            let y = right.doubleValue
-            return DecimalValue(withNumber:x * y / 100)
-        }
-        return DecimalValue(withNumber:left.doubleValue * right.doubleValue)
-    }
-
-    static func /(left: DecimalValue, right: DecimalValue) -> AbstractValue? {
-        if right.doubleValue == 0 || left.isPercent {
-            return nil
-        }
-        if right.isPercent {
-            let x = left.doubleValue
-            let y = right.doubleValue
-            if x == 0 { return nil }
-            return DecimalValue(withNumber:x / y * 100)
-        }
-        return DecimalValue(withNumber:left.doubleValue / right.doubleValue)
-    }
-
-    static func -(left: DecimalValue, right: ElapsedTimeValue) -> AbstractValue? {
-        let rawLeft = left.timeIntervalValue
-        let rawRight = right.timeIntervalValue
-        return ElapsedTimeValue(withTimeInterval:rawLeft - rawRight)
     }
 }
 
@@ -410,8 +383,14 @@ class DateValue : TimeDateValue {
     // Making DateFormatters is expensive and should be static.
     static let dateFormatter:DateFormatter = {
         let formatter = DateFormatter()
+        formatter.locale = Locale.current
         formatter.dateStyle = .short
         formatter.timeStyle = .none
+        if CalcValue.useShortForm {
+            formatter.dateFormat = "M'-'d'-'yy"
+        }
+        // Watch only has space for 4 digits with a 15-point font. If that's unreadable, flip this back.
+        // formatter.setLocalizedDateFormatFromTemplate("M/d/yy")
         return formatter
     }()
     override var allowsSlash : Bool {
@@ -443,12 +422,12 @@ class DateValue : TimeDateValue {
         return (seg as NSString).integerValue != 0
     }
 
-    override func dayOfWeekPressed() -> String? {
+    override func dayOfWeekPressed() -> (String, CalcValue)? {
         guard let dv = dateValue else { return nil }
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from:dv)
         let index = ((weekday - 1) + (calendar.firstWeekday - 1)) % 7
-        return calendar.weekdaySymbols[index].uppercased()
+        return (calendar.shortWeekdaySymbols[index].uppercased(), CalcValue(withNumber:Double(index)))
     }
 
     func dateSubstrings() -> [String] {
@@ -459,7 +438,7 @@ class DateValue : TimeDateValue {
         return appendSeparator(sep:CalcValue.dateSeparator, strings:dateSubstrings())
     }
 
-    override func appendNumber(_ newValue:String) {
+    override func appendNumber(_ newValue:String) -> Bool {
         // We are entering days/months. Max lengths are 2-2-4.
         // It's far more likely that 5 is a mistake to be pushed off than a real year.
         // Unless it's yyyy-mm-dd mode. In which case, grr.
@@ -476,6 +455,7 @@ class DateValue : TimeDateValue {
             let s3 = appendDigit(strings[2], digit:newValue, max:4)
             currentValue = [s1, s2, s3].joined(separator:CalcValue.dateSeparator)
         }
+        return true
 	}
     override func canonicalizeDisplayString() {
         if let dv = dateValue {
@@ -555,7 +535,7 @@ class TimeValue : TimeDateValue {
         }
     }
 
-    override func appendNumber(_ newValue:String) {
+    override func appendNumber(_ newValue:String) -> Bool {
         // We are entering minutes/seconds/hundredths. There can be only two.
         let strings = timeSubstrings()
         if strings.count == 3 {
@@ -572,6 +552,7 @@ class TimeValue : TimeDateValue {
             // so we don't have to worry about elapsed vs time of day limits.
             currentValue += newValue
         }
+        return true
      }
 
     override func colonPressed() -> Bool {
@@ -581,7 +562,47 @@ class TimeValue : TimeDateValue {
 
 class TimeOfDayValue : TimeValue {
 	// Doc says making DateFormatters is expensive and should be static.
-	static let timeFormatter = DateFormatter()
+    // Changing Locale would give us ':' but not the proper AM/PM and leading zeros.
+	static let timeFormatter :DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        // Don't show AM/PM; there's a label for that.
+        if CalcValue.useShortForm {
+            // Always ':'
+            formatter.dateFormat = "J':'mm':'ss"
+        } else {
+            // Whatever's in the locale.
+            formatter.setLocalizedDateFormatFromTemplate("J:mm:ss")
+        }
+        return formatter
+    }()
+
+    static let hourFormatter :DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        formatter.setLocalizedDateFormatFromTemplate("J")
+        return formatter
+    }()
+
+    static let shortTimeFormatter :DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        // Don't show AM/PM; there's a label for that.
+        if CalcValue.useShortForm {
+            // Always ':'
+            formatter.dateFormat = "J':'mm"
+        } else {
+            // Whatever's in the locale.
+            formatter.setLocalizedDateFormatFromTemplate("J:mm")
+        }
+        return formatter
+    }()
 
     override var isTimeOfDay: Bool {
         get {
@@ -612,8 +633,6 @@ class TimeOfDayValue : TimeValue {
     }
 
     init(withDate date:Date) {
-        // Don't show AM/PM; there's a label for that.
-        TimeOfDayValue.timeFormatter.setLocalizedDateFormatFromTemplate("J:mm:ss")
         super.init(withString:TimeOfDayValue.timeFormatter.string(from:date))
         containsValue = true
         isPM = Calendar.current.component(Calendar.Component.hour, from: date) > 12
@@ -668,18 +687,17 @@ class TimeOfDayValue : TimeValue {
 
 	override func canonicalizeDisplayString() {
         let strings = timeSubstrings()
+        var formatter :DateFormatter
         if let dv = dateValue {
-            var formatString:String
             if strings.count == 3 {
-                formatString = "J:mm:ss"
+                formatter = TimeOfDayValue.timeFormatter
             } else if strings.count == 2 {
-                formatString = "J:mm"
+                formatter = TimeOfDayValue.shortTimeFormatter
             } else {
                 // This converts values > 12 if the locale requires it.
-                formatString = "J"
+                formatter = TimeOfDayValue.hourFormatter
             }
-            TimeOfDayValue.timeFormatter.setLocalizedDateFormatFromTemplate(formatString)
-            currentValue = TimeOfDayValue.timeFormatter.string(from:dv)
+            currentValue = formatter.string(from:dv)
         }
     }
 
@@ -743,10 +761,13 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
         }
     }
 
-    init(withTimeInterval value:TimeInterval) {
+    init?(withTimeInterval value:TimeInterval) {
         super.init()
         containsValue = true
-        let h = lround(floor(value / 3600)) % 100
+        let h = lround(floor(value / 3600))
+        if h >= CalcValue.maxHours {
+            return nil
+        }
         let m = lround(floor(value / 60)) % 60
         let s = lround(floor(value)) % 60
         let c = lround(value.truncatingRemainder(dividingBy: 1) * 100)
@@ -754,7 +775,10 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
         currentValue = formatString(h: h, m: m, s: s, c: c)
     }
 
-    init(withDecimalValue value:DecimalValue) {
+    init?(withDecimalValue value:DecimalValue) {
+        if Int(value.doubleValue) >= CalcValue.maxHours {
+            return nil
+        }
         super.init(withString:value.currentValue)
         containsValue = true
     }
@@ -875,9 +899,19 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
 }
 
 class CalcValue: NSObject {
+
+    // Small watch has 10 digits with a 15-point font, 9 with 16.
+    // If 15 isn't readable enough, make the max conditional.
+    // Also make sure date is limited to 2-digit years.
+    static let maxDigits : Int = 10
+    // maxHours to avoid overflow with full ElapsedTime format.
+    static let maxHours : Int = 10000
+
     static var timeSeparator = ":"
     static var dateSeparator = "/"
-    static var decimalSeparator = Locale.current.decimalSeparator ?? "."
+    static var decimalSeparator = "."
+    static var useShortForm = false
+    
     var calcValue: AbstractValue = DecimalValue()
     var stringValue: String {
         get {
@@ -955,24 +989,27 @@ class CalcValue: NSObject {
         return calcValue.validateCommand(type)
     }
 
-    func numberPressed(_ value: Int) {
-        calcValue.numberPressed(value)
+    func numberPressed(_ value: Int) -> Bool {
+        return calcValue.numberPressed(value)
     }
 
-    func percentPressed() -> Bool {
-        return calcValue.percentPressed()
+    func applyPercent(_ pct : CalcValue) -> CalcValue? {
+        if let result = calcValue.applyPercent(pct.calcValue) {
+            return CalcValue(withValue:result)
+        }
+        return nil
     }
 
     func plusMinusPressed() -> Bool {
         return calcValue.plusMinusPressed()
     }
 
-    func dayOfWeekPressed() -> String? {
+    func dayOfWeekPressed() -> (String, CalcValue)? {
         return calcValue.dayOfWeekPressed()
     }
 
     func decimalPressed() -> Bool {
-        return calcValue.decimalPressed(Locale.current.decimalSeparator ?? ".")
+        return calcValue.decimalPressed(CalcValue.decimalSeparator)
     }
 
     // Typing colon changes decimal mode to elapsed time.
@@ -984,10 +1021,12 @@ class CalcValue: NSObject {
         if let dv = calcValue as? DecimalValue {
             // Integers become first segment of elapsed time.
             if dv.intValue != nil {
-                calcValue = ElapsedTimeValue(withDecimalValue:dv)
+                guard let result = ElapsedTimeValue(withDecimalValue:dv) else {return false}
+                calcValue = result
             } else {
                 // Don't add a colon; it already has one from the fraction.
-                calcValue = ElapsedTimeValue(withTimeInterval:dv.timeIntervalValue)
+                guard let result = ElapsedTimeValue(withTimeInterval:dv.timeIntervalValue) else {return false}
+                calcValue = result
                 return true
             }
         }

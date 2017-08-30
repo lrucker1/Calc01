@@ -10,6 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // Turning this on is useful for testing, but it ignores L10N.
+    // If you see a '-' on the dateSep button, you have left it on.
+    // TODO: Make this an option?
+    let useShortForm = true
+
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var operatorLabel: UILabel!
     @IBOutlet weak var amLabel: UILabel!
@@ -28,16 +33,16 @@ class ViewController: UIViewController {
         // Configure interface objects here.
         let timeFormatter = DateFormatter()
         timeFormatter.locale = Locale.current
-        decimalButton.setTitle(timeFormatter.locale.decimalSeparator, for:.normal)
         percentButton.setTitle(NumberFormatter().percentSymbol, for:.normal)
 
-        let configResult = configure(timeFormatter:timeFormatter)
+        let configResult = configure(timeFormatter:timeFormatter, useShortForm: useShortForm)
         if !configResult.is24 {
             amLabel.text = timeFormatter.amSymbol
             pmLabel.text = timeFormatter.pmSymbol
         }
         timeSepButton.setTitle(configResult.timeSep, for:.normal)
         dateSepButton.setTitle(configResult.dateSep, for:.normal)
+        decimalButton.setTitle(CalcValue.decimalSeparator, for:.normal)
         ampmGroup.isHidden = true
         clockGroup.isHidden = true
     }
@@ -47,7 +52,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func configure(timeFormatter: DateFormatter) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "/", ":") }
+    func configure(timeFormatter: DateFormatter, useShortForm:Bool = false) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "/", ":") }
 
     // Slow single blink for successful entry, fast double blink for error.
     func blinkDisplay(_ on:Bool) {
@@ -64,6 +69,18 @@ class ViewController: UIViewController {
     }
     func setDisplayLabel(_ str:String) {
         displayLabel.text = str
+    }
+
+    func setDisplayLabel(withAlphanumericString str:String) {
+//        if useShortForm {
+//            // Code for font testing. DSEG7 looks better on the watch, which doesn't localize formats.
+//            let pointSize = displayLabel.font.pointSize
+//            let font = UIFont(name: "DSEG14ClassicMini-BoldItali", size: pointSize) ?? UIFont.systemFont(ofSize: pointSize)
+//            let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.font: font])
+//            displayLabel.attributedText = attrStr
+//        } else {
+            displayLabel.text = str
+//        }
     }
 
     func setAMPMState(isTimeOfDay: Bool, isPM: Bool = false, uses24HourTime: Bool = false) {
