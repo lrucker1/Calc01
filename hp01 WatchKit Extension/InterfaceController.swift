@@ -33,10 +33,13 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet weak var clockGroup: WKInterfaceGroup!
     @IBOutlet weak var amLabel: WKInterfaceLabel!
     @IBOutlet weak var pmLabel: WKInterfaceLabel!
+    @IBOutlet weak var ampmButton: WKInterfaceButton!
     @IBOutlet weak var decimalButton: WKInterfaceButton!
     @IBOutlet weak var percentButton: WKInterfaceButton!
     @IBOutlet weak var timeSepButton: WKInterfaceButton!
     @IBOutlet weak var dateSepButton: WKInterfaceButton!
+
+    var alphanumericFont: UIFont!
 
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -54,9 +57,14 @@ class InterfaceController: WKInterfaceController {
         }
         ampmGroup.setHidden(true)
         clockGroup.setHidden(true)
+        alphanumericFont =  UIFont(name: "DSEG14ClassicMini-BoldItali", size: CGFloat(WatchState.is38 ? 15.0 : 16.0))
+        // DSEG7 is the primary font. We might get a H or BE for non-Gregorian calendars; they're OK, if funny looking.
+        // The DSEG14 numbers are too cluttered at watchface sizes.
+        // The watch doesn't set fallback fonts; instead, we do our best to not cause it to need to mix fonts.
+        // This means it limits numeric punctuation to 7-seg's '-', ':' and '.'
     }
 
-    func configure(timeFormatter: DateFormatter, useShortForm:Bool = false) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "/", ":") }
+    func configure(timeFormatter: DateFormatter, useShortForm:Bool = false) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "-", ":") }
 
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
@@ -83,12 +91,13 @@ class InterfaceController: WKInterfaceController {
     }
 
     func setDisplayLabel(withAlphanumericString str:String) {
-        // Give it a font that can handle it - DSEG14 or System.
-        // DSEG7 has letters, but they're ugly.
-        let pointSize = CGFloat(WatchState.is38 ? 15.0 : 16.0)
-        let font = UIFont(name: "DSEG14ClassicMini-BoldItali", size: pointSize) ?? UIFont.systemFont(ofSize: pointSize)
-        let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.fontAttributeName: font])
-        displayLabel.setAttributedText(attrStr)
+        // Try to use DSEG14. DSEG7 has letters, but they're ugly.
+        if let font = alphanumericFont {
+            let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.fontAttributeName: font])
+            displayLabel.setAttributedText(attrStr)
+        } else {
+            displayLabel.setText(str)
+        }
     }
 
     func setDisplayLabel(_ str:String) {

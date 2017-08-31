@@ -328,6 +328,7 @@
                     </items>
                     <connections>
                         <outlet property="amLabel" destination="u3r-ea-Zdm" id="UQb-ph-sb5"/>
+                        <outlet property="ampmButton" destination="4mZ-9M-rbC" id="dI8-c0-2ol"/>
                         <outlet property="ampmGroup" destination="WvN-pk-7XC" id="kGW-eh-Jlb"/>
                         <outlet property="clockGroup" destination="yhA-Pu-jmp" id="nxW-8i-gKF"/>
                         <outlet property="clockImage" destination="UTG-fe-9Sw" id="rNC-Vv-0pM"/>

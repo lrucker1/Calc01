@@ -36,7 +36,6 @@
 		94B454E21F3A5404006671EF /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454E01F3A53E5006671EF /* Command.swift */; };
 		94BC3A441F3C4CC700252D2B /* CalcValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC3A431F3C4CC700252D2B /* CalcValue.swift */; };
 		94DDDFAF1F56A2B20095F9DF /* DSEG7ClassicMini-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */; };
-		94DDDFB01F56A41E0095F9DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94B454AF1F3A5095006671EF /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -429,7 +428,6 @@
 			files = (
 				9403BEF81F5244C60054E46E /* SharedAssets.xcassets in Resources */,
 				94B454AE1F3A5095006671EF /* Assets.xcassets in Resources */,
-				94DDDFB01F56A41E0095F9DF /* Info.plist in Resources */,
 				94B454AC1F3A5095006671EF /* Interface.storyboard in Resources */,
 				94A34C261F560CAF00393D5F /* DSEG7ClassicMini-BoldItalic.ttf in Resources */,
 				9403BEFF1F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */,

@@ -19,6 +19,7 @@ class KeypadParent:ViewController {}
 class KeypadController: KeypadParent {
     var calcValue = CalcValue()
     var resetValue = CalcValue()
+    var memoryValue = CalcValue()
     var uses24HourTime = false
     var command: Command? {
         didSet {
@@ -33,12 +34,25 @@ class KeypadController: KeypadParent {
         if let df = timeFormatter.dateFormat {
             uses24HourTime = df.rangeOfCharacter(from: CharacterSet(charactersIn:"Hk")) != nil
         }
+        timeFormatter.dateStyle = .short
+        var dComps : [String] = []
+        let dateOrder = "Mdy"
+        timeFormatter.setLocalizedDateFormatFromTemplate(dateOrder)
+        var str = timeFormatter.dateFormat ?? dateOrder
+        let cs = CharacterSet(charactersIn:dateOrder)
+        for ch in str.unicodeScalars {
+            if cs.contains(ch) {
+                dComps.append(String(ch))
+            }
+        }
+        CalcValue.dateOrder = dComps
+
         // Locale does not give us date or time seps. Yes, there are languages that don't use : for times.
         // Fortunately everyone seems to use different ones for date, time, decimal.
         // Germany and Denmark regions are good for testing.
         timeFormatter.dateStyle = .short
         timeFormatter.timeStyle = .none
-        var str = timeFormatter.string(from:Date())
+        str = timeFormatter.string(from:Date())
         var dateSep = "/"
         var timeSep = ":"
         var decimalSep = "."
@@ -71,6 +85,7 @@ class KeypadController: KeypadParent {
         CalcValue.decimalSeparator = decimalSep
         CalcValue.timeSeparator = timeSep
         CalcValue.useShortForm = useShortForm
+        CalcValue.uses24HourTime = uses24HourTime
 
         setOperatorLabel("")
         setDisplayValue()
@@ -141,7 +156,6 @@ class KeypadController: KeypadParent {
             }
             // If the previous calculation has never been executed, do so now.
             if !executeCommand() {
-                doubleBlink()
                 return
             }
         }
@@ -152,6 +166,8 @@ class KeypadController: KeypadParent {
         calculationExecuted = false
     }
 
+    // This will do double-blinks but not blinks, as we don't want an extra one
+    // when finishing an intermediate command in commandTapped.
     func executeCommand() -> Bool {
         // A command needs a second value unless it's repeatable: *=, +=
         if !calcValue.containsValue && !command!.canRepeat {
@@ -190,6 +206,7 @@ class KeypadController: KeypadParent {
         if command == nil {
             calcValue.canonicalizeDisplayString()
             setDisplayValue()
+            blink()
         } else if executeCommand() {
             blink()
         }
@@ -260,7 +277,7 @@ class KeypadController: KeypadParent {
     }
 
     @IBAction func amPMTapped() {
-        if uses24HourTime {
+        if uses24HourTime && !calcValue.isTimeOfDay {
             // Convert to a Time value if needed.
             handleTapResult(calcValue.timePressed())
         } else {
@@ -342,8 +359,9 @@ class KeypadController: KeypadParent {
         commandTapped(.Divide)
     }
 
+    // Pressing Time on an unmodified value replace it. Otherwise it tries to turn it into a time.
     @IBAction func timeTapped() {
-        if calculationExecuted || !calcValue.containsValue {
+        if !calcValue.isModified {
             calcValue = CalcValue(withTime:Date())
             handleTapResult(true)
             if calculationExecuted {
@@ -366,7 +384,37 @@ class KeypadController: KeypadParent {
         setDisplayValue()
     }
 
-   @IBAction func resetTapped() {
+    @IBAction func swapTapped() {
+        if command == nil || !calcValue.containsValue {
+            handleTapResult(false)
+            return
+        }
+        let cmd = command!
+        let tmp = cmd.leftValue
+        command = Command(type:cmd.type, leftValue:calcValue)
+        calcValue = tmp
+        handleTapResult(true)
+    }
+
+    @IBAction func timeToDecimalTapped() {
+        handleTapResult(calcValue.timeToDecimalPressed())
+    }
+
+    @IBAction func decimalToTimeTapped() {
+        handleTapResult(calcValue.decimalToTimePressed())
+    }
+
+    @IBAction func memoryTapped() {
+        calcValue = memoryValue
+        handleTapResult(true)
+    }
+
+    @IBAction func storeMemoryTapped() {
+        memoryValue = calcValue
+        blink()
+    }
+
+    @IBAction func resetTapped() {
         blink();
         calcValue = resetValue
         setDisplayValue()

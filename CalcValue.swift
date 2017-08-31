@@ -47,6 +47,7 @@ func /(left: DecimalTimeValue, right: DecimalTimeValue) -> AbstractValue? {
 class AbstractValue {
     var currentValue: String = "0"
     var containsValue = false
+    var isModified = false
     var isPM = false
 
     var canRepeatCommands: Bool {
@@ -84,9 +85,28 @@ class AbstractValue {
         return true
     }
 
+    func isValidDateComponent(component:String, value:Int) -> Bool {
+        if value == 0 {return false}
+        switch component {
+            case "y":
+                // Years are limited to 4 digits.
+                return value < 10000
+            case "M":
+                // There's no Hebrew calendar yet.
+                // To be really precise we could count the number of month names.
+                return value < 13
+            case "d":
+                // Likewise, 31 is more than Buddhist needs.
+                return value < 32
+            default:
+                return value < 100
+        }
+    }
+
     func numberPressed(_ value: Int) -> Bool {
         let newValue = "\(value)"
         containsValue = true
+        isModified = true
         if currentValue == "0" {
             currentValue = newValue
             return true
@@ -129,7 +149,12 @@ class AbstractValue {
 
     // Decimal can change to Time or Date when the appropriate separator is pressed.
     // Once there, they don't change back.
-    var canChangeMode : Bool {
+    var canBecomeTimeOfDay : Bool {
+        get {
+            return false
+        }
+    }
+    var canBecomeDate : Bool {
         get {
             return false
         }
@@ -240,10 +265,18 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
     }
 
     // A decimal can turn into time or date if it is an integer.
-    // Date & TOD must be 2 digits or less. TODO: handle Date vs Time, MM/DD or DD/MM...
-    override var canChangeMode : Bool {
+    // TOD must be under 24
+    override var canBecomeTimeOfDay : Bool {
         get {
-            return !containsDecimalPoint && self.doubleValue <= 31
+            return !containsDecimalPoint && self.doubleValue <= 24
+        }
+    }
+
+    // Date depends on date order
+    override var canBecomeDate : Bool {
+        get {
+            guard let iv = intValue else {return false}
+            return isValidDateComponent(component:CalcValue.dateOrder[0], value:iv)
         }
     }
 	// A decimal can turn into elapsed time, even with fractions.
@@ -415,19 +448,24 @@ class DateValue : TimeDateValue {
         return dateValue != nil
     }
 
-    // All we can do is make sure it's not zero
+    // Check range based on date order
     override func validateLastSegment() -> Bool {
         let strings = dateSubstrings()
+        let count = strings.count
+        if count == 1 || count > 2 {return false}
         guard let seg = strings.last else { return false }
-        return (seg as NSString).integerValue != 0
+        let value = (seg as NSString).integerValue
+        return isValidDateComponent(component: CalcValue.dateOrder[count-1], value: value)
     }
 
     override func dayOfWeekPressed() -> (String, CalcValue)? {
         guard let dv = dateValue else { return nil }
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from:dv)
-        let index = ((weekday - 1) + (calendar.firstWeekday - 1)) % 7
-        return (calendar.shortWeekdaySymbols[index].uppercased(), CalcValue(withNumber:Double(index)))
+        // 1-based, 1 is Sunday.
+        let index = weekday - 1
+        let symbols = CalcValue.useShortForm ? calendar.shortWeekdaySymbols : calendar.weekdaySymbols
+        return (symbols[index].uppercased(), CalcValue(withNumber:Double(index)))
     }
 
     func dateSubstrings() -> [String] {
@@ -439,7 +477,7 @@ class DateValue : TimeDateValue {
     }
 
     override func appendNumber(_ newValue:String) -> Bool {
-        // We are entering days/months. Max lengths are 2-2-4.
+        // We are entering days/months. Max values depend on date order.
         // It's far more likely that 5 is a mistake to be pushed off than a real year.
         // Unless it's yyyy-mm-dd mode. In which case, grr.
         let strings = dateSubstrings()
@@ -450,9 +488,10 @@ class DateValue : TimeDateValue {
             let s2 = appendDigit(strings[1], digit:newValue)
             currentValue = [s1, s2].joined(separator:CalcValue.dateSeparator)
         } else {
+            let max = CalcValue.dateOrder[2] == "y" ? 4 : 2
             let s1 = strings[0]
             let s2 = strings[1]
-            let s3 = appendDigit(strings[2], digit:newValue, max:4)
+            let s3 = appendDigit(strings[2], digit:newValue, max:max)
             currentValue = [s1, s2, s3].joined(separator:CalcValue.dateSeparator)
         }
         return true
@@ -579,15 +618,6 @@ class TimeOfDayValue : TimeValue {
         return formatter
     }()
 
-    static let hourFormatter :DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
-        formatter.setLocalizedDateFormatFromTemplate("J")
-        return formatter
-    }()
-
     static let shortTimeFormatter :DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale.current
@@ -694,8 +724,11 @@ class TimeOfDayValue : TimeValue {
             } else if strings.count == 2 {
                 formatter = TimeOfDayValue.shortTimeFormatter
             } else {
-                // This converts values > 12 if the locale requires it.
-                formatter = TimeOfDayValue.hourFormatter
+                // Using a "J" formatter in Japanese results in a kanji for the standalone format.
+                let modValue = CalcValue.uses24HourTime ? 24 : 12
+                let value = (strings[0] as NSString).integerValue % modValue
+                currentValue = "\(value)"
+                return
             }
             currentValue = formatter.string(from:dv)
         }
@@ -794,7 +827,7 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
 
     // An elapsed time can become time if it doesn't have fractions of seconds.
     // Values over 24 hours just wrap.
-    override var canChangeMode : Bool {
+    override var canBecomeTimeOfDay : Bool {
         get {
             return !containsDecimalPoint
         }
@@ -907,11 +940,14 @@ class CalcValue: NSObject {
     // maxHours to avoid overflow with full ElapsedTime format.
     static let maxHours : Int = 10000
 
+    //
     static var timeSeparator = ":"
     static var dateSeparator = "/"
     static var decimalSeparator = "."
     static var useShortForm = false
-    
+    static var dateOrder = ["M", "d", "y"]
+    static var uses24HourTime = false
+
     var calcValue: AbstractValue = DecimalValue()
     var stringValue: String {
         get {
@@ -923,6 +959,12 @@ class CalcValue: NSObject {
     var containsValue: Bool {
         get {
             return calcValue.containsValue
+        }
+    }
+    // Has it been changed from the initial value?
+    var isModified: Bool {
+        get {
+            return calcValue.isModified
         }
     }
 
@@ -957,9 +999,7 @@ class CalcValue: NSObject {
 
     init(withNumber number:Double) {
         super.init()
-        if let decimalValue = calcValue as? DecimalValue {
-            decimalValue.setCurrentValue(value:number)
-        }
+        calcValue = DecimalValue(withNumber:number)
     }
 
     init(withTime date:Date) {
@@ -1036,7 +1076,7 @@ class CalcValue: NSObject {
     // Typing Time or AM changes the mode to time, if it's an integer or elapsedTime.
     func makeTimeOfDay() -> Bool {
         if calcValue.isTimeOfDay { return true }
-        if !calcValue.allowsColons && !calcValue.canChangeMode {
+        if !calcValue.allowsColons && !calcValue.canBecomeTimeOfDay {
             return false
         }
         if let dv = calcValue as? DecimalValue {
@@ -1075,9 +1115,22 @@ class CalcValue: NSObject {
         return makeTimeOfDay()
     }
 
+    func timeToDecimalPressed() -> Bool {
+        guard let tv = calcValue as? ElapsedTimeValue else {return false}
+        calcValue = DecimalValue(withNumber:tv.doubleValue)
+        return true
+    }
+
+    func decimalToTimePressed() -> Bool {
+        guard let dv = calcValue as? DecimalValue else {return false}
+        guard let et = ElapsedTimeValue(withTimeInterval:dv.timeIntervalValue) else {return false}
+        calcValue = et
+        return true
+    }
+
     // Typing slash changes the mode to date, if it's an integer.
     func slashPressed() -> Bool {
-        if !calcValue.allowsSlash && !calcValue.canChangeMode {
+        if !calcValue.allowsSlash && !calcValue.canBecomeDate {
             return false
         }
         // Make a date value.

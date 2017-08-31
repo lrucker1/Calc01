@@ -14,12 +14,13 @@ class ViewController: UIViewController {
     // The watch sim doesn't do custom fonts or locales, so those have to be debugged here.
     // If you see a '-' on the dateSep button, you have left it on.
     // TODO: Make this an option?
-    let useShortForm = true
+    let useShortForm = false
 
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var operatorLabel: UILabel!
     @IBOutlet weak var amLabel: UILabel!
     @IBOutlet weak var pmLabel: UILabel!
+    @IBOutlet weak var ampmButton: UIButton!
     @IBOutlet weak var decimalButton: UIButton!
     @IBOutlet weak var timeSepButton: UIButton!
     @IBOutlet weak var dateSepButton: UIButton!
@@ -27,6 +28,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var ampmGroup: UIView!
     @IBOutlet weak var clockImage: UIView!
     @IBOutlet weak var clockGroup: UIView!
+
+    var alphanumericFont: UIFont!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,15 +40,35 @@ class ViewController: UIViewController {
         percentButton.setTitle(NumberFormatter().percentSymbol, for:.normal)
 
         let configResult = configure(timeFormatter:timeFormatter, useShortForm: useShortForm)
-        if !configResult.is24 {
+        if configResult.is24 {
+            if let img = UIImage(named:"clock") {
+                ampmButton.setTitle("", for:.normal)
+                ampmButton.setImage(img, for:.normal)
+            }
+        } else {
             amLabel.text = timeFormatter.amSymbol
             pmLabel.text = timeFormatter.pmSymbol
+            ampmButton.setTitle(timeFormatter.amSymbol, for:.normal)
         }
         timeSepButton.setTitle(configResult.timeSep, for:.normal)
         dateSepButton.setTitle(configResult.dateSep, for:.normal)
         decimalButton.setTitle(CalcValue.decimalSeparator, for:.normal)
         ampmGroup.isHidden = true
         clockGroup.isHidden = true
+        let pointSize = displayLabel.font.pointSize
+        alphanumericFont = UIFont(name: "DSEG14ClassicMini-BoldItali", size: pointSize)
+        // Since DSEG7 looks better for numbers, it's the default with DSEG14 as a fallback.
+        // But an alphanumeric string should go directly to DSEG14.
+        if let font7 = UIFont(name: "DSEG7ClassicMini-BoldItalic", size: pointSize),
+            alphanumericFont != nil {
+            let originalDescriptor = font7.fontDescriptor;
+
+            let fallbackDescriptor = originalDescriptor.addingAttributes([UIFontDescriptor.AttributeName.name:"DSEG14ClassicMini-BoldItali"])
+
+            let repaired = originalDescriptor.addingAttributes([UIFontDescriptor.AttributeName.cascadeList:NSArray(object:fallbackDescriptor)])
+
+            displayLabel.font = UIFont(descriptor:repaired, size:pointSize)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,15 +96,12 @@ class ViewController: UIViewController {
     }
 
     func setDisplayLabel(withAlphanumericString str:String) {
-//        if useShortForm {
-//            // Code for font testing. DSEG7 looks better on the watch, which doesn't localize formats.
-//            let pointSize = displayLabel.font.pointSize
-//            let font = UIFont(name: "DSEG14ClassicMini-BoldItali", size: pointSize) ?? UIFont.systemFont(ofSize: pointSize)
-//            let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.font: font])
-//            displayLabel.attributedText = attrStr
-//        } else {
+        if let font = alphanumericFont {
+            let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.font: font])
+            displayLabel.attributedText = attrStr
+        } else {
             displayLabel.text = str
-//        }
+        }
     }
 
     func setAMPMState(isTimeOfDay: Bool, isPM: Bool = false, uses24HourTime: Bool = false) {
