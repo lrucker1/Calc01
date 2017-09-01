@@ -19,7 +19,7 @@ class KeypadParent:ViewController {}
 class KeypadController: KeypadParent {
     var calcValue = CalcValue()
     var resetValue = CalcValue()
-    var memoryValue = CalcValue()
+    var memoryValue = CalcValue() // Do not initialize until the formatter dependencies are set.
     var uses24HourTime = false
     var command: Command? {
         didSet {
@@ -86,6 +86,7 @@ class KeypadController: KeypadParent {
         CalcValue.timeSeparator = timeSep
         CalcValue.useShortForm = useShortForm
         CalcValue.uses24HourTime = uses24HourTime
+        memoryValue = CalcValue.loadFromMemory()
 
         setOperatorLabel("")
         setDisplayValue()
@@ -405,13 +406,19 @@ class KeypadController: KeypadParent {
     }
 
     @IBAction func memoryTapped() {
-        calcValue = memoryValue
+        calcValue = memoryValue.copy() as! CalcValue
         handleTapResult(true)
     }
 
     @IBAction func storeMemoryTapped() {
-        memoryValue = calcValue
-        blink()
+        // Can't store partial values.
+        if !calcValue.validate() {
+            doubleBlink()
+        } else {
+            memoryValue = calcValue.copy() as! CalcValue
+            calcValue.storeMemory()
+            blink()
+        }
     }
 
     @IBAction func resetTapped() {

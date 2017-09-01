@@ -57,7 +57,7 @@ class InterfaceController: WKInterfaceController {
         }
         ampmGroup.setHidden(true)
         clockGroup.setHidden(true)
-        alphanumericFont =  UIFont(name: "DSEG14ClassicMini-BoldItali", size: CGFloat(WatchState.is38 ? 15.0 : 16.0))
+        alphanumericFont = UIFont(name: "DSEG14ClassicMini-BoldItali", size: CGFloat(WatchState.is38 ? 15.0 : 16.0))
         // DSEG7 is the primary font. We might get a H or BE for non-Gregorian calendars; they're OK, if funny looking.
         // The DSEG14 numbers are too cluttered at watchface sizes.
         // The watch doesn't set fallback fonts; instead, we do our best to not cause it to need to mix fonts.
@@ -93,8 +93,14 @@ class InterfaceController: WKInterfaceController {
     func setDisplayLabel(withAlphanumericString str:String) {
         // Try to use DSEG14. DSEG7 has letters, but they're ugly.
         if let font = alphanumericFont {
-            let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.fontAttributeName: font])
-            displayLabel.setAttributedText(attrStr)
+            // rdar://34192205 - there are two sets of these consts, one is font and one fontAttributeName. Make it shut up by hardcoding.
+            // Yes, this is sooo very bad form, which is why it's DEBUG only. "Generic iOS Device" wants "font" so that's what release builds get.
+#if DEBUG
+            let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey("NSFont"): font])
+#else
+            let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.font: font])
+#endif
+           displayLabel.setAttributedText(attrStr)
         } else {
             displayLabel.setText(str)
         }
@@ -107,7 +113,7 @@ class InterfaceController: WKInterfaceController {
     func setAMPMState(isTimeOfDay: Bool, isPM: Bool = false, uses24HourTime: Bool = false) {
          if isTimeOfDay {
             // The number field is always shifted over for TOD values.
-            // The HP calculator changed the format to "h:mm ss". That could be tricky.
+            // The HP calculator changed the format to "h:mm ss". We have ampm group & icons.
             if uses24HourTime {
                 clockGroup.setHidden(false)
             } else {

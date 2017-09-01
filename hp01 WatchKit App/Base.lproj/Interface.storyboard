@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13122.17" systemVersion="16G29" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch38" orientation="portrait">
+    <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -20,7 +20,7 @@
                     <items>
                         <group width="1" height="20" alignment="right" id="9Md-qE-a5o" userLabel="DisplayGroup">
                             <items>
-                                <label alignment="right" text="00-00-0000" textAlignment="right" id="Hgh-ll-cAz">
+                                <label alignment="right" text="00:00:00" textAlignment="right" id="Hgh-ll-cAz">
                                     <color key="textColor" red="1" green="0.05241989834" blue="0.119625158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="font" name="DSEG7ClassicMini-BoldItalic" family="DSEG7 Classic Mini" pointSize="16"/>
                                     <variation key="device=watch38mm">
@@ -32,7 +32,7 @@
                                         <imageView width="8" height="8" alignment="left" verticalAlignment="bottom" image="redclock" id="UTG-fe-9Sw" userLabel="ClockImage"/>
                                     </items>
                                 </group>
-                                <group height="17" alignment="right" verticalAlignment="center" hidden="YES" layout="vertical" spacing="0.0" id="WvN-pk-7XC">
+                                <group height="19" alignment="right" verticalAlignment="center" layout="vertical" spacing="0.0" id="WvN-pk-7XC">
                                     <items>
                                         <label height="9" alignment="left" text="AM" id="u3r-ea-Zdm">
                                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -49,57 +49,57 @@
                                 </label>
                             </items>
                         </group>
-                        <group width="1" alignment="left" layout="vertical" spacing="12" id="cTG-xL-ceB" userLabel="Keypad">
+                        <group width="1" alignment="left" layout="vertical" spacing="5" id="cTG-xL-ceB" userLabel="Keypad">
                             <items>
-                                <group alignment="left" layout="vertical" id="dns-hk-msB" userLabel="NumberPad">
+                                <group alignment="left" layout="vertical" spacing="1" id="dns-hk-msB" userLabel="NumberPad">
                                     <items>
-                                        <group alignment="left" id="Rq9-i7-e9O" userLabel="Top">
+                                        <group alignment="left" spacing="0.0" id="Rq9-i7-e9O" userLabel="Top">
                                             <items>
-                                                <button width="28" height="21" alignment="left" title="C" id="OWy-cu-Wft">
+                                                <button width="29" height="23" alignment="left" title="C" id="OWy-cu-Wft">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="clearTapped" destination="AgC-eL-Hgc" id="q44-Hg-geI"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="7" id="S8b-Sk-IoA">
+                                                <button width="29" height="23" alignment="left" title="7" id="S8b-Sk-IoA">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button7Tapped" destination="AgC-eL-Hgc" id="zjO-gG-HEG"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="8" id="JN3-3L-Inw">
+                                                <button width="29" height="23" alignment="left" title="8" id="JN3-3L-Inw">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button8Tapped" destination="AgC-eL-Hgc" id="EF3-X5-zrk"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="9" id="FNp-o0-ZnJ">
+                                                <button width="29" height="23" alignment="left" title="9" id="FNp-o0-ZnJ">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button9Tapped" destination="AgC-eL-Hgc" id="QxR-AF-5sx"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title=":" id="VRi-6x-mBm">
+                                                <button width="29" height="23" alignment="left" title=":" id="VRi-6x-mBm">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
@@ -107,55 +107,54 @@
                                                     </connections>
                                                 </button>
                                             </items>
-                                            <variation key="device=watch38mm" spacing="1"/>
                                         </group>
-                                        <group alignment="left" id="TJi-Ip-ony" userLabel="Middle">
+                                        <group alignment="left" spacing="0.0" id="TJi-Ip-ony" userLabel="Middle">
                                             <items>
-                                                <button width="28" height="21" alignment="left" title="." id="aqw-B4-ruM">
+                                                <button width="29" height="23" alignment="left" title="." id="aqw-B4-ruM">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="decimalTapped" destination="AgC-eL-Hgc" id="ts9-2x-q2B"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="4" id="cpK-6N-Lm1">
+                                                <button width="29" height="23" alignment="left" title="4" id="cpK-6N-Lm1">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button4Tapped" destination="AgC-eL-Hgc" id="eaT-S8-5zX"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="5" id="hfy-fx-Giv">
+                                                <button width="29" height="23" alignment="left" title="5" id="hfy-fx-Giv">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button5Tapped" destination="AgC-eL-Hgc" id="f4H-tb-Hs5"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="6" id="Eq5-jo-h3Q">
+                                                <button width="29" height="23" alignment="left" title="6" id="Eq5-jo-h3Q">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button6Tapped" destination="AgC-eL-Hgc" id="5ov-y7-2kp"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="%" id="3mw-Lo-kyN">
+                                                <button width="29" height="23" alignment="left" title="%" id="3mw-Lo-kyN">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
@@ -163,52 +162,51 @@
                                                     </connections>
                                                 </button>
                                             </items>
-                                            <variation key="device=watch38mm" spacing="1"/>
                                         </group>
-                                        <group alignment="left" id="hfH-Ae-r7c" userLabel="Bottom">
+                                        <group alignment="left" spacing="0.0" id="hfH-Ae-r7c" userLabel="Bottom">
                                             <items>
-                                                <button width="28" height="21" alignment="left" title="0" id="Hg9-Rr-KAb">
+                                                <button width="29" height="23" alignment="left" title="0" id="Hg9-Rr-KAb">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button0tapped" destination="AgC-eL-Hgc" id="uh8-sx-Fgt"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="1" id="N2j-FN-R6Y">
+                                                <button width="29" height="23" alignment="left" title="1" id="N2j-FN-R6Y">
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button1Tapped" destination="AgC-eL-Hgc" id="cF8-xk-Zru"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="2" id="N8v-Dk-77D">
+                                                <button width="29" height="23" alignment="left" title="2" id="N8v-Dk-77D">
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button2Tapped" destination="AgC-eL-Hgc" id="KSZ-VT-zPJ"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="3" id="aZO-tW-V3W">
+                                                <button width="29" height="23" alignment="left" title="3" id="aZO-tW-V3W">
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="button3Tapped" destination="AgC-eL-Hgc" id="7O0-5e-7eD"/>
                                                     </connections>
                                                 </button>
-                                                <button width="28" height="21" alignment="left" title="±" id="pbQ-Mn-NUH">
+                                                <button width="29" height="23" alignment="left" title="±" id="pbQ-Mn-NUH">
                                                     <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="font" type="system" pointSize="18"/>
-                                                    <variation key="device=watch38mm" height="19" width="26">
+                                                    <variation key="device=watch38mm" height="22" width="27">
                                                         <fontDescription key="font" type="system" pointSize="17"/>
                                                     </variation>
                                                     <connections>
@@ -216,56 +214,55 @@
                                                     </connections>
                                                 </button>
                                             </items>
-                                            <variation key="device=watch38mm" spacing="1"/>
                                         </group>
                                     </items>
                                 </group>
-                                <group alignment="left" verticalAlignment="bottom" id="3Xi-8Q-rxF" userLabel="Operations">
+                                <group alignment="left" verticalAlignment="bottom" spacing="0.0" id="3Xi-8Q-rxF" userLabel="Operations">
                                     <items>
-                                        <button width="28" height="21" alignment="left" verticalAlignment="bottom" title="+" id="JVy-I1-plK">
+                                        <button width="29" height="22" alignment="left" verticalAlignment="bottom" title="+" id="JVy-I1-plK">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="19" width="26">
+                                            <variation key="device=watch38mm" height="21" width="27">
                                                 <fontDescription key="font" type="system" pointSize="17"/>
                                             </variation>
                                             <connections>
                                                 <action selector="addTapped" destination="AgC-eL-Hgc" id="eXK-op-EQk"/>
                                             </connections>
                                         </button>
-                                        <button width="28" height="21" alignment="left" verticalAlignment="bottom" title="-" id="5Ef-uJ-Jbz">
+                                        <button width="29" height="22" alignment="left" verticalAlignment="bottom" title="-" id="5Ef-uJ-Jbz">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="19" width="26">
+                                            <variation key="device=watch38mm" height="21" width="27">
                                                 <fontDescription key="font" type="system" pointSize="17"/>
                                             </variation>
                                             <connections>
                                                 <action selector="subtractTapped" destination="AgC-eL-Hgc" id="tLa-Tb-3vy"/>
                                             </connections>
                                         </button>
-                                        <button width="28" height="21" alignment="left" verticalAlignment="bottom" title="×" id="vwk-hu-rYq">
+                                        <button width="29" height="22" alignment="left" verticalAlignment="bottom" title="×" id="vwk-hu-rYq">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="19" width="26">
+                                            <variation key="device=watch38mm" height="21" width="27">
                                                 <fontDescription key="font" type="system" pointSize="17"/>
                                             </variation>
                                             <connections>
                                                 <action selector="multiplyTapped" destination="AgC-eL-Hgc" id="O9F-3Z-CYg"/>
                                             </connections>
                                         </button>
-                                        <button width="28" height="21" alignment="left" verticalAlignment="bottom" title="÷" id="F1g-br-ntV">
+                                        <button width="29" height="22" alignment="left" verticalAlignment="bottom" title="÷" id="F1g-br-ntV">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="19" width="26">
+                                            <variation key="device=watch38mm" height="21" width="27">
                                                 <fontDescription key="font" type="system" pointSize="17"/>
                                             </variation>
                                             <connections>
                                                 <action selector="divideTapped" destination="AgC-eL-Hgc" id="nll-UG-DOY"/>
                                             </connections>
                                         </button>
-                                        <button width="28" height="21" alignment="left" verticalAlignment="bottom" title="=" id="pcB-cO-XHu">
+                                        <button width="29" height="22" alignment="left" verticalAlignment="bottom" title="=" id="pcB-cO-XHu">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="19" width="26">
+                                            <variation key="device=watch38mm" height="21" width="27">
                                                 <fontDescription key="font" type="system" pointSize="17"/>
                                             </variation>
                                             <connections>
@@ -273,11 +270,10 @@
                                             </connections>
                                         </button>
                                     </items>
-                                    <variation key="device=watch38mm" spacing="1"/>
                                 </group>
-                                <group alignment="left" verticalAlignment="bottom" id="WUb-ta-3T3" userLabel="Commands">
+                                <group alignment="left" verticalAlignment="bottom" spacing="0.0" id="WUb-ta-3T3" userLabel="Commands">
                                     <items>
-                                        <button width="28" height="19" alignment="left" title="DW" id="JpB-O1-679">
+                                        <button width="30" height="21" alignment="left" title="DW" id="JpB-O1-679">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="9"/>
@@ -285,7 +281,7 @@
                                                 <action selector="dayOfWeekTapped" destination="AgC-eL-Hgc" id="MTH-x0-bS1"/>
                                             </connections>
                                         </button>
-                                        <button width="28" height="19" alignment="left" title="am" id="4mZ-9M-rbC">
+                                        <button width="30" height="21" alignment="left" title="am" id="4mZ-9M-rbC">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="9"/>
@@ -293,7 +289,7 @@
                                                 <action selector="amPMTapped" destination="AgC-eL-Hgc" id="hBz-mN-YuG"/>
                                             </connections>
                                         </button>
-                                        <button width="28" height="19" alignment="left" title="D" id="Qzu-Up-Ngx">
+                                        <button width="30" height="21" alignment="left" title="D" id="Qzu-Up-Ngx">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="16"/>
@@ -302,7 +298,7 @@
                                                 <action selector="dateTapped" destination="AgC-eL-Hgc" id="EoD-J5-yfL"/>
                                             </connections>
                                         </button>
-                                        <button width="28" height="19" alignment="left" title="∥" id="kaT-ld-1Te">
+                                        <button width="30" height="21" alignment="left" title="⁄" id="kaT-ld-1Te">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="16"/>
@@ -311,7 +307,7 @@
                                                 <action selector="slashTapped" destination="AgC-eL-Hgc" id="uP8-Pm-jDL"/>
                                             </connections>
                                         </button>
-                                        <button width="28" height="19" alignment="left" title="T" id="nr7-xd-rcp">
+                                        <button width="30" height="21" alignment="left" title="T" id="nr7-xd-rcp">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="16"/>
@@ -321,7 +317,6 @@
                                             </connections>
                                         </button>
                                     </items>
-                                    <variation key="device=watch38mm" spacing="1"/>
                                 </group>
                             </items>
                         </group>
@@ -342,7 +337,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="219" y="343"/>
+            <point key="canvasLocation" x="218.82051282051285" y="342.61538461538464"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

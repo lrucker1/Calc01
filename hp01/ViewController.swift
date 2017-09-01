@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     // Turning this on is useful for testing, but it ignores L10N.
     // The watch sim doesn't do custom fonts or locales, so those have to be debugged here.
     // If you see a '-' on the dateSep button, you have left it on.
-    // TODO: Make this an option?
     let useShortForm = false
 
     @IBOutlet weak var displayLabel: UILabel!
@@ -51,7 +50,10 @@ class ViewController: UIViewController {
             ampmButton.setTitle(timeFormatter.amSymbol, for:.normal)
         }
         timeSepButton.setTitle(configResult.timeSep, for:.normal)
-        dateSepButton.setTitle(configResult.dateSep, for:.normal)
+        if configResult.dateSep != "/" {
+            // The nib has "⁄" which is less likely to look like division.
+            dateSepButton.setTitle(configResult.dateSep, for:.normal)
+        }
         decimalButton.setTitle(CalcValue.decimalSeparator, for:.normal)
         ampmGroup.isHidden = true
         clockGroup.isHidden = true

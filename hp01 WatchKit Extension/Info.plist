@@ -32,5 +32,10 @@
 	</dict>
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DSEG7ClassicMini-BoldItalic.ttf</string>
+		<string>DSEG14 Classic Mini-Bold Italic Mac.ttf</string>
+	</array>
 </dict>
 </plist>

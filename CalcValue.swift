@@ -14,6 +14,13 @@ enum CalcValueType
     case TimeElapsed
 }
 
+enum CalcDefaultsKeys:String {
+    case decimalKey = "decimal"
+    case elapsedTimeKey = "time"
+    case dateKey = "date"
+    case timeOfDay = "tod"
+}
+
 // The HP calculator's internal math for ElapsedTime is a DecimalTimeValue
 // which is time in hours for ElapsedTime and what you expect for Decimal
 // For convenience, they both also support TimeInterval, which is time in seconds.
@@ -44,11 +51,21 @@ func /(left: DecimalTimeValue, right: DecimalTimeValue) -> AbstractValue? {
     return DecimalValue(withNumber:left.doubleValue / right.doubleValue)
 }
 
-class AbstractValue {
+class AbstractValue : NSCopying {
     var currentValue: String = "0"
     var containsValue = false
     var isModified = false
     var isPM = false
+
+    var defaultsType: CalcDefaultsKeys {
+        get {
+            return CalcDefaultsKeys.decimalKey
+        }
+    }
+
+    var defaultsValue: AnyObject? {
+        return nil
+    }
 
     var canRepeatCommands: Bool {
         get {
@@ -67,6 +84,10 @@ class AbstractValue {
         get {
             return false
         }
+    }
+
+    func copy(with zone: NSZone? = nil) -> Any {
+        return AbstractValue(withString:currentValue)
     }
 
     init() {
@@ -208,6 +229,7 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
         let formatter = NumberFormatter()
         formatter.usesGroupingSeparator = false
         formatter.maximumFractionDigits = 5
+        formatter.minimumIntegerDigits = 1
         if CalcValue.useShortForm {
             formatter.decimalSeparator = "."
             formatter.exponentSymbol = "E"
@@ -215,8 +237,17 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
         return formatter
     }()
 
+    override var defaultsType: CalcDefaultsKeys {
+        get {
+            return CalcDefaultsKeys.decimalKey
+        }
+    }
+
+    override var defaultsValue: AnyObject? {
+        return NSNumber(value:doubleValue)
+    }
+
     var containsDecimalPoint = false
-    var isPercent = false
 
     override var allowsPercent: Bool {
         get {
@@ -249,9 +280,21 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
         }
     }
 
+    override func copy(with zone: NSZone? = nil) -> Any {
+        return DecimalValue(withNumber:doubleValue)
+    }
+
     convenience init(withNumber number:Double) {
         self.init()
         setCurrentValue(value:number)
+        containsValue = true
+    }
+
+    // The default is a DecimalValue with no contents, so there's no reason to return nil.
+    convenience init?(withDefaultsValue defs:Any) {
+        self.init()
+        guard let defValue = defs as? NSNumber else {return}
+        setCurrentValue(value:defValue.doubleValue)
         containsValue = true
     }
 
@@ -422,25 +465,69 @@ class DateValue : TimeDateValue {
         if CalcValue.useShortForm {
             formatter.dateFormat = "M'-'d'-'yy"
         }
-        // Watch only has space for 4 digits with a 15-point font. If that's unreadable, flip this back.
-        // formatter.setLocalizedDateFormatFromTemplate("M/d/yy")
         return formatter
     }()
+    static let parsingFormatter:DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        // Specify any length for the components, otherwise it'll be confused if they don't match.
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        if CalcValue.useShortForm {
+            formatter.dateFormat = "M'-'d'-'y"
+        } else {
+            formatter.setLocalizedDateFormatFromTemplate("M/d/y")
+        }
+        return formatter
+    }()
+
+    var cachedDate: Date?
+
+    override var defaultsType: CalcDefaultsKeys {
+        get {
+            return CalcDefaultsKeys.dateKey
+        }
+    }
+
+    override var defaultsValue: AnyObject? {
+        guard let dv = dateValue else {return nil}
+        return dv as NSDate
+    }
+
     override var allowsSlash : Bool {
         get {
             return true
         }
     }
 
+    var formattedDate : Date? {
+        get {
+            return DateValue.parsingFormatter.date(from: currentValue)
+        }
+    }
+
     var dateValue : Date? {
         get {
-            return DateValue.dateFormatter.date(from: currentValue)
+            return cachedDate ?? formattedDate
         }
+    }
+
+    override func copy(with zone: NSZone? = nil) -> Any {
+        let result = DateValue(withString:currentValue)
+        result.cachedDate = cachedDate
+        result.containsValue = containsValue
+        return result
     }
 
     convenience init(withDate date:Date) {
         self.init(withString:DateValue.dateFormatter.string(from:date))
+        cachedDate = date
         containsValue = true
+    }
+
+    convenience init?(withDefaultsValue defs:Any) {
+        guard let defValue = defs as? Date else {return nil}
+        self.init(withDate:defValue)
     }
 
     override func validate() -> Bool {
@@ -493,6 +580,10 @@ class DateValue : TimeDateValue {
             let s2 = strings[1]
             let s3 = appendDigit(strings[2], digit:newValue, max:max)
             currentValue = [s1, s2, s3].joined(separator:CalcValue.dateSeparator)
+        }
+        // Cache the date object as entered, in case canonicalization converts it to 2-digit years.
+        if let testDate = formattedDate {
+            cachedDate = testDate
         }
         return true
 	}
@@ -594,13 +685,36 @@ class TimeValue : TimeDateValue {
         return true
      }
 
+     func formatString(h:Int, m:Int, s:Int, fieldCount:Int = 3) -> String {
+        let s1 = CalcValue.timeSeparator
+        if (s > 0 || fieldCount == 3) {
+            return String(format:"%i%@%02i%@%02i", arguments:[h, s1, m, s1, s])
+        } else if (m > 0 || fieldCount == 2) {
+            return String(format:"%i%@%02i", arguments:[h, s1, m])
+        } else {
+            return "\(h)"
+        }
+    }
+
     override func colonPressed() -> Bool {
         return appendSeparator(sep: CalcValue.timeSeparator, strings: timeSubstrings(), padZeros:true)
     }
 }
 
 class TimeOfDayValue : TimeValue {
-	// Doc says making DateFormatters is expensive and should be static.
+
+    override var defaultsType: CalcDefaultsKeys {
+        get {
+            return CalcDefaultsKeys.timeOfDay
+        }
+    }
+
+    override var defaultsValue: AnyObject? {
+        guard let dv = dateValue else {return nil}
+        return dv as NSDate
+    }
+
+    // Doc says making DateFormatters is expensive and should be static.
     // Changing Locale would give us ':' but not the proper AM/PM and leading zeros.
 	static let timeFormatter :DateFormatter = {
         let formatter = DateFormatter()
@@ -610,7 +724,7 @@ class TimeOfDayValue : TimeValue {
         // Don't show AM/PM; there's a label for that.
         if CalcValue.useShortForm {
             // Always ':'
-            formatter.dateFormat = "H':'mm':'ss"
+            formatter.dateFormat = "J':'mm':'ss"
         } else {
             // Whatever's in the locale.
             formatter.setLocalizedDateFormatFromTemplate("J:mm:ss")
@@ -626,7 +740,7 @@ class TimeOfDayValue : TimeValue {
         // Don't show AM/PM; there's a label for that.
         if CalcValue.useShortForm {
             // Always ':'
-            formatter.dateFormat = "H':'mm"
+            formatter.dateFormat = "J':'mm"
         } else {
             // Whatever's in the locale.
             formatter.setLocalizedDateFormatFromTemplate("J:mm")
@@ -662,12 +776,24 @@ class TimeOfDayValue : TimeValue {
         }
     }
 
+    override func copy(with zone: NSZone? = nil) -> Any {
+        return TimeOfDayValue(withString:currentValue)
+    }
+
+    override init(withString str:String) {
+        super.init(withString:str)
+    }
+
     init(withDate date:Date) {
-        super.init(withString:TimeOfDayValue.timeFormatter.string(from:date))
+        super.init(withString:formatted(fromDate:date))
         containsValue = true
         isPM = Calendar.current.component(Calendar.Component.hour, from: date) > 12
     }
 
+    convenience init?(withDefaultsValue defs:Any) {
+        guard let defValue = defs as? Date else {return nil}
+        self.init(withDate:defValue)
+    }
 
     init(withElapsedTime value:ElapsedTimeValue) {
         super.init(withString:value.currentValue)
@@ -685,6 +811,23 @@ class TimeOfDayValue : TimeValue {
             isPM = v > 12
         }
         canonicalizeDisplayString()
+    }
+
+	override func formatString(h:Int, m:Int, s:Int, fieldCount:Int = 3) -> String {
+        let modValue = CalcValue.uses24HourTime ? 24 : 12
+        return super.formatString(h:h % modValue, m:m, s:s, fieldCount: fieldCount)
+    }
+
+    // Format for init shows all fields.
+    func formatted(fromDate date:Date) -> String {
+        if CalcValue.useShortForm {
+            let dc = Calendar.current.dateComponents([Calendar.Component.hour, Calendar.Component.minute, Calendar.Component.second], from: date)
+            let h = dc.hour ?? 0
+            let m = dc.minute ?? 0
+            let s = dc.second ?? 0
+            return formatString(h:h, m:m, s:s, fieldCount:3)
+        }
+        return TimeOfDayValue.timeFormatter.string(from:date)
     }
 
     func timeComponents() -> DateComponents {
@@ -717,6 +860,15 @@ class TimeOfDayValue : TimeValue {
 
 	override func canonicalizeDisplayString() {
         let strings = timeSubstrings()
+        if CalcValue.useShortForm {
+            // "J" does not work, so use formatString with explicit field count so any trailing zeros are maintained.
+            let dc = timeComponents()
+            let h = dc.hour ?? 0
+            let m = dc.minute ?? 0
+            let s = dc.second ?? 0
+            currentValue = formatString(h:h, m:m, s:s, fieldCount:strings.count)
+            return
+        }
         var formatter :DateFormatter
         if let dv = dateValue {
             if strings.count == 3 {
@@ -776,6 +928,16 @@ class TimeOfDayValue : TimeValue {
 
 class ElapsedTimeValue : TimeValue, DecimalTimeValue {
 
+    override var defaultsType: CalcDefaultsKeys {
+        get {
+            return CalcDefaultsKeys.elapsedTimeKey
+        }
+    }
+
+    override var defaultsValue: AnyObject? {
+        return NSNumber(value:timeIntervalValue)
+    }
+
     var containsDecimalPoint = false
     var timeIntervalValue: TimeInterval {
         get {
@@ -792,6 +954,19 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
         get {
             return timeIntervalValue / 3600
         }
+    }
+
+    convenience init?(withDefaultsValue defs:Any) {
+        guard let defValue = defs as? NSNumber else {return nil}
+        self.init(withTimeInterval: defValue.doubleValue)
+    }
+
+    override init(withString str:String) {
+        super.init(withString: str)
+    }
+
+    override func copy(with zone: NSZone? = nil) -> Any {
+        return ElapsedTimeValue(withString:currentValue)
     }
 
     init?(withTimeInterval value:TimeInterval) {
@@ -878,12 +1053,8 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
         if containsDecimalPoint {
             let s2 = CalcValue.decimalSeparator
             return String(format:"%i%@%02i%@%02i", arguments:[m, s1, s, s2, c])
-        } else if (s > 0) {
-            return String(format:"%i%@%02i%@%02i", arguments:[h, s1, m, s1, s])
-        } else if (m > 0) {
-            return String(format:"%i%@%02i", arguments:[h, s1, m])
         } else {
-            return "\(h)"
+            return formatString(h:h, m:m, s:s)
         }
     }
 
@@ -931,7 +1102,7 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
     }
 }
 
-class CalcValue: NSObject {
+class CalcValue: NSObject, NSCopying {
 
     // Small watch has 10 digits with a 15-point font, 9 with 16.
     // If 15 isn't readable enough, make the max conditional.
@@ -993,8 +1164,57 @@ class CalcValue: NSObject {
         }
     }
 
+    static let memoryKey = "type"
+    static let typeKey = "type"
+    static let valueKey = "value"
+    var forUserDefaults: Dictionary<String, Any>? {
+        get {
+            guard let value = calcValue.defaultsValue else {return nil}
+            return [CalcValue.typeKey:calcValue.defaultsType.rawValue, CalcValue.valueKey:value]
+        }
+    }
+
+    func storeMemory() {
+        guard let defs = forUserDefaults else {return}
+        UserDefaults.standard.set(defs, forKey:CalcValue.memoryKey)
+    }
     override init() {
         super.init()
+    }
+
+    // Returns a CalcValue, loaded from user defaults if possible, empty otherwise.
+    static func loadFromMemory() -> CalcValue {
+        guard let defs = UserDefaults.standard.dictionary(forKey:CalcValue.memoryKey) else {return CalcValue()}
+        return CalcValue(withUserDefaults:defs)
+    }
+
+    func copy(with zone: NSZone? = nil) -> Any {
+        return CalcValue(withValue:calcValue.copy() as! AbstractValue)
+    }
+
+    init(withUserDefaults defs:Dictionary<String, Any>) {
+        super.init()
+        guard let rawType = defs[CalcValue.typeKey] as? String else {return}
+        guard let type = CalcDefaultsKeys(rawValue:rawType) else {return}
+        guard let value = defs[CalcValue.valueKey] else {return}
+        var defsCalcValue : AbstractValue?
+        switch (type) {
+            case CalcDefaultsKeys.decimalKey:
+                defsCalcValue = DecimalValue(withDefaultsValue:value)
+                break
+            case CalcDefaultsKeys.elapsedTimeKey:
+                defsCalcValue = ElapsedTimeValue(withDefaultsValue:value)
+                break
+            case CalcDefaultsKeys.dateKey:
+                defsCalcValue = DateValue(withDefaultsValue:value)
+                break
+            case CalcDefaultsKeys.timeOfDay:
+                defsCalcValue = TimeOfDayValue(withDefaultsValue:value)
+                break
+        }
+        if defsCalcValue != nil {
+            calcValue = defsCalcValue!
+        }
     }
 
     init(withNumber number:Double) {
