@@ -278,13 +278,8 @@ class KeypadController: KeypadParent {
     }
 
     @IBAction func amPMTapped() {
-        if uses24HourTime && !calcValue.isTimeOfDay {
-            // Convert to a Time value if needed.
-            handleTapResult(calcValue.timePressed())
-        } else {
-            handleTapResult(calcValue.amPMPressed())
-        }
-    }
+       handleTapResult(calcValue.amPMPressed())
+	}
 
     @IBAction func dayOfWeekTapped() {
         if let dowStr = calcValue.dayOfWeekPressed() {
@@ -360,18 +355,15 @@ class KeypadController: KeypadParent {
         commandTapped(.Divide)
     }
 
-    // Pressing Time on an unmodified value replace it. Otherwise it tries to turn it into a time.
+    // amPM turns elapsedTime into Time. Time button just shows the time.
     @IBAction func timeTapped() {
-        if !calcValue.isModified {
-            calcValue = CalcValue(withTime:Date())
-            handleTapResult(true)
-            if calculationExecuted {
-                command = nil
-                calculationExecuted = false
-            }
-        } else {
-            handleTapResult(calcValue.timePressed())
+        blink()
+        calcValue = CalcValue(withTime:Date())
+        if calculationExecuted {
+            command = nil
+            calculationExecuted = false
         }
+        handleTapResult(true)
     }
 
     @IBAction func dateTapped() {
@@ -382,7 +374,7 @@ class KeypadController: KeypadParent {
             command = nil
             calculationExecuted = false
         }
-        setDisplayValue()
+        handleTapResult(true)
     }
 
     @IBAction func swapTapped() {
@@ -414,11 +406,18 @@ class KeypadController: KeypadParent {
         // Can't store partial values.
         if !calcValue.validate() {
             doubleBlink()
-        } else {
-            memoryValue = calcValue.copy() as! CalcValue
-            calcValue.storeMemory()
-            blink()
+            return
         }
+        // If there's a pending calculation, finish it.
+        if command != nil && !calculationExecuted {
+            if !executeCommand() {
+                doubleBlink()
+                return
+            }
+        }
+        memoryValue = calcValue.copy() as! CalcValue
+        calcValue.storeMemory()
+        blink()
     }
 
     @IBAction func resetTapped() {

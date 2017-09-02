@@ -57,11 +57,13 @@ class InterfaceController: WKInterfaceController {
         }
         ampmGroup.setHidden(true)
         clockGroup.setHidden(true)
-        alphanumericFont = UIFont(name: "DSEG14ClassicMini-BoldItali", size: CGFloat(WatchState.is38 ? 15.0 : 16.0))
         // DSEG7 is the primary font. We might get a H or BE for non-Gregorian calendars; they're OK, if funny looking.
         // The DSEG14 numbers are too cluttered at watchface sizes.
         // The watch doesn't set fallback fonts; instead, we do our best to not cause it to need to mix fonts.
         // This means it limits numeric punctuation to 7-seg's '-', ':' and '.'
+        // Watch does not show DayOfWeek. If it did, use DSEG14.
+        alphanumericFont = UIFont.systemFont(ofSize: CGFloat(WatchState.is38 ? 15.0 : 16.0))
+        //alphanumericFont = UIFont(name: "DSEG14ClassicMini-BoldItali", size: CGFloat(WatchState.is38 ? 15.0 : 16.0))
     }
 
     func configure(timeFormatter: DateFormatter, useShortForm:Bool = false) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "-", ":") }

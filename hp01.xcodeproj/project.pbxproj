@@ -21,13 +21,13 @@
 		94B454811F3A5095006671EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454801F3A5095006671EF /* AppDelegate.swift */; };
 		94B454831F3A5095006671EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454821F3A5095006671EF /* ViewController.swift */; };
 		94B454861F3A5095006671EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94B454841F3A5095006671EF /* Main.storyboard */; };
-		94B454881F3A5095006671EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454871F3A5095006671EF /* Assets.xcassets */; };
+		94B454881F3A5095006671EF /* Assets-iOS.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454871F3A5095006671EF /* Assets-iOS.xcassets */; };
 		94B4548B1F3A5095006671EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94B454891F3A5095006671EF /* LaunchScreen.storyboard */; };
 		94B454961F3A5095006671EF /* hp01Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454951F3A5095006671EF /* hp01Tests.swift */; };
 		94B454A11F3A5095006671EF /* hp01UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454A01F3A5095006671EF /* hp01UITests.swift */; };
 		94B454A61F3A5095006671EF /* hp01 WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 94B454A51F3A5095006671EF /* hp01 WatchKit App.app */; };
 		94B454AC1F3A5095006671EF /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94B454AA1F3A5095006671EF /* Interface.storyboard */; };
-		94B454AE1F3A5095006671EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454AD1F3A5095006671EF /* Assets.xcassets */; };
+		94B454AE1F3A5095006671EF /* Assets-w.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454AD1F3A5095006671EF /* Assets-w.xcassets */; };
 		94B454B51F3A5095006671EF /* hp01 WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 94B454B41F3A5095006671EF /* hp01 WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		94B454BA1F3A5095006671EF /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454B91F3A5095006671EF /* InterfaceController.swift */; };
 		94B454BC1F3A5095006671EF /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454BB1F3A5095006671EF /* ExtensionDelegate.swift */; };
@@ -103,7 +103,7 @@
 		94B454801F3A5095006671EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94B454821F3A5095006671EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		94B454851F3A5095006671EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		94B454871F3A5095006671EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		94B454871F3A5095006671EF /* Assets-iOS.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-iOS.xcassets"; sourceTree = "<group>"; };
 		94B4548A1F3A5095006671EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		94B4548C1F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B454911F3A5095006671EF /* hp01Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hp01Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,7 +114,7 @@
 		94B454A21F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B454A51F3A5095006671EF /* hp01 WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hp01 WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454AB1F3A5095006671EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
-		94B454AD1F3A5095006671EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		94B454AD1F3A5095006671EF /* Assets-w.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-w.xcassets"; sourceTree = "<group>"; };
 		94B454AF1F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B454B41F3A5095006671EF /* hp01 WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "hp01 WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454B91F3A5095006671EF /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 				94B454801F3A5095006671EF /* AppDelegate.swift */,
 				94B454821F3A5095006671EF /* ViewController.swift */,
 				94B454841F3A5095006671EF /* Main.storyboard */,
-				94B454871F3A5095006671EF /* Assets.xcassets */,
+				94B454871F3A5095006671EF /* Assets-iOS.xcassets */,
 				94B454891F3A5095006671EF /* LaunchScreen.storyboard */,
 				94B4548C1F3A5095006671EF /* Info.plist */,
 			);
@@ -232,7 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				94B454AA1F3A5095006671EF /* Interface.storyboard */,
-				94B454AD1F3A5095006671EF /* Assets.xcassets */,
+				94B454AD1F3A5095006671EF /* Assets-w.xcassets */,
 				94B454AF1F3A5095006671EF /* Info.plist */,
 			);
 			path = "hp01 WatchKit App";
@@ -401,7 +401,7 @@
 			files = (
 				94B4548B1F3A5095006671EF /* LaunchScreen.storyboard in Resources */,
 				9403BEFE1F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */,
-				94B454881F3A5095006671EF /* Assets.xcassets in Resources */,
+				94B454881F3A5095006671EF /* Assets-iOS.xcassets in Resources */,
 				94B454861F3A5095006671EF /* Main.storyboard in Resources */,
 				94DDDFAF1F56A2B20095F9DF /* DSEG7ClassicMini-BoldItalic.ttf in Resources */,
 				9403BEF71F5244AD0054E46E /* SharedAssets.xcassets in Resources */,
@@ -427,7 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9403BEF81F5244C60054E46E /* SharedAssets.xcassets in Resources */,
-				94B454AE1F3A5095006671EF /* Assets.xcassets in Resources */,
+				94B454AE1F3A5095006671EF /* Assets-w.xcassets in Resources */,
 				94B454AC1F3A5095006671EF /* Interface.storyboard in Resources */,
 				94A34C261F560CAF00393D5F /* DSEG7ClassicMini-BoldItalic.ttf in Resources */,
 				9403BEFF1F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */,

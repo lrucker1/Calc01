@@ -307,11 +307,12 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
         }
     }
 
-    // A decimal can turn into time or date if it is an integer.
+    // A decimal can turn into time or date if it is a positive integer.
     // TOD must be under 24
     override var canBecomeTimeOfDay : Bool {
         get {
-            return !containsDecimalPoint && self.doubleValue <= 24
+            let d = self.doubleValue
+            return !containsDecimalPoint && d < 24 && d > 0
         }
     }
 
@@ -319,6 +320,7 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
     override var canBecomeDate : Bool {
         get {
             guard let iv = intValue else {return false}
+            if iv < 0 { return false }
             return isValidDateComponent(component:CalcValue.dateOrder[0], value:iv)
         }
     }
@@ -326,7 +328,8 @@ class DecimalValue : AbstractValue, DecimalTimeValue {
     // Unless the "hour" length is > 4 digits long, because then it won't fit.
     override var canBecomeElapsedTime : Bool {
         get {
-            return Int(doubleValue) < CalcValue.maxHours
+            let iv = Int(doubleValue)
+            return iv >= 0 && iv < CalcValue.maxHours
         }
     }
     override func appendNumber(_ newValue:String) -> Bool {
@@ -463,10 +466,11 @@ class DateValue : TimeDateValue {
         formatter.dateStyle = .short
         formatter.timeStyle = .none
         if CalcValue.useShortForm {
-            formatter.dateFormat = "M'-'d'-'yy"
+            formatter.setLocalizedDateFormatFromTemplate("M'-'d'-'yy")
         }
         return formatter
     }()
+
     static let parsingFormatter:DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale.current
@@ -474,7 +478,7 @@ class DateValue : TimeDateValue {
         formatter.dateStyle = .short
         formatter.timeStyle = .none
         if CalcValue.useShortForm {
-            formatter.dateFormat = "M'-'d'-'y"
+            formatter.setLocalizedDateFormatFromTemplate("M'-'d'-'y")
         } else {
             formatter.setLocalizedDateFormatFromTemplate("M/d/y")
         }
@@ -549,10 +553,13 @@ class DateValue : TimeDateValue {
         guard let dv = dateValue else { return nil }
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from:dv)
-        // 1-based, 1 is Sunday.
+        // Calendar: 1-based, 1 is Sunday.
+        // Calculator: 1-based, 1 is Monday
+        // Array index: 0 based! So index value has the correct Monday, but wrong Sunday.
         let index = weekday - 1
+        let calcDay = index == 0 ? 7 : index
         let symbols = CalcValue.useShortForm ? calendar.shortWeekdaySymbols : calendar.weekdaySymbols
-        return (symbols[index].uppercased(), CalcValue(withNumber:Double(index)))
+        return (symbols[index].uppercased(), CalcValue(withNumber:Double(calcDay)))
     }
 
     func dateSubstrings() -> [String] {
@@ -685,17 +692,6 @@ class TimeValue : TimeDateValue {
         return true
      }
 
-     func formatString(h:Int, m:Int, s:Int, fieldCount:Int = 3) -> String {
-        let s1 = CalcValue.timeSeparator
-        if (s > 0 || fieldCount == 3) {
-            return String(format:"%i%@%02i%@%02i", arguments:[h, s1, m, s1, s])
-        } else if (m > 0 || fieldCount == 2) {
-            return String(format:"%i%@%02i", arguments:[h, s1, m])
-        } else {
-            return "\(h)"
-        }
-    }
-
     override func colonPressed() -> Bool {
         return appendSeparator(sep: CalcValue.timeSeparator, strings: timeSubstrings(), padZeros:true)
     }
@@ -703,6 +699,10 @@ class TimeValue : TimeDateValue {
 
 class TimeOfDayValue : TimeValue {
 
+    // The calculator treats current TOD differently; calculations apply to current time, not display.
+    // WatchOS apps that track time get bounced. Probably even if they're calculators. Besides,
+    // it's a power hit.
+    // But iOS might get away with it.
     override var defaultsType: CalcDefaultsKeys {
         get {
             return CalcDefaultsKeys.timeOfDay
@@ -722,9 +722,9 @@ class TimeOfDayValue : TimeValue {
         formatter.dateStyle = .none
         formatter.timeStyle = .short
         // Don't show AM/PM; there's a label for that.
-        if CalcValue.useShortForm {
+        if CalcValue.useShortForm && CalcValue.timeSeparator != ":" {
             // Always ':'
-            formatter.dateFormat = "J':'mm':'ss"
+            formatter.setLocalizedDateFormatFromTemplate("J':'mm':'ss")
         } else {
             // Whatever's in the locale.
             formatter.setLocalizedDateFormatFromTemplate("J:mm:ss")
@@ -738,9 +738,9 @@ class TimeOfDayValue : TimeValue {
         formatter.dateStyle = .none
         formatter.timeStyle = .short
         // Don't show AM/PM; there's a label for that.
-        if CalcValue.useShortForm {
+        if CalcValue.useShortForm && CalcValue.timeSeparator != ":" {
             // Always ':'
-            formatter.dateFormat = "J':'mm"
+            formatter.setLocalizedDateFormatFromTemplate("J':'mm'")
         } else {
             // Whatever's in the locale.
             formatter.setLocalizedDateFormatFromTemplate("J:mm")
@@ -785,9 +785,9 @@ class TimeOfDayValue : TimeValue {
     }
 
     init(withDate date:Date) {
-        super.init(withString:formatted(fromDate:date))
+        super.init(withString:TimeOfDayValue.timeFormatter.string(from:date))
         containsValue = true
-        isPM = Calendar.current.component(Calendar.Component.hour, from: date) > 12
+        isPM = !CalcValue.uses24HourTime && Calendar.current.component(Calendar.Component.hour, from: date) > 12
     }
 
     convenience init?(withDefaultsValue defs:Any) {
@@ -799,7 +799,7 @@ class TimeOfDayValue : TimeValue {
         super.init(withString:value.currentValue)
         containsValue = true
         let strings = timeSubstrings()
-        if strings.count > 0 {
+        if strings.count > 0 && !CalcValue.uses24HourTime {
             isPM = (strings[0] as NSString).integerValue > 12
         }
         canonicalizeDisplayString()
@@ -807,27 +807,10 @@ class TimeOfDayValue : TimeValue {
 
     init(withDecimalValue value:DecimalValue) {
         super.init(withString:value.currentValue)
-        if let v = value.intValue {
+        if !CalcValue.uses24HourTime, let v = value.intValue {
             isPM = v > 12
         }
         canonicalizeDisplayString()
-    }
-
-	override func formatString(h:Int, m:Int, s:Int, fieldCount:Int = 3) -> String {
-        let modValue = CalcValue.uses24HourTime ? 24 : 12
-        return super.formatString(h:h % modValue, m:m, s:s, fieldCount: fieldCount)
-    }
-
-    // Format for init shows all fields.
-    func formatted(fromDate date:Date) -> String {
-        if CalcValue.useShortForm {
-            let dc = Calendar.current.dateComponents([Calendar.Component.hour, Calendar.Component.minute, Calendar.Component.second], from: date)
-            let h = dc.hour ?? 0
-            let m = dc.minute ?? 0
-            let s = dc.second ?? 0
-            return formatString(h:h, m:m, s:s, fieldCount:3)
-        }
-        return TimeOfDayValue.timeFormatter.string(from:date)
     }
 
     func timeComponents() -> DateComponents {
@@ -835,8 +818,9 @@ class TimeOfDayValue : TimeValue {
         var dc = DateComponents()
         if (strings.count > 0) {
             var h = (strings[0] as NSString).integerValue
-            if isPM && h < 12 {
+            if isPM && !CalcValue.uses24HourTime {
                 h += 12
+                h = h % 24
             }
             dc.hour = h
         }
@@ -854,21 +838,14 @@ class TimeOfDayValue : TimeValue {
     }
 
     override func amPMPressed() -> Bool {
-        isPM = !isPM
+        if !CalcValue.uses24HourTime {
+            isPM = !isPM
+        }
         return true
     }
 
 	override func canonicalizeDisplayString() {
         let strings = timeSubstrings()
-        if CalcValue.useShortForm {
-            // "J" does not work, so use formatString with explicit field count so any trailing zeros are maintained.
-            let dc = timeComponents()
-            let h = dc.hour ?? 0
-            let m = dc.minute ?? 0
-            let s = dc.second ?? 0
-            currentValue = formatString(h:h, m:m, s:s, fieldCount:strings.count)
-            return
-        }
         var formatter :DateFormatter
         if let dv = dateValue {
             if strings.count == 3 {
@@ -876,10 +853,9 @@ class TimeOfDayValue : TimeValue {
             } else if strings.count == 2 {
                 formatter = TimeOfDayValue.shortTimeFormatter
             } else {
-                // Using a "J" formatter in Japanese results in a kanji for the standalone format.
-                let modValue = CalcValue.uses24HourTime ? 24 : 12
-                let value = (strings[0] as NSString).integerValue % modValue
-                currentValue = "\(value)"
+                // Using a formatter == "J" in Japanese results in a kanji for the standalone format.
+                // If the number doesn't match the format, it'll get fixed once there's a separator.
+                currentValue = strings[0]
                 return
             }
             currentValue = formatter.string(from:dv)
@@ -1001,10 +977,16 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
     }
 
     // An elapsed time can become time if it doesn't have fractions of seconds.
-    // Values over 24 hours just wrap.
+    // Zero hours is allowed if it's 24 hour time.
     override var canBecomeTimeOfDay : Bool {
         get {
-            return !containsDecimalPoint
+            if containsDecimalPoint { return false }
+            let comps = timeComponents()
+            if comps.count == 0 { return false }
+            let h = comps[0]
+            if h > 23 { return false }
+            if h == 0 { return CalcValue.uses24HourTime }
+            return true
         }
     }
 
@@ -1053,8 +1035,12 @@ class ElapsedTimeValue : TimeValue, DecimalTimeValue {
         if containsDecimalPoint {
             let s2 = CalcValue.decimalSeparator
             return String(format:"%i%@%02i%@%02i", arguments:[m, s1, s, s2, c])
+        } else if (s > 0) {
+            return String(format:"%i%@%02i%@%02i", arguments:[h, s1, m, s1, s])
+        } else if (m > 0) {
+            return String(format:"%i%@%02i", arguments:[h, s1, m])
         } else {
-            return formatString(h:h, m:m, s:s)
+            return "\(h)"
         }
     }
 
@@ -1293,9 +1279,11 @@ class CalcValue: NSObject, NSCopying {
         return calcValue.colonPressed()
     }
 
-    // Typing Time or AM changes the mode to time, if it's an integer or elapsedTime.
-    func makeTimeOfDay() -> Bool {
-        if calcValue.isTimeOfDay { return true }
+    // Typing AM changes the mode to time, if it's an integer or elapsedTime.
+    func amPMPressed() -> Bool {
+        if calcValue.isTimeOfDay {
+            return calcValue.amPMPressed()
+        }
         if !calcValue.allowsColons && !calcValue.canBecomeTimeOfDay {
             return false
         }
@@ -1311,28 +1299,6 @@ class CalcValue: NSObject, NSCopying {
             return true
         }
         return false
-    }
-
-    func amPMPressed() -> Bool {
-        if makeTimeOfDay() {
-            return calcValue.amPMPressed()
-        }
-        return false
-    }
-    // If it's already time, convert to TimeOfDay
-    func timePressed() -> Bool {
-        // If we start with a decimal, add a colon as a shortcut. If it's ElapsedTime we already have one.
-        if calcValue is DecimalValue {
-            let needsColon = calcValue.containsValue
-            if makeTimeOfDay() {
-                if needsColon {
-                    return calcValue.colonPressed()
-                }
-                return true
-            }
-            return false
-        }
-        return makeTimeOfDay()
     }
 
     func timeToDecimalPressed() -> Bool {
