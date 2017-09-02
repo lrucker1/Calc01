@@ -68,9 +68,16 @@ class InterfaceController: WKInterfaceController {
 
     func configure(timeFormatter: DateFormatter, useShortForm:Bool = false) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "-", ":") }
 
+    func updateDisplay() {
+    }
+
+    func showingCurrentTime(_ ct:Bool) {
+    }
+
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        updateDisplay()
     }
     
     override func didDeactivate() {

@@ -17,7 +17,11 @@ class KeypadParent:ViewController {}
 #endif
 
 class KeypadController: KeypadParent {
-    var calcValue = CalcValue()
+    var calcValue = CalcValue() {
+        didSet {
+            showingCurrentTime(calcValue.isCurrentTime)
+        }
+    }
     var resetValue = CalcValue()
     var memoryValue = CalcValue() // Do not initialize until the formatter dependencies are set.
     var uses24HourTime = false
@@ -93,6 +97,14 @@ class KeypadController: KeypadParent {
         return (uses24HourTime, timeSep, dateSep)
     }
 
+	override func updateDisplay() {
+        // Redisplay the updated currentTime.
+        if calcValue.isCurrentTime {
+            calcValue.canonicalizeDisplayString()
+            setDisplayValue()
+        }
+    }
+
     func blink() {
         blinkDisplay(false);
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -129,7 +141,6 @@ class KeypadController: KeypadParent {
     }
 
     func numberPressed(_ value: Int) {
-        blink();
 
         // Stop repeating commands when a new number is pressed.
         if calculationExecuted {
@@ -217,9 +228,10 @@ class KeypadController: KeypadParent {
         // If there's a command and a second number, clear just the second number,
         // leave the command intact. Changing operators will change the command.
         // If there's no second number, clear everything.
+        showingCurrentTime(false)
         if command != nil {
             if calcValue.containsValue {
-                // Leave the command, just clear the second number and show the first.
+                // Leave the command, just clear the second number and re-show the first.
                 calcValue = CalcValue()
                 setDisplayValue(value:command!.leftValue)
                 blink()
@@ -230,11 +242,11 @@ class KeypadController: KeypadParent {
             }
         }
         calcValue = CalcValue()
-        setDisplayValue()
-        blink()
+        handleTapResult(true)
     }
 
     func handleTapResult(_ success: Bool) {
+        showingCurrentTime(calcValue.isCurrentTime)
         if success {
             setDisplayValue()
             blink()
@@ -290,6 +302,7 @@ class KeypadController: KeypadParent {
             calcValue = dowStr.1
             setDisplayValue(string:dowStr.0)
             blink()
+            showingCurrentTime(false)
         } else {
             doubleBlink()
        }
@@ -357,8 +370,7 @@ class KeypadController: KeypadParent {
 
     // amPM turns elapsedTime into Time. Time button just shows the time.
     @IBAction func timeTapped() {
-        blink()
-        calcValue = CalcValue(withTime:Date())
+        calcValue = CalcValue(withCurrentTime:Date())
         if calculationExecuted {
             command = nil
             calculationExecuted = false
@@ -367,7 +379,6 @@ class KeypadController: KeypadParent {
     }
 
     @IBAction func dateTapped() {
-        blink();
         resetValue = calcValue
         calcValue = CalcValue(withDate:Date())
         if calculationExecuted {
@@ -417,13 +428,12 @@ class KeypadController: KeypadParent {
         }
         memoryValue = calcValue.copy() as! CalcValue
         calcValue.storeMemory()
-        blink()
+        handleTapResult(true)
     }
 
     @IBAction func resetTapped() {
-        blink();
-        calcValue = resetValue
-        setDisplayValue()
+        calcValue = resetValue.copy() as! CalcValue
+        handleTapResult(true)
     }
 
 }

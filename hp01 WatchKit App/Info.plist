@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>hp01 WatchKit App</string>
+	<string>Wrist Calc</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,6 +20,10 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DSEG7ClassicMini-BoldItalic.ttf</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -29,9 +33,5 @@
 	<string>com.lrucker.hp01</string>
 	<key>WKWatchKitApp</key>
 	<true/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>DSEG7ClassicMini-BoldItalic.ttf</string>
-	</array>
 </dict>
 </plist>

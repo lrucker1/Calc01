@@ -29,6 +29,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var clockGroup: UIView!
 
     var alphanumericFont: UIFont!
+    var timer : Timer? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +48,7 @@ class ViewController: UIViewController {
         } else {
             amLabel.text = timeFormatter.amSymbol
             pmLabel.text = timeFormatter.pmSymbol
-            ampmButton.setTitle(timeFormatter.amSymbol, for:.normal)
+            ampmButton.setTitle(timeFormatter.amSymbol.lowercased(), for:.normal)
         }
         timeSepButton.setTitle(configResult.timeSep, for:.normal)
         if configResult.dateSep != "/" {
@@ -60,7 +61,7 @@ class ViewController: UIViewController {
         let pointSize = displayLabel.font.pointSize
         alphanumericFont = UIFont(name: "DSEG14ClassicMini-BoldItali", size: pointSize)
         // Since DSEG7 looks better for numbers, it's the default with DSEG14 as a fallback.
-        // But an alphanumeric string should go directly to DSEG14.
+        // But an alphanumeric string (ie, day of week) should go directly to DSEG14.
         if let font7 = UIFont(name: "DSEG7ClassicMini-BoldItalic", size: pointSize),
             alphanumericFont != nil {
             let originalDescriptor = font7.fontDescriptor;
@@ -76,6 +77,34 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateDisplay()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let t = timer {
+            t.invalidate()
+            timer = nil
+        }
+    }
+
+    func updateDisplay() {
+    }
+
+    func showingCurrentTime(_ ct:Bool) {
+        if ct {
+            if timer != nil { return }
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(t:Timer) in self.updateDisplay() })
+        } else {
+            if let t = timer {
+                t.invalidate()
+                timer = nil
+            }
+        }
     }
 
     func configure(timeFormatter: DateFormatter, useShortForm:Bool = false) -> (is24:Bool, timeSep:String, dateSep:String) { return (false, "/", ":") }

@@ -57,6 +57,12 @@ class AbstractValue : NSCopying {
     var isModified = false
     var isPM = false
 
+    // The calculator treats current TOD differently; calculations apply to current time, not display.
+    // WatchOS apps that track time get bounced. Probably even if they're calculators. Besides,
+    // it's a power hit. So it applies to math and redisplay, but does not do live update.
+    // But iOS might get away with it.
+    var isCurrentTime = false
+
     var defaultsType: CalcDefaultsKeys {
         get {
             return CalcDefaultsKeys.decimalKey
@@ -699,10 +705,6 @@ class TimeValue : TimeDateValue {
 
 class TimeOfDayValue : TimeValue {
 
-    // The calculator treats current TOD differently; calculations apply to current time, not display.
-    // WatchOS apps that track time get bounced. Probably even if they're calculators. Besides,
-    // it's a power hit.
-    // But iOS might get away with it.
     override var defaultsType: CalcDefaultsKeys {
         get {
             return CalcDefaultsKeys.timeOfDay
@@ -756,6 +758,9 @@ class TimeOfDayValue : TimeValue {
 
     var dateValue: Date? {
         get {
+            if isCurrentTime {
+                return Date()
+            }
             return Calendar.current.date(from:timeComponents())
         }
     }
@@ -776,8 +781,11 @@ class TimeOfDayValue : TimeValue {
         }
     }
 
+    // Copies do not include current time state. This lets "Memory" store a specific time.
     override func copy(with zone: NSZone? = nil) -> Any {
-        return TimeOfDayValue(withString:currentValue)
+        let result = TimeOfDayValue(withString:currentValue)
+        result.isPM = isPM
+        return result
     }
 
     override init(withString str:String) {
@@ -788,6 +796,11 @@ class TimeOfDayValue : TimeValue {
         super.init(withString:TimeOfDayValue.timeFormatter.string(from:date))
         containsValue = true
         isPM = !CalcValue.uses24HourTime && Calendar.current.component(Calendar.Component.hour, from: date) > 12
+    }
+
+    convenience init(withCurrentTime date:Date) {
+        self.init(withDate:date)
+        isCurrentTime = true
     }
 
     convenience init?(withDefaultsValue defs:Any) {
@@ -814,6 +827,9 @@ class TimeOfDayValue : TimeValue {
     }
 
     func timeComponents() -> DateComponents {
+        if isCurrentTime {
+            return Calendar.current.dateComponents([.hour, .minute, .second], from: Date())
+        }
         let strings = timeSubstrings()
         var dc = DateComponents()
         if (strings.count > 0) {
@@ -837,14 +853,27 @@ class TimeOfDayValue : TimeValue {
         return type != .Multiply && type != .Divide
     }
 
+    override func appendNumber(_ newValue:String) -> Bool {
+        if isCurrentTime { return false }
+        return super.appendNumber(newValue)
+    }
+
     override func amPMPressed() -> Bool {
-        if !CalcValue.uses24HourTime {
-            isPM = !isPM
+        if CalcValue.uses24HourTime{
+            return false
         }
+        isPM = !isPM
+        isCurrentTime = false
         return true
     }
 
 	override func canonicalizeDisplayString() {
+        if isCurrentTime {
+            let now = Date()
+            currentValue = TimeOfDayValue.timeFormatter.string(from:now)
+            isPM = !CalcValue.uses24HourTime && Calendar.current.component(Calendar.Component.hour, from: now) > 12
+            return
+        }
         let strings = timeSubstrings()
         var formatter :DateFormatter
         if let dv = dateValue {
@@ -1144,6 +1173,12 @@ class CalcValue: NSObject, NSCopying {
         }
     }
 
+    var isCurrentTime: Bool {
+        get {
+            return calcValue.isCurrentTime
+        }
+    }
+
     var canRepeatCommands: Bool {
         get {
             return calcValue.canRepeatCommands
@@ -1211,6 +1246,11 @@ class CalcValue: NSObject, NSCopying {
     init(withTime date:Date) {
         super.init()
         calcValue = TimeOfDayValue.init(withDate:date)
+    }
+
+    init(withCurrentTime date:Date) {
+        super.init()
+        calcValue = TimeOfDayValue.init(withCurrentTime:date)
     }
 
     init(withDate date:Date) {
