@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:hp01.xcodeproj">
+      location = "self:/Users/lrucker/Microcode/hp01/retrocalc.xcodeproj">
    </FileRef>
 </Workspace>

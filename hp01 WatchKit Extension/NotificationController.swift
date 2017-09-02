@@ -1,6 +1,6 @@
 //
 //  NotificationController.swift
-//  hp01 WatchKit Extension
+//  RetroCalc WatchKit Extension
 //
 //  Created by Lee Ann Rucker on 8/8/17.
 //  Copyright © 2017 Lee Ann Rucker. All rights reserved.

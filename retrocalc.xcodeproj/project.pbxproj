@@ -25,10 +25,10 @@
 		94B4548B1F3A5095006671EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94B454891F3A5095006671EF /* LaunchScreen.storyboard */; };
 		94B454961F3A5095006671EF /* hp01Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454951F3A5095006671EF /* hp01Tests.swift */; };
 		94B454A11F3A5095006671EF /* hp01UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454A01F3A5095006671EF /* hp01UITests.swift */; };
-		94B454A61F3A5095006671EF /* hp01 WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 94B454A51F3A5095006671EF /* hp01 WatchKit App.app */; };
+		94B454A61F3A5095006671EF /* retrocalc WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 94B454A51F3A5095006671EF /* retrocalc WatchKit App.app */; };
 		94B454AC1F3A5095006671EF /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94B454AA1F3A5095006671EF /* Interface.storyboard */; };
 		94B454AE1F3A5095006671EF /* Assets-w.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454AD1F3A5095006671EF /* Assets-w.xcassets */; };
-		94B454B51F3A5095006671EF /* hp01 WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 94B454B41F3A5095006671EF /* hp01 WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		94B454B51F3A5095006671EF /* retrocalc WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 94B454B41F3A5095006671EF /* retrocalc WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		94B454BA1F3A5095006671EF /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454B91F3A5095006671EF /* InterfaceController.swift */; };
 		94B454BC1F3A5095006671EF /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454BB1F3A5095006671EF /* ExtensionDelegate.swift */; };
 		94B454BE1F3A5095006671EF /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454BD1F3A5095006671EF /* NotificationController.swift */; };
@@ -76,7 +76,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				94B454B51F3A5095006671EF /* hp01 WatchKit Extension.appex in Embed App Extensions */,
+				94B454B51F3A5095006671EF /* retrocalc WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,7 +87,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				94B454A61F3A5095006671EF /* hp01 WatchKit App.app in Embed Watch Content */,
+				94B454A61F3A5095006671EF /* retrocalc WatchKit App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,24 +99,24 @@
 		9403BEF61F5244AD0054E46E /* SharedAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SharedAssets.xcassets; sourceTree = "<group>"; };
 		9403BEFD1F54A4A70054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DSEG14 Classic Mini-Bold Italic Mac.ttf"; sourceTree = "<group>"; };
 		94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DSEG7ClassicMini-BoldItalic.ttf"; sourceTree = "<group>"; };
-		94B4547D1F3A5095006671EF /* hp01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hp01.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94B4547D1F3A5095006671EF /* retrocalc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = retrocalc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454801F3A5095006671EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94B454821F3A5095006671EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		94B454851F3A5095006671EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		94B454871F3A5095006671EF /* Assets-iOS.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-iOS.xcassets"; sourceTree = "<group>"; };
 		94B4548A1F3A5095006671EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		94B4548C1F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94B454911F3A5095006671EF /* hp01Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hp01Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		94B454911F3A5095006671EF /* retrocalcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = retrocalcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454951F3A5095006671EF /* hp01Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hp01Tests.swift; sourceTree = "<group>"; };
 		94B454971F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94B4549C1F3A5095006671EF /* hp01UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hp01UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		94B4549C1F3A5095006671EF /* retrocalcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = retrocalcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454A01F3A5095006671EF /* hp01UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hp01UITests.swift; sourceTree = "<group>"; };
 		94B454A21F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94B454A51F3A5095006671EF /* hp01 WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hp01 WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94B454A51F3A5095006671EF /* retrocalc WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "retrocalc WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454AB1F3A5095006671EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		94B454AD1F3A5095006671EF /* Assets-w.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-w.xcassets"; sourceTree = "<group>"; };
 		94B454AF1F3A5095006671EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94B454B41F3A5095006671EF /* hp01 WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "hp01 WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94B454B41F3A5095006671EF /* retrocalc WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "retrocalc WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B454B91F3A5095006671EF /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		94B454BB1F3A5095006671EF /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		94B454BD1F3A5095006671EF /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
@@ -188,11 +188,11 @@
 		94B4547E1F3A5095006671EF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				94B4547D1F3A5095006671EF /* hp01.app */,
-				94B454911F3A5095006671EF /* hp01Tests.xctest */,
-				94B4549C1F3A5095006671EF /* hp01UITests.xctest */,
-				94B454A51F3A5095006671EF /* hp01 WatchKit App.app */,
-				94B454B41F3A5095006671EF /* hp01 WatchKit Extension.appex */,
+				94B4547D1F3A5095006671EF /* retrocalc.app */,
+				94B454911F3A5095006671EF /* retrocalcTests.xctest */,
+				94B4549C1F3A5095006671EF /* retrocalcUITests.xctest */,
+				94B454A51F3A5095006671EF /* retrocalc WatchKit App.app */,
+				94B454B41F3A5095006671EF /* retrocalc WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -254,9 +254,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		94B4547C1F3A5095006671EF /* hp01 */ = {
+		94B4547C1F3A5095006671EF /* retrocalc */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94B454CD1F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01" */;
+			buildConfigurationList = 94B454CD1F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalc" */;
 			buildPhases = (
 				94B454791F3A5095006671EF /* Sources */,
 				94B4547A1F3A5095006671EF /* Frameworks */,
@@ -268,14 +268,14 @@
 			dependencies = (
 				94B454A81F3A5095006671EF /* PBXTargetDependency */,
 			);
-			name = hp01;
+			name = retrocalc;
 			productName = hp01;
-			productReference = 94B4547D1F3A5095006671EF /* hp01.app */;
+			productReference = 94B4547D1F3A5095006671EF /* retrocalc.app */;
 			productType = "com.apple.product-type.application";
 		};
-		94B454901F3A5095006671EF /* hp01Tests */ = {
+		94B454901F3A5095006671EF /* retrocalcTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94B454D01F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01Tests" */;
+			buildConfigurationList = 94B454D01F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalcTests" */;
 			buildPhases = (
 				94B4548D1F3A5095006671EF /* Sources */,
 				94B4548E1F3A5095006671EF /* Frameworks */,
@@ -286,14 +286,14 @@
 			dependencies = (
 				94B454931F3A5095006671EF /* PBXTargetDependency */,
 			);
-			name = hp01Tests;
+			name = retrocalcTests;
 			productName = hp01Tests;
-			productReference = 94B454911F3A5095006671EF /* hp01Tests.xctest */;
+			productReference = 94B454911F3A5095006671EF /* retrocalcTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		94B4549B1F3A5095006671EF /* hp01UITests */ = {
+		94B4549B1F3A5095006671EF /* retrocalcUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94B454D31F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01UITests" */;
+			buildConfigurationList = 94B454D31F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalcUITests" */;
 			buildPhases = (
 				94B454981F3A5095006671EF /* Sources */,
 				94B454991F3A5095006671EF /* Frameworks */,
@@ -304,14 +304,14 @@
 			dependencies = (
 				94B4549E1F3A5095006671EF /* PBXTargetDependency */,
 			);
-			name = hp01UITests;
+			name = retrocalcUITests;
 			productName = hp01UITests;
-			productReference = 94B4549C1F3A5095006671EF /* hp01UITests.xctest */;
+			productReference = 94B4549C1F3A5095006671EF /* retrocalcUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		94B454A41F3A5095006671EF /* hp01 WatchKit App */ = {
+		94B454A41F3A5095006671EF /* retrocalc WatchKit App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94B454C91F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01 WatchKit App" */;
+			buildConfigurationList = 94B454C91F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalc WatchKit App" */;
 			buildPhases = (
 				94B454A31F3A5095006671EF /* Resources */,
 				94B454C81F3A5095006671EF /* Embed App Extensions */,
@@ -321,14 +321,14 @@
 			dependencies = (
 				94B454B71F3A5095006671EF /* PBXTargetDependency */,
 			);
-			name = "hp01 WatchKit App";
+			name = "retrocalc WatchKit App";
 			productName = "hp01 WatchKit App";
-			productReference = 94B454A51F3A5095006671EF /* hp01 WatchKit App.app */;
+			productReference = 94B454A51F3A5095006671EF /* retrocalc WatchKit App.app */;
 			productType = "com.apple.product-type.application.watchapp2";
 		};
-		94B454B31F3A5095006671EF /* hp01 WatchKit Extension */ = {
+		94B454B31F3A5095006671EF /* retrocalc WatchKit Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94B454C51F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01 WatchKit Extension" */;
+			buildConfigurationList = 94B454C51F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalc WatchKit Extension" */;
 			buildPhases = (
 				94B454B01F3A5095006671EF /* Sources */,
 				94B454B11F3A5095006671EF /* Frameworks */,
@@ -338,9 +338,9 @@
 			);
 			dependencies = (
 			);
-			name = "hp01 WatchKit Extension";
+			name = "retrocalc WatchKit Extension";
 			productName = "hp01 WatchKit Extension";
-			productReference = 94B454B41F3A5095006671EF /* hp01 WatchKit Extension.appex */;
+			productReference = 94B454B41F3A5095006671EF /* retrocalc WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
@@ -372,7 +372,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 94B454781F3A5095006671EF /* Build configuration list for PBXProject "hp01" */;
+			buildConfigurationList = 94B454781F3A5095006671EF /* Build configuration list for PBXProject "retrocalc" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -385,11 +385,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				94B4547C1F3A5095006671EF /* hp01 */,
-				94B454901F3A5095006671EF /* hp01Tests */,
-				94B4549B1F3A5095006671EF /* hp01UITests */,
-				94B454A41F3A5095006671EF /* hp01 WatchKit App */,
-				94B454B31F3A5095006671EF /* hp01 WatchKit Extension */,
+				94B4547C1F3A5095006671EF /* retrocalc */,
+				94B454901F3A5095006671EF /* retrocalcTests */,
+				94B4549B1F3A5095006671EF /* retrocalcUITests */,
+				94B454A41F3A5095006671EF /* retrocalc WatchKit App */,
+				94B454B31F3A5095006671EF /* retrocalc WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -493,22 +493,22 @@
 /* Begin PBXTargetDependency section */
 		94B454931F3A5095006671EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 94B4547C1F3A5095006671EF /* hp01 */;
+			target = 94B4547C1F3A5095006671EF /* retrocalc */;
 			targetProxy = 94B454921F3A5095006671EF /* PBXContainerItemProxy */;
 		};
 		94B4549E1F3A5095006671EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 94B4547C1F3A5095006671EF /* hp01 */;
+			target = 94B4547C1F3A5095006671EF /* retrocalc */;
 			targetProxy = 94B4549D1F3A5095006671EF /* PBXContainerItemProxy */;
 		};
 		94B454A81F3A5095006671EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 94B454A41F3A5095006671EF /* hp01 WatchKit App */;
+			target = 94B454A41F3A5095006671EF /* retrocalc WatchKit App */;
 			targetProxy = 94B454A71F3A5095006671EF /* PBXContainerItemProxy */;
 		};
 		94B454B71F3A5095006671EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 94B454B31F3A5095006671EF /* hp01 WatchKit Extension */;
+			target = 94B454B31F3A5095006671EF /* retrocalc WatchKit Extension */;
 			targetProxy = 94B454B61F3A5095006671EF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -686,7 +686,7 @@
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				IBSC_MODULE = hp01_WatchKit_Extension;
 				INFOPLIST_FILE = "hp01 WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.retrocalc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -704,7 +704,7 @@
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				IBSC_MODULE = hp01_WatchKit_Extension;
 				INFOPLIST_FILE = "hp01 WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.retrocalc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -722,7 +722,7 @@
 				INFOPLIST_FILE = hp01/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.retrocalc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -737,7 +737,7 @@
 				INFOPLIST_FILE = hp01/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.retrocalc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -756,7 +756,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hp01.app/hp01";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/retrocalc.app/retrocalc";
 			};
 			name = Debug;
 		};
@@ -772,7 +772,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hp01.app/hp01";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/retrocalc.app/retrocalc";
 			};
 			name = Release;
 		};
@@ -809,7 +809,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		94B454781F3A5095006671EF /* Build configuration list for PBXProject "hp01" */ = {
+		94B454781F3A5095006671EF /* Build configuration list for PBXProject "retrocalc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94B454C31F3A5095006671EF /* Debug */,
@@ -818,7 +818,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94B454C51F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01 WatchKit Extension" */ = {
+		94B454C51F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalc WatchKit Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94B454C61F3A5095006671EF /* Debug */,
@@ -827,7 +827,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94B454C91F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01 WatchKit App" */ = {
+		94B454C91F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalc WatchKit App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94B454CA1F3A5095006671EF /* Debug */,
@@ -836,7 +836,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94B454CD1F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01" */ = {
+		94B454CD1F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94B454CE1F3A5095006671EF /* Debug */,
@@ -845,7 +845,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94B454D01F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01Tests" */ = {
+		94B454D01F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalcTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94B454D11F3A5095006671EF /* Debug */,
@@ -854,7 +854,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94B454D31F3A5095006671EF /* Build configuration list for PBXNativeTarget "hp01UITests" */ = {
+		94B454D31F3A5095006671EF /* Build configuration list for PBXNativeTarget "retrocalcUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94B454D41F3A5095006671EF /* Debug */,

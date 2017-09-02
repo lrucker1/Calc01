@@ -1,6 +1,6 @@
 //
 //  CalcValue.swift
-//  hp01 WatchKit Extension
+//  RetroCalc WatchKit Extension
 //
 //  Created by Lee Ann Rucker on 8/10/17.
 //  Copyright © 2017 Lee Ann Rucker. All rights reserved.

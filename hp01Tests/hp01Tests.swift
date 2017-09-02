@@ -1,6 +1,6 @@
 //
 //  hp01Tests.swift
-//  hp01Tests
+//  RetroCalcTests
 //
 //  Created by Lee Ann Rucker on 8/8/17.
 //  Copyright © 2017 Lee Ann Rucker. All rights reserved.

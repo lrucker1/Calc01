@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  hp01
+//  RetroCalc
 //
 //  Created by Lee Ann Rucker on 8/8/17.
 //  Copyright © 2017 Lee Ann Rucker. All rights reserved.
