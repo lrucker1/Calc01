@@ -2,8 +2,6 @@
 //  Command.swift
 //  Calc
 //
-//  Created by Jonas Treub on 10/12/14.
-//  Copyright (c) 2014 Noodlewerk. All rights reserved.
 //
 
 import UIKit
