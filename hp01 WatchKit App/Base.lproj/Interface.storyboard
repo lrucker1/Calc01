@@ -16,7 +16,7 @@
         <!--Keypad Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="KeypadController" customModule="hp01_WatchKit_Extension">
+                <controller id="AgC-eL-Hgc" customClass="KeypadController" customModule="retrocalc_WatchKit_Extension">
                     <items>
                         <group width="1" height="20" alignment="right" id="9Md-qE-a5o" userLabel="DisplayGroup">
                             <items>

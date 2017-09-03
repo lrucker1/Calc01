@@ -472,7 +472,8 @@ class DateValue : TimeDateValue {
         formatter.dateStyle = .short
         formatter.timeStyle = .none
         if CalcValue.useShortForm {
-            formatter.setLocalizedDateFormatFromTemplate("M'-'d'-'yy")
+            let s = CalcValue.dateOrder
+            formatter.dateFormat = "\(s[0])'-'\(s[1])'-'\(s[2])"
         }
         return formatter
     }()
@@ -484,7 +485,8 @@ class DateValue : TimeDateValue {
         formatter.dateStyle = .short
         formatter.timeStyle = .none
         if CalcValue.useShortForm {
-            formatter.setLocalizedDateFormatFromTemplate("M'-'d'-'y")
+            let s = CalcValue.dateOrder
+            formatter.dateFormat = "\(s[0])'-'\(s[1])'-'\(s[2])"
         } else {
             formatter.setLocalizedDateFormatFromTemplate("M/d/y")
         }
