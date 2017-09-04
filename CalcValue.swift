@@ -425,7 +425,7 @@ class TimeDateValue : AbstractValue {
         var s = str + digit
         if s.count > max {
             let end = s.index(s.endIndex, offsetBy:-max)
-            s = s.substring(from:end)
+            s = String(s[end...])
         }
         return s
     }

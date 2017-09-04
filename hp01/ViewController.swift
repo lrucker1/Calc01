@@ -92,6 +92,9 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func unwindToCalculator(segue: UIStoryboardSegue) {
+    }
+    
     func updateDisplay() {
     }
 

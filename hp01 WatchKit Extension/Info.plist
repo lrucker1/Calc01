@@ -25,7 +25,7 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>com.lrucker.retrocalc.watchkitapp</string>
+			<string>com.lrucker.hp01.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
@@ -33,7 +33,6 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>DSEG7ClassicMini-BoldItalic.ttf</string>
-		<string>DSEG14 Classic Mini-Bold Italic Mac.ttf</string>
 	</array>
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>

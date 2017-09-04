@@ -30,7 +30,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.lrucker.retrocalc</string>
+	<string>com.lrucker.hp01</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>
