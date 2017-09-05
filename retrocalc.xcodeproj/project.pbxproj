@@ -34,6 +34,7 @@
 		94B454E21F3A5404006671EF /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454E01F3A53E5006671EF /* Command.swift */; };
 		94BC3A441F3C4CC700252D2B /* CalcValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC3A431F3C4CC700252D2B /* CalcValue.swift */; };
 		94DDDFAF1F56A2B20095F9DF /* DSEG7ClassicMini-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */; };
+		94E5009B1F5F458500991096 /* Grunge-Paper-Texture-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 94E5009A1F5F431800991096 /* Grunge-Paper-Texture-1.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		94B454C21F3A5095006671EF /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		94B454E01F3A53E5006671EF /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		94BC3A431F3C4CC700252D2B /* CalcValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcValue.swift; sourceTree = "<group>"; };
+		94E5009A1F5F431800991096 /* Grunge-Paper-Texture-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Grunge-Paper-Texture-1.jpg"; path = "Images/Grunge-Paper-Texture-1.jpg"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +213,7 @@
 				94B454821F3A5095006671EF /* ViewController.swift */,
 				94B454841F3A5095006671EF /* Main.storyboard */,
 				94B454871F3A5095006671EF /* Assets-iOS.xcassets */,
+				94E5009A1F5F431800991096 /* Grunge-Paper-Texture-1.jpg */,
 				94B454891F3A5095006671EF /* LaunchScreen.storyboard */,
 				94B4548C1F3A5095006671EF /* Info.plist */,
 				947B92B91F5E1C36003D7B09 /* KeyboardTips.rtf */,
@@ -417,6 +420,7 @@
 			files = (
 				94B4548B1F3A5095006671EF /* LaunchScreen.storyboard in Resources */,
 				9403BEFE1F54A4A80054E46E /* DSEG14 Classic Mini-Bold Italic Mac.ttf in Resources */,
+				94E5009B1F5F458500991096 /* Grunge-Paper-Texture-1.jpg in Resources */,
 				94B454881F3A5095006671EF /* Assets-iOS.xcassets in Resources */,
 				94B454861F3A5095006671EF /* Main.storyboard in Resources */,
 				94DDDFAF1F56A2B20095F9DF /* DSEG7ClassicMini-BoldItalic.ttf in Resources */,

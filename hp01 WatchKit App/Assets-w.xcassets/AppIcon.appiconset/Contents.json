@@ -4,17 +4,17 @@
       "size" : "24x24",
       "idiom" : "watch",
       "filename" : "watch_icon_24@2x.png",
-      "subtype" : "38mm",
+      "scale" : "2x",
       "role" : "notificationCenter",
-      "scale" : "2x"
+      "subtype" : "38mm"
     },
     {
       "size" : "27.5x27.5",
       "idiom" : "watch",
       "filename" : "watch_icon_27_5@2x.png",
-      "subtype" : "42mm",
+      "scale" : "2x",
       "role" : "notificationCenter",
-      "scale" : "2x"
+      "subtype" : "42mm"
     },
     {
       "size" : "29x29",
@@ -34,37 +34,42 @@
       "size" : "40x40",
       "idiom" : "watch",
       "filename" : "watch_icon_40@2x.png",
-      "subtype" : "38mm",
+      "scale" : "2x",
       "role" : "appLauncher",
-      "scale" : "2x"
+      "subtype" : "38mm"
     },
     {
       "size" : "44x44",
       "idiom" : "watch",
       "filename" : "watch_icon_44@2x.png",
-      "subtype" : "42mm",
+      "scale" : "2x",
       "role" : "longLook",
-      "scale" : "2x"
+      "subtype" : "42mm"
     },
     {
       "size" : "86x86",
       "idiom" : "watch",
       "filename" : "watch_icon_86@2x.png",
-      "subtype" : "38mm",
+      "scale" : "2x",
       "role" : "quickLook",
-      "scale" : "2x"
+      "subtype" : "38mm"
     },
     {
       "size" : "98x98",
       "idiom" : "watch",
       "filename" : "watch_icon_98@2x.png",
-      "subtype" : "42mm",
+      "scale" : "2x",
       "role" : "quickLook",
-      "scale" : "2x"
+      "subtype" : "42mm"
+    },
+    {
+      "idiom" : "watch-marketing",
+      "size" : "1024x1024",
+      "scale" : "1x"
     }
   ],
   "info" : {
     "version" : 1,
-    "author" : "iconfly"
+    "author" : "xcode"
   }
 }
