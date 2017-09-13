@@ -33,6 +33,7 @@
 		94B454C01F3A5095006671EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454BF1F3A5095006671EF /* Assets.xcassets */; };
 		94B454E21F3A5404006671EF /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454E01F3A53E5006671EF /* Command.swift */; };
 		94BC3A441F3C4CC700252D2B /* CalcValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC3A431F3C4CC700252D2B /* CalcValue.swift */; };
+		94D307A91F69262900FE926A /* FunctionCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D307A81F69262900FE926A /* FunctionCardViewController.swift */; };
 		94DDDFAF1F56A2B20095F9DF /* DSEG7ClassicMini-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */; };
 		94E5009B1F5F458500991096 /* Grunge-Paper-Texture-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 94E5009A1F5F431800991096 /* Grunge-Paper-Texture-1.jpg */; };
 /* End PBXBuildFile section */
@@ -125,6 +126,7 @@
 		94B454C21F3A5095006671EF /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		94B454E01F3A53E5006671EF /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		94BC3A431F3C4CC700252D2B /* CalcValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcValue.swift; sourceTree = "<group>"; };
+		94D307A81F69262900FE926A /* FunctionCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionCardViewController.swift; sourceTree = "<group>"; };
 		94E5009A1F5F431800991096 /* Grunge-Paper-Texture-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Grunge-Paper-Texture-1.jpg"; path = "Images/Grunge-Paper-Texture-1.jpg"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -211,6 +213,7 @@
 			children = (
 				94B454801F3A5095006671EF /* AppDelegate.swift */,
 				94B454821F3A5095006671EF /* ViewController.swift */,
+				94D307A81F69262900FE926A /* FunctionCardViewController.swift */,
 				94B454841F3A5095006671EF /* Main.storyboard */,
 				94B454871F3A5095006671EF /* Assets-iOS.xcassets */,
 				94E5009A1F5F431800991096 /* Grunge-Paper-Texture-1.jpg */,
@@ -366,7 +369,7 @@
 				TargetAttributes = {
 					94B4547C1F3A5095006671EF = {
 						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					94B454901F3A5095006671EF = {
 						CreatedOnToolsVersion = 9.0;
@@ -378,11 +381,11 @@
 					};
 					94B454A41F3A5095006671EF = {
 						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					94B454B31F3A5095006671EF = {
 						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -471,6 +474,7 @@
 			files = (
 				9403BEEE1F5096510054E46E /* CalcValue.swift in Sources */,
 				9403BEF51F50A5510054E46E /* KeypadController.swift in Sources */,
+				94D307A91F69262900FE926A /* FunctionCardViewController.swift in Sources */,
 				94B454831F3A5095006671EF /* ViewController.swift in Sources */,
 				94B454811F3A5095006671EF /* AppDelegate.swift in Sources */,
 				9403BEEF1F5096560054E46E /* Command.swift in Sources */,
@@ -666,15 +670,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = "hp01 WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "43c00d67-bd32-4565-9f6d-ae01ac4cb56d";
-				PROVISIONING_PROFILE_SPECIFIER = Calc01;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -687,15 +691,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = "hp01 WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "43c00d67-bd32-4565-9f6d-ae01ac4cb56d";
-				PROVISIONING_PROFILE_SPECIFIER = Calc01;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -709,15 +713,15 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				IBSC_MODULE = retrocalc_WatchKit_Extension;
 				INFOPLIST_FILE = "hp01 WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "43c00d67-bd32-4565-9f6d-ae01ac4cb56d";
-				PROVISIONING_PROFILE_SPECIFIER = Calc01;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -731,15 +735,15 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				IBSC_MODULE = retrocalc_WatchKit_Extension;
 				INFOPLIST_FILE = "hp01 WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "43c00d67-bd32-4565-9f6d-ae01ac4cb56d";
-				PROVISIONING_PROFILE_SPECIFIER = Calc01;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -752,16 +756,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "33c4deb5-afd3-4f4c-959f-9d5ad158645b";
-				PROVISIONING_PROFILE_SPECIFIER = "iOS Wildcard";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -772,16 +776,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 92RP9V4XB5;
 				INFOPLIST_FILE = hp01/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lrucker.hp01;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "33c4deb5-afd3-4f4c-959f-9d5ad158645b";
-				PROVISIONING_PROFILE_SPECIFIER = "iOS Wildcard";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
