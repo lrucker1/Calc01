@@ -102,13 +102,7 @@ class InterfaceController: WKInterfaceController {
     func setDisplayLabel(withAlphanumericString str:String) {
         // DSEG7 has letters, but they're ugly.
         if let font = alphanumericFont {
-            // rdar://34192205 - there are two sets of these consts, one is font and one fontAttributeName. Make it shut up by hardcoding.
-            // Yes, this is sooo very bad form, which is why it's DEBUG only. "Generic iOS Device" wants "font" so that's what release builds get.
-#if DEBUG
-            let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey("NSFont"): font])
-#else
             let attrStr = NSAttributedString(string:str, attributes:[NSAttributedStringKey.font: font])
-#endif
            displayLabel.setAttributedText(attrStr)
         } else {
             displayLabel.setText(str)
