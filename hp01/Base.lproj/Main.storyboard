@@ -556,10 +556,12 @@
                                 <rect key="frame" x="16" y="20" width="288" height="422"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText">
-                                    <fragment content="Function keys">
+                                    <fragment>
+                                        <string key="content">Reference Guide
+</string>
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="18" name="GillSans"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -605,54 +607,8 @@ Cg
 </string>
                                         <attributes>
                                             <color key="NSColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-Bold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="52.099998474121094">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="108">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="144">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="180">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="216">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="252">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="288">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="324">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="360">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="396">
-                                                        <options/>
-                                                    </textTab>
-                                                    <textTab alignment="left" location="432">
-                                                        <options/>
-                                                    </textTab>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content" base64-UTF8="YES">
-Cg
-</string>
-                                        <attributes>
-                                            <color key="NSColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
                                                         <options/>
@@ -694,7 +650,7 @@ Cg
                                     <fragment content="T">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -738,7 +694,7 @@ Cg
                                         <string key="content">	Time function. Sets the current value to the current time
 </string>
                                         <attributes>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -781,7 +737,7 @@ Cg
                                     <fragment content="D">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -825,7 +781,7 @@ Cg
                                         <string key="content">	Date function. Sets the current value to the current date
 </string>
                                         <attributes>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -868,7 +824,7 @@ Cg
                                     <fragment content="C">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -911,7 +867,7 @@ Cg
                                     <fragment>
                                         <string key="content">	Clear function</string>
                                         <attributes>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -957,7 +913,7 @@ Cg
 </string>
                                         <attributes>
                                             <color key="NSColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1044,7 +1000,7 @@ Cg
                                         <string key="content">	Exchange function, switches the position of two numbers </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
@@ -1090,7 +1046,7 @@ Cg
 Cg
 </string>
                                         <attributes>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1133,7 +1089,7 @@ Cg
                                     <fragment content="DW">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1178,7 +1134,7 @@ Cg
 CQ
 </string>
                                         <attributes>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1223,7 +1179,7 @@ CQ
 	Press </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
@@ -1267,7 +1223,7 @@ CQ
                                     <fragment content="=">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-Bold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1312,7 +1268,7 @@ CQ
 </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
@@ -1399,7 +1355,7 @@ CQ
                                     <fragment content="M">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1444,7 +1400,7 @@ CQ
 </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
@@ -1488,7 +1444,7 @@ CQ
                                     <fragment content="M">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1533,7 +1489,7 @@ CQ
 </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
@@ -1577,7 +1533,7 @@ CQ
                                     <fragment content="T">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1665,7 +1621,7 @@ CQ
 </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
@@ -1752,7 +1708,7 @@ CQ
                                     <fragment content="T">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1797,7 +1753,7 @@ CQ
 </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
@@ -1841,7 +1797,7 @@ CQ
                                     <fragment content="am">
                                         <attributes>
                                             <color key="NSColor" red="0.77429999999999999" green="0.38714999999999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="GillSans-SemiBold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>
                                                     <textTab alignment="left" location="52.099998474121094">
@@ -1882,11 +1838,57 @@ CQ
                                         </attributes>
                                     </fragment>
                                     <fragment>
-                                        <string key="content">	Converts an elapsed time to time of day; toggles am/pm in 12-hour mode
+                                        <string key="content">	Converts an elapsed time to time of day; toggles am/pm in 12-hour mode</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="GillSans"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="52.099998474121094">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="108">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="144">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="180">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="216">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="252">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="288">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="324">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="360">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="396">
+                                                        <options/>
+                                                    </textTab>
+                                                    <textTab alignment="left" location="432">
+                                                        <options/>
+                                                    </textTab>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
 </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="14" name="Futura-Medium"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="-0.049999999999997158" headIndent="53" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops>

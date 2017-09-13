@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13189.4" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13196" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13049.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13051"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="DSEG7ClassicMini-BoldItalic.ttf">
@@ -225,9 +225,7 @@
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="23" width="27">
-                                                <fontDescription key="font" type="system" pointSize="17"/>
-                                            </variation>
+                                            <variation key="device=watch38mm" height="23" width="27"/>
                                             <connections>
                                                 <action selector="addTapped" destination="AgC-eL-Hgc" id="eXK-op-EQk"/>
                                             </connections>
@@ -236,9 +234,7 @@
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="23" width="27">
-                                                <fontDescription key="font" type="system" pointSize="17"/>
-                                            </variation>
+                                            <variation key="device=watch38mm" height="23" width="27"/>
                                             <connections>
                                                 <action selector="subtractTapped" destination="AgC-eL-Hgc" id="tLa-Tb-3vy"/>
                                             </connections>
@@ -247,9 +243,7 @@
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="23" width="27">
-                                                <fontDescription key="font" type="system" pointSize="17"/>
-                                            </variation>
+                                            <variation key="device=watch38mm" height="23" width="27"/>
                                             <connections>
                                                 <action selector="multiplyTapped" destination="AgC-eL-Hgc" id="O9F-3Z-CYg"/>
                                             </connections>
@@ -258,9 +252,7 @@
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="23" width="27">
-                                                <fontDescription key="font" type="system" pointSize="17"/>
-                                            </variation>
+                                            <variation key="device=watch38mm" height="23" width="27"/>
                                             <connections>
                                                 <action selector="divideTapped" destination="AgC-eL-Hgc" id="nll-UG-DOY"/>
                                             </connections>
@@ -269,9 +261,7 @@
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="18"/>
-                                            <variation key="device=watch38mm" height="23" width="27">
-                                                <fontDescription key="font" type="system" pointSize="17"/>
-                                            </variation>
+                                            <variation key="device=watch38mm" height="23" width="27"/>
                                             <connections>
                                                 <action selector="answerTapped" destination="AgC-eL-Hgc" id="IvV-Yu-ssh"/>
                                             </connections>
@@ -284,7 +274,7 @@
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="13"/>
-                                            <variation key="device=watch38mm" height="21" width="26"/>
+                                            <variation key="device=watch38mm" height="21" width="25"/>
                                             <connections>
                                                 <action selector="dateTapped" destination="AgC-eL-Hgc" id="EoD-J5-yfL"/>
                                             </connections>
@@ -293,7 +283,9 @@
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="font" type="system" pointSize="12"/>
-                                            <variation key="device=watch38mm" height="21" width="28"/>
+                                            <variation key="device=watch38mm" height="21" width="30">
+                                                <fontDescription key="font" type="system" pointSize="11"/>
+                                            </variation>
                                             <connections>
                                                 <action selector="storeMemoryTapped" destination="AgC-eL-Hgc" id="oV9-5m-M3a"/>
                                             </connections>
@@ -301,8 +293,8 @@
                                         <button width="31" height="21" alignment="left" title="M" id="4QB-Kl-9vQ">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="font" type="system" pointSize="12"/>
-                                            <variation key="device=watch38mm" height="21" width="26"/>
+                                            <fontDescription key="font" type="system" pointSize="13"/>
+                                            <variation key="device=watch38mm" height="21" width="25"/>
                                             <connections>
                                                 <action selector="memoryTapped" destination="AgC-eL-Hgc" id="TlK-fV-AjZ"/>
                                             </connections>
@@ -310,7 +302,7 @@
                                         <button width="31" height="21" alignment="left" title="am" id="4mZ-9M-rbC">
                                             <accessibilityTraits key="accessibilityTraits" keyboardKey="YES"/>
                                             <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="font" type="system" pointSize="9"/>
+                                            <fontDescription key="font" type="system" pointSize="10"/>
                                             <variation key="device=watch38mm" height="21" width="28"/>
                                             <connections>
                                                 <action selector="amPMTapped" destination="AgC-eL-Hgc" id="hBz-mN-YuG"/>
