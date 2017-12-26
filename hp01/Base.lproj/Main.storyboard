@@ -28,9 +28,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.45000000000000001" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TextureXSteel.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="qVa-az-2T9">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nNO-ng-aby" userLabel="Calculator">
                                 <rect key="frame" x="0.0" y="113" width="320" height="342.5"/>
                                 <subviews>
@@ -521,15 +518,11 @@
                         <constraints>
                             <constraint firstItem="nNO-ng-aby" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EBX-os-g9D"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nNO-ng-aby" secondAttribute="trailing" id="EDh-18-T4f"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qVa-az-2T9" secondAttribute="bottom" id="L3w-2w-XUt"/>
-                            <constraint firstItem="qVa-az-2T9" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ORo-A1-YGy"/>
-                            <constraint firstAttribute="trailing" secondItem="qVa-az-2T9" secondAttribute="trailing" id="bkY-Oo-lIU"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MrS-9P-w4N" secondAttribute="bottom" constant="8" symbolic="YES" id="cnA-kz-8Fj"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="nNO-ng-aby" secondAttribute="bottom" id="dtc-6O-G7L"/>
                             <constraint firstItem="nNO-ng-aby" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="imz-Hl-Id7"/>
                             <constraint firstAttribute="trailing" secondItem="MrS-9P-w4N" secondAttribute="trailing" constant="20" symbolic="YES" id="kmz-hK-CwJ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="nNO-ng-aby" secondAttribute="bottom" priority="750" id="uMd-Ac-a0Z"/>
-                            <constraint firstItem="qVa-az-2T9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="yKM-zV-frs"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1982,7 +1975,6 @@ Cg
     </scenes>
     <resources>
         <image name="Grunge-Paper-Texture-1.jpg" width="700" height="1113"/>
-        <image name="TextureXSteel.jpg" width="1500" height="1500"/>
         <image name="redclock" width="8" height="8"/>
     </resources>
     <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
