@@ -465,12 +465,14 @@ class TimeDateValue : AbstractValue {
 
 class DateValue : TimeDateValue {
 
+    // DateValues are in UTC so any stray time components don't affect the math.
     // Making DateFormatters is expensive and should be static.
     static let dateFormatter:DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale.current
         formatter.dateStyle = .short
         formatter.timeStyle = .none
+        formatter.timeZone = TimeZone(identifier:"UTC");
         if CalcValue.useShortForm {
             let s = CalcValue.dateOrder
             formatter.dateFormat = "\(s[0])'-'\(s[1])'-'\(s[2])"
@@ -484,6 +486,7 @@ class DateValue : TimeDateValue {
         // Specify any length for the components, otherwise it'll be confused if they don't match.
         formatter.dateStyle = .short
         formatter.timeStyle = .none
+        formatter.timeZone = TimeZone(identifier:"UTC");
         if CalcValue.useShortForm {
             let s = CalcValue.dateOrder
             formatter.dateFormat = "\(s[0])'-'\(s[1])'-'\(s[2])"
@@ -533,7 +536,9 @@ class DateValue : TimeDateValue {
 
     convenience init(withDate date:Date) {
         self.init(withString:DateValue.dateFormatter.string(from:date))
-        cachedDate = date
+        var dateComps = Calendar.current.dateComponents([.day, .month, .year], from:date)
+        dateComps.timeZone = TimeZone(identifier:"UTC")
+        cachedDate = Calendar.current.date(from:dateComps)
         containsValue = true
     }
 
@@ -642,7 +647,8 @@ class DateValue : TimeDateValue {
         if end < start {return nil}
         let di = DateInterval(start:start, end:end)
         let ti = di.duration // TimeInterval: in seconds
-        return DecimalValue(withNumber:ti / (60 * 60 * 24))
+        // Round it just in case any stray time components got in.
+        return DecimalValue(withNumber:round(ti / (60 * 60 * 24)))
     }
 }
 

@@ -163,6 +163,7 @@ class KeypadController: KeypadParent {
         if command != nil && !calculationExecuted {
             if (!calcValue.containsValue) {
                 command!.type = type
+                setOperatorLabel(command!.operatorSymbol)
                 blink()
                 return
             }

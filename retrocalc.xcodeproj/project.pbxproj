@@ -34,7 +34,6 @@
 		94B454C01F3A5095006671EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B454BF1F3A5095006671EF /* Assets.xcassets */; };
 		94B454E21F3A5404006671EF /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B454E01F3A53E5006671EF /* Command.swift */; };
 		94BC3A441F3C4CC700252D2B /* CalcValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC3A431F3C4CC700252D2B /* CalcValue.swift */; };
-		94D307A91F69262900FE926A /* TextureXSteel.jpg in Sources */ = {isa = PBXBuildFile; fileRef = 94D307A81F69262900FE926A /* TextureXSteel.jpg */; };
 		94DDDFAF1F56A2B20095F9DF /* DSEG7ClassicMini-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94A34C251F560CAE00393D5F /* DSEG7ClassicMini-BoldItalic.ttf */; };
 /* End PBXBuildFile section */
 
@@ -364,7 +363,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Lee Ann Rucker";
 				TargetAttributes = {
 					94B4547C1F3A5095006671EF = {
@@ -474,7 +473,6 @@
 			files = (
 				9403BEEE1F5096510054E46E /* CalcValue.swift in Sources */,
 				9403BEF51F50A5510054E46E /* KeypadController.swift in Sources */,
-				94D307A91F69262900FE926A /* TextureXSteel.jpg in Sources */,
 				94B454831F3A5095006671EF /* ViewController.swift in Sources */,
 				94B454811F3A5095006671EF /* AppDelegate.swift in Sources */,
 				9403BEEF1F5096560054E46E /* Command.swift in Sources */,
@@ -583,6 +581,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -638,6 +638,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
